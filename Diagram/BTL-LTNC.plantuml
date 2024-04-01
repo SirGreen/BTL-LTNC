@@ -1,0 +1,122 @@
+@startuml doixe
+skinparam groupInheritance 3
+
+package TransportationFactory <<Folder>>{
+
+class Transportation{
+    # int: Capacity
+    # ColorOfVehicle: Color
+    # string: VehicleRegistration
+    + WarrantyService: Warranty
+    + DisplayCapacity()
+    + DisplayColor()
+}
+
+
+class Motorbike{  
+}
+
+class Car{
+}
+
+class Truck{
+}
+
+class Bus {
+}
+
+class Coach {
+}
+}
+
+class WarrantyService{
+    - bool: IsWarranty
+    - int: KilometLeft
+    - WarrantyHistory: WarrantyHis
+
+    - ChangeWarrantyStatus()
+    + ShowKilometLeft()
+    + UpdateKilometLeft()
+    + Warranty()
+    + DisplayStatus()
+    + DisplayWarrantyHistory()
+}
+
+class WarrantyHistory{
+    - DateTime: WarrantyDate
+    + Display()
+}
+
+enum ColorOfVehicle{
+    1: Black
+    2: White
+    3: Blue
+    4: Red
+    5: Grey
+    6: Green
+    ...
+}
+class Driver{
+    - string: Name
+    - int: Age
+    - int: DrivingExperience
+    - Transportation: Vehicle
+    - double: CustomerReviews
+    - point: Location
+
+    + DisplayName()
+    + DisplayAge()
+    + DisplayExperience()
+    + DisplayVehicle()
+    + DisplayCustomerReviews()
+}
+
+class Customer{
+    - string: Name
+    - point: Location
+    - int: NumOfPeople
+    - string: PhoneNumber
+    + DisplayInfo()
+    + BooksJourney()
+}
+
+class Journey{
+    - Driver: driver
+    - Transportation: Vehicle
+    - double: Kilomet
+    - double: Surchange
+    - double: Price
+    - RequestDriverAndVehicle()
+    - CalDistance()
+    - CalPrice()
+    - NotifyCompleteJourney()
+    + DisplaySurchangeAndPrice()
+    + DisplayDriver()
+    + DisplayTotalPrice()
+}
+
+class System <<Singleton>>{
+    + AddNewVehicle()
+    + AddNewDriver()
+    --
+    + DisplayVehicle()
+    + DisplayDrive()
+    --
+    + FindForJourney()
+    + UpdateWarrantyService()
+}
+
+Transportation <|-- Truck
+Transportation <|-- Car
+Transportation <|-- Coach
+Transportation <|-- Bus
+Transportation <|-- Motorbike
+Transportation -left- WarrantyService
+Driver "1" -- "1..*" Transportation
+ColorOfVehicle -down- Transportation
+WarrantyService "1" *-down- "1..*" WarrantyHistory
+System -right-> Transportation: adds & updates warranty service
+System -right-> Driver: adds
+Customer "0..*"-left->"0..*" Journey: books
+Journey --> System: requests. Observe & Notify
+@enduml
