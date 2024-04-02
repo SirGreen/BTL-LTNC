@@ -1,0 +1,22 @@
+{
+  "name": "ltnc",
+  "version": "1.0.0",
+  "description": "web car",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ltnc",
+    "web",
+    "car",
+    "btl"
+  ],
+  "author": "5 anh em sieu nhan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "path": "^0.12.7",
+    "route": "^0.2.5"
+  }
+}
