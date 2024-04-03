@@ -1,0 +1,47 @@
+.error {
+    color: red;
+    font-size: 14px;
+}
+
+#form {
+    padding-top: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+#pre {
+    padding-top: 170px;
+    width: auto;
+    height: 100px;
+}
+
+
+#pre .admin {
+    margin-top: 50px;
+    width: 400px;
+    height: 40px;
+    background-color: aqua;
+    margin-left: 350px;
+    text-align: center;
+    position: center;
+    color: black;
+}
+
+#pre .driver {
+    margin-top: 30px;
+    width: 400px;
+    height: 40px;
+    background-color: aqua;
+    margin-left: 350px;
+    text-align: center;
+    color: black;
+}
+
+#pre p {
+    margin-top: 30px;
+}
+
+h1 {
+    text-align: center;
+    font-style: bold;
+}

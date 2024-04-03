@@ -1,0 +1,428 @@
+/* Reset css */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Khai báo font */
+@font-face {
+    font-family: Lato-Regular;
+    src: url('../font/Lato/Lato-Regular.ttf');
+}
+
+@font-face {
+    font-family: Lato-Bold;
+    src: url('../font/Lato/Lato-Bold.ttf');
+}
+
+@font-face {
+    font-family: Lato-Light;
+    src: url('../font/Lato/Lato-Light.ttf');
+}
+
+@font-face {
+    font-family: Lato-Italic;
+    src: url('../font/Lato/Lato-Italic.ttf');
+}
+
+/* khai báo biến */
+:root {
+    --primary-color: #444;
+    --second-color: #fff;
+    --third-color: #1bbc9b;
+    scroll-behavior: smooth;
+}
+
+/* Kế thừa */
+body {
+    font-family: Lato-Regular;
+    color: var(--primary-color);
+}
+
+/* common - dùng chung */
+button {
+    color: var(--second-color);
+    font-family: Lato-Bold;
+    font-size: 13px;
+    background-color: var(--third-color);
+    border: none;
+    padding-left: 13px;
+    padding-right: 13px;
+    height: 27px;
+    letter-spacing: 3px;
+}
+
+/* HEADER */
+/* MENU + LOGO */
+.navbar-light.navbar-nav .nav-link dropdown-toggle,
+.navbar-light .navbar-nav .nav-link {
+    color: black;
+    font-size: 1 rem;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-left: 7px;
+}
+
+.navbar-light .navbar-nav li:first-child .nav-link {
+    margin-left: 0;
+}
+
+.navbar-light.navbar-nav .nav-link dropdown-toggle,
+.navbar-light .navbar-nav .active .nav-link,
+.navbar-light .navbar-nav .nav-link:hover {
+    color: white;
+    background-color: var(--third-color);
+}
+
+.navbar-light.navbar-nav .nav-link dropdown-toggle .navbar-light.navbar-nav .nav-link dropdown-toggle {
+    font-size: 14px;
+}
+
+.navbar.fixed-top {
+    opacity: 0.77;
+}
+
+.navbar {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-right: 80px;
+    background-color: rgb(133, 179, 209);
+
+}
+
+/* MAIN */
+/* HOME */
+.home {
+    background-image: url('../images/car.jpg');
+    background-size: cover;
+    background-position: center;
+    color: black;
+    padding-top: 71px;
+    padding-bottom: 31px;
+}
+
+.home h1 {
+    font-family: Lato-Bold;
+    font-size: 55px;
+    color: white;
+    margin-top: 55px;
+}
+
+.home h2 {
+    font-family: Lato-Bold;
+    font-size: 55px;
+    color: white;
+    margin-top: 0px;
+    margin-bottom: 12px;
+}
+
+/*
+.home p {
+    font-size: 18px;
+    font-family: Lato-Bold;
+    margin-top: 3px;
+    padding-left: 69px;
+    
+}
+*/
+.home button {
+    margin-bottom: 25px;
+    /*margin-left: 300px;*/
+}
+
+/*
+.home a {
+    margin-left: 343px;
+}
+*/
+/* PORTFOLIO */
+.portfolio {
+    padding-top: 71px;
+    /* 61px - 34 = 27px */
+    padding-bottom: 87px;
+
+
+}
+
+.portfolio h2 {
+    font-size: 48px;
+    margin-bottom: 21px;
+    color: var(--third-color);
+    margin-top: 5px;
+}
+
+.portfolio p {
+    font-size: 16px;
+    margin-bottom: 35px;
+    font-style: italic;
+}
+
+.portfolio button {
+    margin-bottom: 45px;
+    margin-left: 15px;
+}
+
+.portfolio .box .overlay a {
+
+    font-style: bold;
+    margin-bottom: 34px;
+    display: inline-block;
+    font-size: 20px;
+    margin-left: 7px;
+    color: var(--primary-color);
+
+}
+
+.portfolio img {
+    width: 250px;
+}
+
+/* ABOUT */
+.about {
+    padding-top: 53px;
+    /* 73px - 20px = 53px */
+    padding-bottom: 53px;
+    background: #16a086;
+}
+
+.about h2 {
+    color: var(--second-color);
+    font-size: 28px;
+    margin-bottom: 11px;
+}
+
+.about>p {
+    color: var(--second-color);
+    font-size: 14px;
+    margin-bottom: 42px;
+}
+
+.about .box-info {
+    background-color: var(--second-color);
+    padding-top: 18px;
+    padding-bottom: 18px;
+    width: 220px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.about .box-info h3 {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+/* em mặc định là inline, không set được width/height/margin-top/margin-bottom */
+/* Do đó phải chuyển nó lên dạng inline-block để set được 4 thuộc tính trên */
+.about .box-info em {
+    font-size: 14px;
+    margin-bottom: 18px;
+    font-family: Lato-Italic;
+    display: inline-block;
+}
+
+.about .box-info p {
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.about .box-info p {
+    font-size: 14px;
+}
+
+.about .box {
+    position: relative;
+
+}
+
+.about .box .overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    height: 48px;
+    background-image: url('../images/hover.png');
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    opacity: 0;
+    transition: .3s ease;
+}
+
+.about .box:hover .overlay {
+    opacity: 1;
+}
+
+
+.about .box .overlay a {
+    color: var(--second-color);
+    font-size: 29px;
+}
+
+/* CONTACT */
+.contact {
+    padding-top: 39px;
+    padding-bottom: 60px;
+    background-color: #ecf0f1;
+}
+
+.contact h2 {
+    font-size: 28px;
+    margin-bottom: 31px;
+    text-align: center;
+}
+
+.contact>p {
+    font-size: 14px;
+    margin-bottom: 51px;
+    text-align: center;
+}
+
+.contact input,
+.contact textarea {
+    border: 2px solid #bec3c7;
+    border-radius: 0;
+    margin-bottom: 22px;
+}
+
+.contact input {
+    height: 47px;
+}
+
+.contact textarea {
+    height: 153px;
+}
+
+.contact ::placeholder {
+    font-family: Lato-Italic;
+    font-size: 14px;
+    color: #999;
+}
+
+.contact button {
+    padding-left: 29px;
+    padding-right: 29px;
+}
+
+/* right */
+.contact h3 {
+    font-size: 14px;
+    margin-bottom: 21px;
+}
+
+.contact address {
+    font-size: 14px;
+    margin-bottom: 24px;
+    display: flex;
+}
+
+.contact address span {
+    margin-left: 5px;
+    margin-top: -3px;
+}
+
+/* Những thẻ p phía sau address (những đứa em của address) */
+.contact address~p {
+    font-size: 14px;
+    margin-bottom: 19px;
+}
+
+/* CAR1 */
+.car {
+    padding-top: 100px;
+
+}
+
+
+
+.car h3 {
+    font-style: bold;
+    font-size: 50px;
+}
+
+.car .property_car {
+    margin-top: 20px;
+    margin-left: 20px;
+    font-style: bold;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.car img {
+    width: 500px;
+}
+
+.account {
+    padding-top: 100px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+
+.account .property_car {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-style: bold;
+    margin-bottom: 40px;
+    padding-bottom: 90px;
+}
+
+.account img {
+    width: 500px;
+}
+
+.account h1 {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+/* FOOTER */
+footer {
+    background-color: #2d3e50;
+    height: 87px;
+    color: var(--second-color);
+    font-size: 14px;
+    /* canh giữa nội dung theo chiều dọc */
+    display: flex;
+    align-items: center;
+}
+
+footer a.back-to-top {
+    position: fixed;
+    right: 42px;
+    bottom: 20px;
+    background-color: var(--third-color);
+    color: var(--second-color);
+    width: 44px;
+    line-height: 44px;
+    text-align: center;
+    font-size: 20px;
+
+}
+
+@media (max-width: 768px) {
+    .navbar-collapse {
+        position: absolute;
+        width: 100%;
+        background-color: rgba(208, 208, 208, 0.8);
+        top: 100%;
+        left: 0;
+    }
+
+    .navbar-light .navbar-nav .nav-link {
+        margin-left: 0;
+        margin-bottom: 5px;
+    }
+
+    .navbar-light .navbar-nav li:last-child .nav-link {
+        margin-bottom: 0;
+    }
+
+    .navbar {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
