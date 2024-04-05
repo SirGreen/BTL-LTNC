@@ -1,42 +1,39 @@
-@startuml doixe
+@startuml quan_ly_xe
 skinparam groupInheritance 3
 
 package TransportationFactory <<Folder>>{
 
-class Transportation{
-    # int: Capacity
-    # ColorOfVehicle: Color
-    # string: VehicleRegistration
-    + WarrantyService: Warranty
-    + DisplayCapacity()
-    + DisplayColor()
-}
+    class Transportation{
+        # int: Capacity
+        # int: Size
+        # string: TypeOfFuel
+        # CarStatus: Status
+        + WarrantyService: Warranty
+        + Journey: JourneyInCharge
+        + DisplayInfo()
+    }
 
+    class Container{  
+    }
 
-class Motorbike{  
-}
+    class Car{
+    }
 
-class Car{
-}
+    class Truck{
+    }
 
-class Truck{
-}
-
-class Bus {
-}
-
-class Coach {
+    class Coach {
 }
 }
 
 class WarrantyService{
     - bool: IsWarranty
-    - int: KilometLeft
+    - DateTime: WarrantyTime
     - WarrantyHistory: WarrantyHis
 
     - ChangeWarrantyStatus()
-    + ShowKilometLeft()
-    + UpdateKilometLeft()
+    + ShowTimeLeft()
+    + UpdateTimeLeft()
     + Warranty()
     + DisplayStatus()
     + DisplayWarrantyHistory()
@@ -47,52 +44,42 @@ class WarrantyHistory{
     + Display()
 }
 
-enum ColorOfVehicle{
-    1: Black
-    2: White
-    3: Blue
-    4: Red
-    5: Grey
-    6: Green
-    ...
+enum CarStatus{
+    1: Active
+    2: UnderMaintainace
+    3: NotActive
 }
 class Driver{
     - string: Name
-    - int: Age
-    - int: DrivingExperience
-    - Transportation: Vehicle
-    - double: CustomerReviews
-    - point: Location
-
-    + DisplayName()
-    + DisplayAge()
-    + DisplayExperience()
-    + DisplayVehicle()
-    + DisplayCustomerReviews()
-}
-
-class Customer{
-    - string: Name
-    - point: Location
-    - int: NumOfPeople
     - string: PhoneNumber
+    - string: Address
+    + DrivingExperience: Quality
+    - image: DriverLicense
+    + Journey: JourneyInCharge
+    + JourneyHistory: JourneyHis
     + DisplayInfo()
-    + BooksJourney()
+    + CompleteJourney() 
 }
+note left of Driver::CompleteJourney()
+    AddJourneyHistory
+    DeleteJourney
+end note
 
 class Journey{
-    - Driver: driver
     - Transportation: Vehicle
+    - Driver: DriverInCharge
     - double: Kilomet
-    - double: Surchange
     - double: Price
-    - RequestDriverAndVehicle()
-    - CalDistance()
-    - CalPrice()
-    - NotifyCompleteJourney()
-    + DisplaySurchangeAndPrice()
-    + DisplayDriver()
-    + DisplayTotalPrice()
+    - DateTime: Time
+    - string: StartLocation
+    - string: EndLocation
+    + DisplayInfo()
+}
+
+class JourneyHistory{
+    + int: Kilomet
+    + double: Price
+    + Transportation: Vehicle
 }
 
 class System <<Singleton>>{
@@ -102,21 +89,43 @@ class System <<Singleton>>{
     + DisplayVehicle()
     + DisplayDrive()
     --
-    + FindForJourney()
-    + UpdateWarrantyService()
+    + AddJourney()
+    - CalDisAndPrice()
+    + UpdateVehicleInfo()
+}
+
+note left of System::UpdateVehicleInfo
+    - Update Vehicle Status 
+    - Update Warranty Status 
+    base on Time of Journey
+    When the Driver CompleteJourney()
+end note
+
+note left of System::AddJourney
+    - Find Driver & Vehicle
+    - Calculate Kilomet 
+    & Time & Price
+end note
+
+enum DrivingExperience{
+    1: Truck
+    2: Car
+    3: Coach
+    4: Container
 }
 
 Transportation <|-- Truck
 Transportation <|-- Car
 Transportation <|-- Coach
-Transportation <|-- Bus
-Transportation <|-- Motorbike
-Transportation -left- WarrantyService
-Driver "1" -- "1..*" Transportation
-ColorOfVehicle -down- Transportation
-WarrantyService "1" *-down- "1..*" WarrantyHistory
-System -right-> Transportation: adds & updates warranty service
-System -right-> Driver: adds
-Customer "0..*"-left->"0..*" Journey: books
-Journey --> System: requests. Observe & Notify
+Transportation <|-- Container
+Transportation -right- WarrantyService
+Driver -right- DrivingExperience
+Driver -down-*Journey
+CarStatus -up- Transportation
+WarrantyService "1" *-up- "1..*" WarrantyHistory
+System -down[dashed]-> Transportation: Adds & Updates & Assign for Journey
+System -left[dashed]-> Driver: Adds & Journey assignment & Observe
+Journey <-right[dashed]- System: Create & Observe
+Transportation -left-*Journey
+Driver "1"-left-"0..*" JourneyHistory
 @enduml
