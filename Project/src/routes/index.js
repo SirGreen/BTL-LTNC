@@ -1,6 +1,10 @@
-const adminRouter = require('./admin')
+const adminRouter = require("./admin");
+const homeRouter = require("./home");
 
-function router(app)
-{
-    app.use('/admin',adminRouter)
+function route(app) {
+  app.use("/admin", adminRouter);
+
+  app.use("/", homeRouter);
 }
+
+module.exports = route;
