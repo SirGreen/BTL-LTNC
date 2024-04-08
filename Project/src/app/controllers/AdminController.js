@@ -1,43 +1,30 @@
-class AdminController{
-    index(req, res){
-        res.render('admin')
-    }
-    
-    //POST
-    AddNewVehicle(){
+class AdminController {
+  index(req, res) {
+    //res.render('admin')
+    res.send("ADMIN PAGE");
+  }
 
-    }
+  //POST
+  AddNewVehicle() {}
 
-    //POST
-    AddNewDriver(){
+  //POST
+  AddNewDriver() {}
 
-    }
+  //GET
+  DisplayVehicle() {}
 
-    //GET
-    DisplayVehicle(){
+  //GET
+  DisplayDriver() {}
 
-    }
+  CalDisAndPrice() {}
 
-    //GET
-    DisplayDriver(){
+  //POST
+  AddJourney() {
+    this.CalDisAndPrice();
+  }
 
-    }
-
-    CalDisAndPrice(){
-
-    }
-
-    //POST
-    AddJourney()
-    {
-        this.CalDisAndPrice();
-    }
-
-    //POST 
-    UpdateVehicleInfo()
-    {
-
-    }
+  //POST
+  UpdateVehicleInfo() {}
 }
 
-module.exports = new AdminController;
+module.exports = new AdminController();
