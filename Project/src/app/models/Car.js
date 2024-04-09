@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 
-const Transportation = new Schema({
+const Car = new Schema({
     Capacity: {type: Number},
     Size: {type: Number},
     TypeOfFuel: {type: String},
@@ -15,4 +15,4 @@ const Transportation = new Schema({
     Journey: {type: Schema.Types.ObjectId, ref: "Journey"},
 });
 
-module.exports = mongoose.model("Transportation", Transportation);
+module.exports = mongoose.model("Car", Car);
