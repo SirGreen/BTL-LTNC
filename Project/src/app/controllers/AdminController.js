@@ -1,30 +1,46 @@
+const Driver = require("../models/Driver");
+const Journey = require("../models/Journey");
+
+function CalDisAndPrice(kilo) {
+    return kilo*5000;
+}
+
 class AdminController {
   index(req, res) {
     //res.render('admin')
     res.send("ADMIN PAGE");
   }
 
-  //POST
+  //[POST] /addVehicle
   AddNewVehicle() {}
 
-  //POST
-  AddNewDriver() {}
+  //[POST] /addDriver
+  AddNewDriver(req, res, next) {
+      const driver = new Driver({
+        Name: "Test",
+        PhoneNumber: "00000000"
+      })
+      driver.save()
+      res.send("AddDriver")
+  } 
 
-  //GET
-  DisplayVehicle() {}
+  //[POST] /addJourney
+  AddJourney(req, res, next) {
+    const data = req.body;
+    data.Kilomet = 10;
+    data.Price = CalDisAndPrice(data.Kilomet);
+    //find driver and car
+    //add to database
+    const journey = new Journey(data);
+    journey.save();
 
-  //GET
-  DisplayDriver() {}
-
-  CalDisAndPrice() {}
-
-  //POST
-  AddJourney() {
-    this.CalDisAndPrice();
+    res.send("AddJourney")
   }
-
-  //POST
+ 
   UpdateVehicleInfo() {}
 }
 
-module.exports = new AdminController();
+let admin = Object.freeze(new AdminController());
+
+//singleton
+module.exports = admin;
