@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const Driver = new Schema({
-  Name: { type: String, maxLength: 255 },
-  PhoneNumber: { type: String, maxLength: 100 },
+  Name: { type: String, maxLength: 255, require: true },
+  PhoneNumber: { type: String, maxLength: 100, require: true },
   Address: { type: String, maxLength: 600 },
   DrivingExperience: {
     type: Number,
