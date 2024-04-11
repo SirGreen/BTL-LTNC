@@ -2,7 +2,7 @@ const Driver = require("../models/Driver");
 const Journey = require("../models/Journey");
 const Admin = require("../models/Admin");
 const { Mongoose } = require("mongoose");
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcrypt");
 
 function CalDisAndPrice(kilo) {
   return kilo * 5000;
@@ -18,10 +18,14 @@ class AdminController {
   AddNewVehicle() {}
 
   //[POST] /addDriver
-  AddNewDriver(req, res, next) {
+  async AddDriver(req, res, next) {
+    const { Name, PhoneNumber, Account, Password } = req.body;
+    const hashedPassword = await bcrypt.hash(Password, 10);
     const driver = new Driver({
-      Name: "Test",
-      PhoneNumber: "00000000",
+      Name: Name,
+      PhoneNumber: PhoneNumber,
+      Account: Account,
+      Password: hashedPassword,
     });
     driver.save();
     res.send("AddDriver");
@@ -42,19 +46,18 @@ class AdminController {
 
   UpdateVehicleInfo() {}
 
-
-
   async GetAdmin(Acc) {
-    return Admin.find({Account: Acc}).then(admin => admin)
+    return Admin.find({ Account: Acc }).then((admin) => admin);
   }
 
-  async AddAdmin(Acc,Pass){
+  async AddAdmin(req, res) {
+    const {Account, Password } = req.body;
     try {
-      const hashedPassword = await bcrypt.hash(Pass,10)      
-      const admin = new Admin({Account:Acc,Password:hashedPassword})
-      return admin.save()
+      const hashedPassword = await bcrypt.hash(Password, 10);
+      const admin = new Admin({ Account: Account, Password: hashedPassword });
+      admin.save();
+      res.send(`Added ${Account}`)
     } catch {}
-    
   }
 }
 

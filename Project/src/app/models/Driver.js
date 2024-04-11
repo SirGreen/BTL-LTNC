@@ -16,7 +16,7 @@ const Driver = new Schema({
   LiscenceNumber: { type: String, maxLength: 20 },
   JourneyList: [{ type: Schema.Types.ObjectId, ref: "Journey" }],
   Account: { type: String, maxLength: 300, default: "driverAcc" },
-  Pass: { type: String, maxLength: 20, default: "123456" },
+  Password: { type: String, maxLength: 200, default: "123456" },
 });
 
 module.exports = mongoose.model("Driver", Driver);

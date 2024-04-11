@@ -3,11 +3,14 @@ const route = require("./routes");
 const path = require("path");
 const morgan = require("morgan");
 const bcrypt = require("bcrypt");
+const { LocalStorage } = require("node-localstorage");
+const localStorage = new LocalStorage("./UserData");
 const port = 3000;
 
 const app = express();
 
 const adminController = require("./app/controllers/AdminController");
+const driverController = require("./app/controllers/DriverController");
 
 app.set("view-engine", "ejs");
 // Connect to DB
@@ -29,6 +32,7 @@ app.use(express.static(htmlPath));
 //HTTP logger
 app.use(morgan("combined"));
 
+//API cho admin
 app.get("/login_admin", (req, res) => {
   //res.send('HI')
   res.render("login_admin.ejs", { messages: { error: "" } });
@@ -48,12 +52,56 @@ app.post("/sendform_admin", async (req, res) => {
   admin = admin.at(0);
   const isMatch = await bcrypt.compare(req.body.Password, admin.Password);
   if (isMatch) {
+    const userJSON = JSON.stringify(admin);
+    localStorage.setItem("user", userJSON);
     res.redirect("admin.html");
   } else {
     res.render("login_admin.ejs", {
       messages: { error: "Wrong Password" },
     });
   }
+});
+
+//API cho driver
+app.get("/login_driver", (req, res) => {
+  //res.send('HI')
+  res.render("login_driver.ejs", { messages: { error: "" } });
+});
+
+app.post("/sendform_driver", async (req, res) => {
+  let driver = await driverController.GetDriver(req.body.Account);
+  if (driver.length == 0)
+    res.render("login_driver.ejs", {
+      messages: { error: "No Account found" },
+    });
+  driver = driver.at(0);
+  const isMatch = await bcrypt.compare(req.body.Password, driver.Password);
+  if (isMatch) {
+    const userJSON = JSON.stringify(driver);
+    localStorage.setItem("user", userJSON);
+    res.redirect("driver.html");
+  } else {
+    res.render("login_driver.ejs", {
+      messages: { error: "Wrong Password" },
+    });
+  }
+});
+
+app.get("/account", (req, res) => {
+  const storedUserJSON = localStorage.getItem("user");
+  const storedUser = JSON.parse(storedUserJSON);
+  res.render("account.ejs", { Name: storedUser.Account });
+});
+
+app.get("/account_driver", (req, res) => {
+  const storedUserJSON = localStorage.getItem("user");
+  const storedUser = JSON.parse(storedUserJSON);
+  res.render("account_driver.ejs", {
+    Name: storedUser.Name,
+    Phone: storedUser.PhoneNumber,
+    Address: storedUser.Address,
+    Account: storedUser.Account
+  });
 });
 
 //Route init
