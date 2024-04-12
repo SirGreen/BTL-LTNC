@@ -13,8 +13,9 @@ const Driver = new Schema({
     enum: [1, 2, 3],
     default: 1,
   },
-  LiscenceNumber: { type: String, maxLength: 20 },
+  LiscenceNumber: { type: String, maxLength: 20, default: "000000" ,require: true},
   JourneyList: [{ type: Schema.Types.ObjectId, ref: "Journey" }],
+  JourneyIncharge: {type: Schema.Types.ObjectId, ref: "Journey", default: null},
   Account: { type: String, maxLength: 300, default: "driverAcc" },
   Pass: { type: String, maxLength: 20, default: "123456" },
 });

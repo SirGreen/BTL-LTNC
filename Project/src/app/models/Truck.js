@@ -3,8 +3,8 @@ const Schema = mongoose.Schema
 
 
 const Truck = new Schema({
-    Capacity: {type: Number},
-    Size: {type: Number},
+    Capacity: {type: Number, default: 90},
+    Size: {type: Number, default: 100},
     TypeOfFuel: {type: String},
     VehicleStatus: {
         type: String,
@@ -12,7 +12,7 @@ const Truck = new Schema({
         default: "Active"
     },
     Warranty: {type: Schema.Types.ObjectId, ref: "WarrantyService"},
-    Journey: {type: Schema.Types.ObjectId, ref: "Journey"},
+    Journey: {type: Schema.Types.ObjectId, ref: "Journey", default: null},
 });
 
 module.exports = mongoose.model("Truck", Truck);
