@@ -9,7 +9,7 @@ const Car = new Schema({
     VehicleStatus: {
         type: String,
         enum: ["Active","UnderMaintainance","NotActive"],
-        default: "Active"
+        default: "NotActive"
     },
     Warranty: {type: Schema.Types.ObjectId, ref: "WarrantyService"},
     Journey: {type: Schema.Types.ObjectId, ref: "Journey", default: null},

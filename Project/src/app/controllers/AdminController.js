@@ -50,6 +50,7 @@ class AdminController {
       journey.Transportation = transportation;
       await journey.save();
       transportation.Journey = journey;
+      transportation.VehicleStatus = "Active";
   }
 
   //[POST] /addTransportation
@@ -152,15 +153,15 @@ class AdminController {
       switch(journey.TransportationType) {
         case "truck":
           // Truck
-          transportation = await Truck.findOne({Journey: null, VehicleStatus: "Active"})
+          transportation = await Truck.findOne({Journey: null, VehicleStatus: "NotActive"})
           break;
         case "coach":
           // Coach
-          transportation = await Coach.findOne({Journey: null, VehicleStatus: "Active"})
+          transportation = await Coach.findOne({Journey: null, VehicleStatus: "NotActive"})
           break;
         default:
          // Car
-         transportation = await Car.findOne({Journey: null, VehicleStatus: "Active"})
+         transportation = await Car.findOne({Journey: null, VehicleStatus: "NotActive"})
          break;
       }
 
@@ -172,6 +173,7 @@ class AdminController {
         console.log("Cannot find suitable Transportation");
         return;
       }
+      transportation.VehicleStatus = "Active";
       transportation.Journey = journey;
       await transportation.save();
       journey.Transportation = transportation;
@@ -202,9 +204,9 @@ class AdminController {
       {
         transportation.VehicleStatus = "UnderMaintainance";
         await transportation.save();
-        return 0;
+        return 0; //maintain
       }
-      return 1;
+      return 1; //normal
   }
 
 }
