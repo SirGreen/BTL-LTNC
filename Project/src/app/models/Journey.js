@@ -5,15 +5,19 @@ const ObjectId = Schema.ObjectId;
 const Driver = require("./Driver");
 
 const Journey = new Schema({
-  Transportation: { type: Schema.Types.ObjectId, ref: "Car", default: null},
-  TransportationType: {type: String, enum: ["car","truck","coach"], default: "car"},
-  Driver: { type: Schema.Types.ObjectId, ref: "Driver", default: null},
+  Transportation: { type: Schema.Types.ObjectId, ref: "Car", default: null },
+  TransportationType: {
+    type: String,
+    enum: ["car", "truck", "coach"],
+    default: "car",
+  },
+  Driver: { type: Schema.Types.ObjectId, ref: "Driver", default: null },
   Kilomet: { type: Number },
   Price: { type: Number },
   DateTime: { type: Date, default: Date.now() },
   StartLocation: { type: String, require: true },
   Endlocation: { type: String, require: true },
-  Status: { type: Boolean, default: 0 },
+  Status: { type: Number, default: 0 }, /// 0:chua di, 1: dang di, 2: xong
 });
 
 module.exports = mongoose.model("Journey", Journey);

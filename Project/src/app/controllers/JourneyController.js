@@ -16,10 +16,10 @@ class JourneyController {
 
   addDriver(req, res) {
     //console.log(req.params.slug);
-    journey.findOne({ Transportation: req.params.slug }).then((j) => {
+    journey.findOne({ TransportationType: req.params.slug }).then((j) => {
       console.log(j);
-      driver.findOne({ Name: "Tran fish" }).then((driver1) => {
-        j.Driver.push(driver1);
+      driver.findOne({ Name: "Test" }).then((driver1) => {
+        j.Driver = driver1;
         j.save();
         console.log(j);
         res.send("yeah!!!");
