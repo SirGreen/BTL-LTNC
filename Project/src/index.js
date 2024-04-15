@@ -33,9 +33,9 @@ app.use(express.static(htmlPath));
 app.use(morgan("combined"));
 
 //API cho admin
-app.get("/login_admin", (req, res) => {
+app.get("/signin_admin", (req, res) => {
   //res.send('HI')
-  res.render("login_admin.ejs", { messages: { error: "" } });
+  res.render("signin_admin.ejs", { messages: { error: "" } });
 });
 
 app.post("/register_admin", (req, res) => {
@@ -46,7 +46,7 @@ app.post("/register_admin", (req, res) => {
 app.post("/sendform_admin", async (req, res) => {
   let admin = await adminController.GetAdmin(req.body.Account);
   if (admin.length == 0)
-    res.render("login_admin.ejs", {
+    res.render("signin_admin.ejs", {
       messages: { error: "No Account found" },
     });
   admin = admin.at(0);
@@ -56,22 +56,22 @@ app.post("/sendform_admin", async (req, res) => {
     localStorage.setItem("user", userJSON);
     res.redirect("admin.html");
   } else {
-    res.render("login_admin.ejs", {
+    res.render("signin_admin.ejs", {
       messages: { error: "Wrong Password" },
     });
   }
 });
 
 //API cho driver
-app.get("/login_driver", (req, res) => {
+app.get("/signin_driver", (req, res) => {
   //res.send('HI')
-  res.render("login_driver.ejs", { messages: { error: "" } });
+  res.render("signin_driver.ejs", { messages: { error: "" } });
 });
 
 app.post("/sendform_driver", async (req, res) => {
   let driver = await driverController.GetDriver(req.body.Account);
   if (driver.length == 0)
-    res.render("login_driver.ejs", {
+    res.render("signin_driver.ejs", {
       messages: { error: "No Account found" },
     });
   driver = driver.at(0);
@@ -81,7 +81,7 @@ app.post("/sendform_driver", async (req, res) => {
     localStorage.setItem("user", userJSON);
     res.redirect("driver.html");
   } else {
-    res.render("login_driver.ejs", {
+    res.render("signin_driver.ejs", {
       messages: { error: "Wrong Password" },
     });
   }
