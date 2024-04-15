@@ -2,7 +2,7 @@ function NewTrip(event) {
     event.preventDefault();
     // Get the values from the form fields
     var nameInput = document.getElementById("Driver").value;
-    var vehircleInput = document.getElementById("Vehircle").value;
+    var vehircleInput = document.getElementById("Vehicle").value;
     var numInput = document.getElementById("Num").value;
     var serviceInput = document.getElementById("Service").value;
     var pickupInput = document.getElementById("pickUpAddress").value;
@@ -16,8 +16,8 @@ function NewTrip(event) {
     var li = document.createElement("li");
     // Add the form data to the list item
     li.innerHTML = "<strong>Driver:</strong> " + nameInput + "<br>" +
-                   " <strong>Vehircle:</strong> " + vehircleInput + "<br>" +
-                   " <strong>Vehircle Number:</strong> " + numInput + "<br>" +
+                   " <strong>Vehicle:</strong> " + vehircleInput + "<br>" +
+                   " <strong>Vehicle Number:</strong> " + numInput + "<br>" +
                    " <strong>Type of Service:</strong> " + serviceInput + "<br>" +
                    " <strong>Pick-up:</strong> " + pickupInput + "<br>" +
                    " <strong>Destinations:</strong> " + destinationsInput;
