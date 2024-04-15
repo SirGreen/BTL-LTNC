@@ -72,6 +72,13 @@
                 const route = response.routes[0];
                 const distance = route.legs[0].distance.text;
                 const time = route.legs[0].duration.text;
+                var Disdiv = document.createElement("div");
+                Disdiv.innerHTML= distance;
+                // Append the list item to the list container
+                document.getElementById("distance").appendChild(Disdiv);
+                var Timediv = document.createElement("div");
+                Timediv.innerHTML=time;
+                document.getElementById("EstTime").appendChild(Timediv);
 
                 console.log(distance);
                 console.log(time);

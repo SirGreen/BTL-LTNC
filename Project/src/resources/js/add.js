@@ -1,32 +1,66 @@
+function showForm() {
+    overlay.style.display="block";
+    var modal = document.getElementById("formContainer");
+    modal.style.display = "block";
+  }
+  
+  function hideForm(event) {
+    event.preventDefault(); // Prevent default behavior
+    var modal = document.getElementById("formContainer");
+    modal.style.display = "none";
+    overlay.style.display = "none";
+  }
+  window.addEventListener("click", function(event) {
+    var modal = document.getElementById("formContainer");
+    if (event.target == modal) {
+        event.preventDefault(); // Prevent default behavior
+        modal.style.display = "none";
+        overlay.style.display = "none";
+    }
+  });
+  
 function NewTrip(event) {
     event.preventDefault();
     // Get the values from the form fields
-    var nameInput = document.getElementById("Driver").value;
+    /*var nameInput = document.getElementById("Driver").value;
     var vehircleInput = document.getElementById("Vehicle").value;
     var numInput = document.getElementById("Num").value;
-    var serviceInput = document.getElementById("Service").value;
+    var serviceInput = document.getElementById("Service").value;*/
     var pickupInput = document.getElementById("pickUpAddress").value;
     var destinationsInput = document.getElementById("Destinations").value;
+    var RDistance= document.getElementById("distance").value;
+    var estitime= document.getElementById("EstTime").value;
+    /*
     if (!nameInput.trim() || !vehircleInput.trim() || !numInput.trim() || !serviceInput.trim() || !pickupInput.trim() || !destinationsInput.trim()) {
         alert("All fields are required. Please fill out all fields.");
         return; // Exit the function
-    }
+    }*/
 
     // Create a new list item
     var li = document.createElement("li");
     // Add the form data to the list item
+    li.innerHTML = " <strong>Pick-up:</strong> " + pickupInput + "<br>" +
+                   " <strong>Destinations:</strong> " + destinationsInput
+                   " <strong>Distance:</strong> " + RDistance + "<br>" +
+                   " <strong>EstTime:</strong> " + estitime;
+    /*
     li.innerHTML = "<strong>Driver:</strong> " + nameInput + "<br>" +
                    " <strong>Vehicle:</strong> " + vehircleInput + "<br>" +
                    " <strong>Vehicle Number:</strong> " + numInput + "<br>" +
                    " <strong>Type of Service:</strong> " + serviceInput + "<br>" +
                    " <strong>Pick-up:</strong> " + pickupInput + "<br>" +
-                   " <strong>Destinations:</strong> " + destinationsInput;
+                   " <strong>Destinations:</strong> " + destinationsInput;*/
 
     // Append the list item to the list container
+   // li.classList.add("infoBox");
     document.getElementById("List-container").appendChild(li);
-    let span=document.createElement("span");
-    span.innerHTML= "x";
-    li.appendChild(span);
+    let closespan=document.createElement("span");
+   // closespan.classList.add("close-info")
+    closespan.innerHTML= "x";
+    li.appendChild(closespan);
+    /*closespan.addEventListener("click", function() {
+        li.remove();
+    });*/
     // Hide the form and overlay
     document.getElementById("myForm").reset();
     hideForm(event);
@@ -51,10 +85,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+
 function completedTrip(li) {
     // Do something with the completed <li> element
     document.getElementById("CList-container").appendChild(li);
+    
+
 }
+document.addEventListener('DOMContentLoaded', function() {
+    const ClisCon = document.getElementById("CList-container");
+    if (ClisCon) {
+        ClisCon.addEventListener('click', function(e) {
+            if (e.target.tagName === "SPAN") {
+                e.target.parentElement.remove();
+            }
+        });
+    } else {
+        console.error("List-container element not found");
+    }
+});
 
 function NewDriver(event) {
     event.preventDefault();
@@ -74,6 +123,7 @@ function NewDriver(event) {
 
      var name = document.getElementById("Driver").value;
      var phone = document.getElementById("phone").value;
+     var account =document.getElementById("newDriverAccount").value;
  
      var selectedLicenses = [];
      var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
@@ -87,10 +137,7 @@ function NewDriver(event) {
         img.src = URL.createObjectURL(pictureFile); // Set the image source
         aTag.appendChild(img);
     }
-
-// Tạo phần tử img và thêm vào aTag
     
-
 // Tạo phần tử overlay và thêm vào boxDiv
     var overlayDiv = document.createElement("div");
     overlayDiv.classList.add("overlaya");
@@ -101,23 +148,19 @@ function NewDriver(event) {
     contentDiv.classList.add("content");
     overlayDiv.appendChild(contentDiv);
 
-    
-
-
-
-
 // Tạo phần tử span và thêm vào aTag2
     var spanTag = document.createElement("span");
     spanTag.innerHTML = "Name: " + name + "<br>" +
                         "Phone: " + phone + "<br>" +
+                        "Acc: " + account + "<br>" +
                         "License: " + selectedLicenses.join(", ");
     
     contentDiv.appendChild(spanTag);
 
 // Lấy phần tử cha và append newDiv vào
     document.getElementById("Driver_list").appendChild(newDiv);
-
-
+    //document.getElementById("formContainer").reset();
+  //  hideForm(event);
 
 
     // Create a close button for the infoBox
@@ -133,8 +176,15 @@ function NewDriver(event) {
     // Append the close button to the infoBox
     
     // Hide the form and overlay
-    document.getElementById("myForm").reset();
-    hideForm(event);
+    function resetAndHideForm(event) {
+        // Reset the form
+        document.getElementById("formContainer").reset();
+        
+        // Hide the form
+        hideForm(event);
+    }
+    
+   
 
 
     // Append the list item to the list container
