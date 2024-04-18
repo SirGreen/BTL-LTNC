@@ -36,6 +36,7 @@ class AdminController {
       return;
     }
     journey.Driver = driver;
+    if(journey.Driver!=null && journey.Transportation!=null) journey.Status = 1;
     await journey.save();
     driver.JourneyIncharge = journey;
     await driver.save();
@@ -53,6 +54,7 @@ class AdminController {
       return;
     }
     journey.Transportation = transportation;
+    if(journey.Driver!=null && journey.Transportation!=null) journey.Status = 1;
     await journey.save();
     transportation.Journey = journey;
     transportation.VehicleStatus = "Active";
@@ -64,28 +66,24 @@ class AdminController {
     //Factory Pattern
     const warranty = new WarrantyService();
     await warranty.save();
+    const data = req.body;
+    data.Warranty = warranty;
     //req.body.TransportationType = "truck"
     switch (req.body.TransportationType) {
       case "truck":
         // code block
-        const truck = new Truck({
-          Warranty: warranty,
-        });
+        const truck = new Truck(data);
         await admin.FindJourneyForTransportation(truck, "truck");
         await truck.save();
         break;
       case "coach":
         // code block
-        const coach = new Coach({
-          Warranty: warranty,
-        });
+        const coach = new Coach(data);
         await admin.FindJourneyForTransportation(coach, "coach");
         await coach.save();
         break;
       default:
-        const car = new Car({
-          Warranty: warranty,
-        });
+        const car = new Car(data);
         await admin.FindJourneyForTransportation(car, "car");
         await car.save();
       // code block
@@ -95,11 +93,7 @@ class AdminController {
 
   //[POST] /addDriver
   async AddNewDriver(req, res, next) {
-    const driver = new Driver({
-      Name: "Test",
-      PhoneNumber: "00000000",
-      DrivingExperience: 1,
-    });
+    const driver = new Driver(req.body);
     await admin.FindJourneyForDriver(driver);
     await driver.save();
     res.send("AddDriver");
@@ -127,6 +121,7 @@ class AdminController {
     }
     driver.JourneyIncharge = journey;
     await driver.save();
+    if(journey.Driver!=null && journey.Transportation!=null) journey.Status = 1;
     journey.Driver = driver;
   }
   ////////////////////////////////////
@@ -196,22 +191,19 @@ class AdminController {
     transportation.VehicleStatus = "Active";
     transportation.Journey = journey;
     await transportation.save();
+    if(journey.Driver!=null && journey.Transportation!=null) journey.Status = 1;
     journey.Transportation = transportation;
   }
 
   //[POST] /addJourney
   async AddJourney(req, res, next) {
-    const journey = new Journey({
-      StartLocation: "0",
-      EndLocation: "10",
-      Kilomet: 10,
-      TransportationType: "car",
-    });
-    journey.Price = CalPrice(journey.Kilomet);
-
+    const data = req.body;
+    data.Price = CalPrice(data.Kilomet);
+    const journey = new Journey(data);
+    
     await admin.FindDriver(journey);
     await admin.FindTransportation(journey);
-
+    
     await journey.save();
     res.send("AddJourney");
   }
