@@ -203,7 +203,7 @@ class AdminController {
     
     await admin.FindDriver(journey);
     await admin.FindTransportation(journey);
-    
+    if(journey.Driver!=null && journey.Transportation!=null) journey.Status = 1;
     await journey.save();
     res.send("AddJourney");
   }
