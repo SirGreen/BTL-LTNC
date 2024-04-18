@@ -11,14 +11,35 @@ class DriverController {
     res.send("Driver Page");
   }
 
-  //GET information
-  async DisplayInfo(req, res) {
+  // [GET]: display all drivers
+  async DisplayAll(req, res) {
     try {
-      const drivers = await driver.find({});
+      var drivers = null;
+      drivers = await driver.find({});
+      if (drivers == null) {
+        res.send("No drivers to display!!!");
+        return;
+      }
       res.json(drivers);
       console.log(drivers);
     } catch (error) {
       res.status(500).json({ err: "ERROR" });
+    }
+  }
+
+  // [GET]: display one driver with ID
+  async DisplayInfo(req, res) {
+    try {
+      var drivers = null;
+      drivers = await driver.findOne({ _id: req.params.id });
+      if (drivers == null) {
+        res.send("No driver with that ID!!!");
+        return;
+      }
+      res.json(drivers);
+      console.log(drivers);
+    } catch (error) {
+      res.status(500).json({ err: "ERROR: Invalid ID" });
     }
   }
 
