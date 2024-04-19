@@ -3,7 +3,8 @@ const router = express.Router();
 
 const journeyController = require("../app/controllers/JourneyController");
 
-router.use("/:slug", journeyController.addDriver);
+router.use("/all", journeyController.DisplayAll);
+router.use("/:id", journeyController.DisplayJourney);
 
 router.use("/", journeyController.index);
 

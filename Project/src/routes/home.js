@@ -3,12 +3,13 @@ const router = express.Router();
 
 const HomeController = require("../app/controllers/HomeController");
 const DriverController = require("../app/controllers/DriverController");
-const CarController = require("../app/controllers/CarController")
-const CoachController = require("../app/controllers/CoachController")
-const TruckController = require("../app/controllers/TruckController")
+const CarController = require("../app/controllers/CarController");
+const CoachController = require("../app/controllers/CoachController");
+const TruckController = require("../app/controllers/TruckController");
 
-
-router.use("/driver", DriverController.DisplayInfo);
+router.use("/driver/all", DriverController.DisplayAll);
+router.use("/driver/completeJourney/:id", DriverController.CompleteJourney);
+router.use("/driver/:id", DriverController.DisplayInfo);
 router.use("/car", CarController.DisplayInfo);
 router.use("/truck", TruckController.DisplayInfo);
 router.use("/coach", CoachController.DisplayInfo);

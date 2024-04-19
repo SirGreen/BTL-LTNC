@@ -2,10 +2,15 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 function threeMonthFromNow() {
-    var d = Date.now();
-    var targetMonth = (d.getMonth() + 3)%12;
-    d.setMonth(targetMonth);
-    d.setDate(0);
+    let d = new Date();
+ 
+    console.log("Today's Date: "
+        + d.toLocaleDateString());
+    
+    d.setMonth(d.getMonth() + 3);
+ 
+    console.log("3 months Prior Date: "
+        + d.toLocaleDateString());
     return d;
 }
 
