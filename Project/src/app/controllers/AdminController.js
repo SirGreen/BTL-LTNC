@@ -97,6 +97,7 @@ class AdminController {
   //[POST] /addDriver
   async AddNewDriver(req, res, next) {
     const { Name, PhoneNumber, Account, Password } = req.body;
+    await admin.FindJourneyForDriver(driver);
     const hashedPassword = await bcrypt.hash(Password, 10);
     const driver = new Driver({
       Name: Name,
