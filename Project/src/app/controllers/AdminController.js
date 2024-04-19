@@ -35,7 +35,7 @@ class AdminController {
       Status: 0,
     });
     if (journey == null) {
-      console.log("Cannot find suitable Journey");
+      console.log("Cannot find suitable Journey")
       return;
     }
     journey.Driver = driver;
