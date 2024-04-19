@@ -17,6 +17,10 @@ class DriverController {
   }
 
   CompleteJourney(req, res) {}
+
+  async GetDriver(Acc) {
+    return driver.find({ Account: Acc }).then((admin) => admin);
+  }
 }
 
 module.exports = new DriverController();

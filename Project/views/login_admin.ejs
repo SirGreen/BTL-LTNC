@@ -1,0 +1,15 @@
+<h1>Login for Admin</h1>
+<% if (messages.error) { %>
+  <%= messages.error %>
+<% } %>
+<form action="/sendform_admin" method="POST">
+  <div>
+    <label for="name">Account</label>
+    <input type="text" id="Account" name="Account" required>
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input type="password" id="Password" name="Password" required>
+  </div>
+  <button type="submit">Login</button>
+</form>
