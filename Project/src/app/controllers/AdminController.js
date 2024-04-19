@@ -132,6 +132,7 @@ class AdminController {
     await driver.save();
     if(journey.Driver!=null && journey.Transportation!=null) journey.Status = 1;
     journey.Driver = driver;
+    await journey.save();
   }
   ////////////////////////////////////
   async FindUnderMaintainanceTransportation(TransportationType) {
@@ -202,6 +203,7 @@ class AdminController {
     await transportation.save();
     if(journey.Driver!=null && journey.Transportation!=null) journey.Status = 1;
     journey.Transportation = transportation;
+    await journey.save();
   }
 
   //[POST] /addJourney
@@ -241,6 +243,159 @@ class AdminController {
       admin.save();
       res.send(`Added ${Account}`)
     } catch {}
+  }
+
+  //[DELETE] /deleteDriver/:id
+  async DeleteDriver(req, res, next){
+    try{
+      const id = req.params.id;
+      const driver = await Driver.findOne({_id: id});
+      if(driver==null) 
+      {
+        console.log("Cannot find driver");
+        return;
+      }
+      if(driver.JourneyIncharge!=null)
+      {
+        var journey = null;
+        journey = await Journey.findOne({_id: driver.JourneyIncharge._id})
+        if(journey==null)
+        {
+          console.log("Journey is not valid");
+          return;
+        }
+        journey.Status = 0;
+        journey.Driver = null;
+        admin.FindDriver(journey);
+        await journey.save();
+      }
+      await Driver.deleteOne(driver);
+      res.send("DELETE DRIVER")
+    }
+    catch(error){
+      res.send("ERROR!!!");
+    }
+  }
+
+  //[DELETE] /deleteTransportation/:type/:id
+  async DeleteTransportation(req, res, next){
+    const type = req.params.type;
+    const id = req.params.id;
+    var transportation =null ;
+    switch(type)
+    {
+      case "truck":
+        // Truck
+        transportation = await Truck.findOne({_id: id});
+        break;
+      case "coach":
+        // Coach
+        transportation = await Coach.findOne({_id: id});
+        break;
+      default:
+        // Car
+        transportation = await Car.findOne({_id: id});
+        break;
+    }
+    if(transportation==null)
+    {
+      console.log("Cannot find Transportation");
+      return;
+    }
+    var warranty = WarrantyService.findOne({_id: transportation.Warranty.id});
+    await WarrantyService.deleteOne(warranty);
+    if(transportation.Journey!=null)
+    {
+      var journey = null;
+      journey = await Journey.findOne({_id: transportation.Journey._id});
+      if(journey==null)
+      {
+        console.log("Journey is not valid");
+        return;
+      }
+      journey.Status = 0;
+      journey.Transportation = null;
+      admin.FindTransportation(journey);
+      await journey.save();
+    }
+    switch(type)
+    {
+      case "truck":
+        // Truck
+        await Truck.deleteOne(transportation);
+        break;
+      case "coach":
+        // Coach
+        await Coach.deleteOne(transportation);
+        break;
+      default:
+        // Car
+        await Car.deleteOne(transportation);
+        break;
+    }
+    res.send("DELETE TRANSPORTATION")
+  }
+
+  //[DELETE] /deleteJourney/:id
+  async DeleteJourney(req, res, next){
+    try{
+      const id = req.params.id;
+      const journey = await Journey.findOne({_id: id});
+      if(journey==null) 
+      {
+        console.log("Cannot find Journey");
+        return;
+      }
+
+      if(journey.Driver!=null)
+      {
+        var driver = null;
+        var transportation = null;
+        journey = await Driver.findOne({_id: journey.Driver._id})
+        if(driver==null)
+        {
+          console.log("Driver is not valid");
+          return;
+        }
+        driver.JourneyIncharge = null;
+        admin.FindJourneyForDriver(driver);
+        await driver.save();
+      }
+
+      if(journey.Transportation!=null)
+      {
+        switch(journey.TransportationType)
+        {
+          case "truck":
+            // Truck
+            transportation = await Truck.findOne({_id: journey.Transportation._id});
+            break;
+          case "coach":
+            // Coach
+            transportation = await Coach.findOne({_id: journey.Transportation._id});
+            break;
+          default:
+            // Car
+            transportation = await Car.findOne({_id: journey.Transportation._id});
+            break;
+        }
+
+        if(transportation == null)
+        {
+          console.log("Transportation is not valid");
+          return;
+        }
+        transportation.Journey = null;
+        admin.FindJourneyForTransportation(transportation);
+        await transportation.save();
+      }
+
+      await Journey.deleteOne(journey);
+      res.send("DELETE JOURNEY")
+    }
+    catch(error){
+      res.send("ERROR!!!");
+    }
   }
 }
 
