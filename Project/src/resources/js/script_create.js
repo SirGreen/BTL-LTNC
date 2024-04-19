@@ -43,11 +43,11 @@ function NewTrip(event) {
     divbox2.classList.add("content");
 
     var a2 = document.createElement("a");
-
+    a2.setAttribute("href", "car1.html");
     a2.innerHTML = "<span> " + nameInput + "</span> <br>";
 
     divbox2.appendChild(a2);
-    div.appendChild(divbox2);
+    divbox.appendChild(divbox2);
     document.getElementById("ROW").appendChild(div);
 
     // Hide the form and overlay
@@ -89,11 +89,11 @@ function NewTrip1(event) {
     divbox2.classList.add("content");
 
     var a2 = document.createElement("a");
-
+    a2.setAttribute("href", "truck1.html");
     a2.innerHTML = "<span> " + nameInput + "</span> <br>";
 
     divbox2.appendChild(a2);
-    div.appendChild(divbox2);
+    divbox.appendChild(divbox2);
     document.getElementById("ROW").appendChild(div);
 
     // Hide the form and overlay
@@ -135,11 +135,11 @@ function NewTrip2(event) {
     divbox2.classList.add("content");
 
     var a2 = document.createElement("a");
-
+    a2.setAttribute("href", "coach1.html");
     a2.innerHTML = "<span> " + nameInput + "</span> <br>";
 
     divbox2.appendChild(a2);
-    div.appendChild(divbox2);
+    divbox.appendChild(divbox2);
     document.getElementById("ROW").appendChild(div);
 
     // Hide the form and overlay

@@ -368,7 +368,7 @@ button {
     margin-left: 20px;
     margin-right: 20px;
     font-style: bold;
-    margin-bottom: 40px;
+
     padding-bottom: 90px;
 }
 
@@ -390,6 +390,8 @@ footer {
     /* canh giữa nội dung theo chiều dọc */
     display: flex;
     align-items: center;
+    margin-bottom: 0;
+
 }
 
 footer a.back-to-top {
