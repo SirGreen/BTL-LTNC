@@ -46,7 +46,7 @@ app.post("/register_admin", (req, res) => {
 app.post("/sendform_admin", async (req, res) => {
   let admin = await adminController.GetAdmin(req.body.Account);
   if (admin.length == 0)
-    res.render("signin_admin.ejs", {
+    return res.render("signin_admin.ejs", {
       messages: { error: "No Account found" },
     });
   admin = admin.at(0);
@@ -103,6 +103,31 @@ app.get("/account_driver", (req, res) => {
     Account: storedUser.Account
   });
 });
+
+//Render trang động
+app.get("/driver_admin", (req, res) => {
+  res.render("driver_admin.ejs")
+})
+
+app.get("/adminjourney", (req, res) => {
+  res.render("adminjourney.ejs")
+})
+
+app.get("/car_admin", (req, res) => {
+  res.render("car_admin.ejs")
+})
+
+app.get("/truck_admin", (req, res) => {
+  res.render("truck_admin.ejs")
+})
+
+app.get("/coach_admin", (req, res) => {
+  res.render("coach_admin.ejs")
+})
+
+app.get("/driverjourney", (req, res) => {
+  res.render("driverjourney.ejs")
+})
 
 //Route init
 route(app);
