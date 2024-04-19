@@ -17,7 +17,7 @@ app.set("view-engine", "ejs");
 const db = require("./config/db");
 const admin = require("./app/controllers/AdminController");
 db.connect();
-
+//test
 //Middleware
 app.use(
   express.urlencoded({
