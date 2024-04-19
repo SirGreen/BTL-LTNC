@@ -101,6 +101,7 @@ class DriverController {
     } catch (error) {
       res.status(500).json({ err: "ERROR" });
     }
+  }
 
   async GetDriver(Acc) {
     return driver.find({ Account: Acc }).then((admin) => admin);
