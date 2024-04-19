@@ -9,7 +9,7 @@ const app = express();
 // Connect to DB
 const db = require("./config/db");
 db.connect();
-
+//test
 //Middleware
 app.use(
   express.urlencoded({
