@@ -1,0 +1,6 @@
+- menu của journey bị dính vô lề phải
+- đổi signin trong admin thành Signin as Driver
+- bỏ signin trong mấy trang của Driver
+- bỏ vehicle trong mấy trang của Driver
+- menu của mấy trang Driver chỉ có account vs journey
+- bỏ cái learn more trong journey, vehicle, driver

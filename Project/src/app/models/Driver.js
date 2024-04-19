@@ -26,7 +26,7 @@ const Driver = new Schema({
     default: null,
   },
   Account: { type: String, maxLength: 300, default: "driverAcc" },
-  Password: { type: String, maxLength: 20, default: "123456" },
+  Password: { type: String, maxLength: 200, default: "123456" },
 });
 
 module.exports = mongoose.model("Driver", Driver);

@@ -25,6 +25,7 @@
     text-align: center;
     position: center;
     color: black;
+    justify-content: center;
 }
 
 #pre .driver {
