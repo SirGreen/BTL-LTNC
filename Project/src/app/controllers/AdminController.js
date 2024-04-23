@@ -7,6 +7,7 @@ const Car = require("../models/Car");
 const Coach = require("../models/Coach");
 const Truck = require("../models/Truck");
 const WarrantyService = require("../models/WarrantyService");
+const ObjectId = require("mongodb").ObjectId;
 
 function CalPrice(kilo) {
   return kilo * 5000;
@@ -39,7 +40,8 @@ class AdminController {
       return;
     }
     journey.Driver = driver;
-    if(journey.Driver!=null && journey.Transportation!=null) journey.Status = 1;
+    if (journey.Driver != null && journey.Transportation != null)
+      journey.Status = 1;
     await journey.save();
     driver.JourneyIncharge = journey;
     await driver.save();
@@ -57,7 +59,8 @@ class AdminController {
       return;
     }
     journey.Transportation = transportation;
-    if(journey.Driver!=null && journey.Transportation!=null) journey.Status = 1;
+    if (journey.Driver != null && journey.Transportation != null)
+      journey.Status = 1;
     await journey.save();
     transportation.Journey = journey;
     transportation.VehicleStatus = "Active";
@@ -242,7 +245,88 @@ class AdminController {
       res.send("ERROR");
     }
   }
-  //////////////////////////////////////////
+  //////////// UPDATE ////////////////////
+
+  async UpdateDriver(req, res) {
+    try {
+      if (!ObjectId.isValid(req.params.id)) {
+        res.send("Invalid driver ID");
+        return;
+      }
+      var d = null;
+      d = await Driver.findOne({ _id: req.params.id });
+      if (d == null) {
+        res.send("No driver with that ID");
+        return;
+      }
+      Driver.updateOne({ _id: req.params.id }, req.body).then(() =>
+        res.redirect("/driver_admin")
+      );
+    } catch (error) {
+      res.status(500).json({ err: "ERROR" });
+    }
+  }
+
+  async UpdateCar(req, res) {
+    try {
+      if (!ObjectId.isValid(req.params.id)) {
+        res.send("Invalid car ID");
+        return;
+      }
+      var d = null;
+      d = await Car.findOne({ _id: req.params.id });
+      if (d == null) {
+        res.send("No car with that ID");
+        return;
+      }
+      Car.updateOne({ _id: req.params.id }, req.body).then(() =>
+        res.redirect("/car_admin")
+      );
+    } catch (error) {
+      res.status(500).json({ err: "ERROR" });
+    }
+  }
+
+  async UpdateTruck(req, res) {
+    try {
+      if (!ObjectId.isValid(req.params.id)) {
+        res.send("Invalid truck ID");
+        return;
+      }
+      var d = null;
+      d = await Truck.findOne({ _id: req.params.id });
+      if (d == null) {
+        res.send("No truck with that ID");
+        return;
+      }
+      Truck.updateOne({ _id: req.params.id }, req.body).then(() =>
+        res.redirect("/truck_admin")
+      );
+    } catch (error) {
+      res.status(500).json({ err: "ERROR" });
+    }
+  }
+
+  async UpdateCoach(req, res) {
+    try {
+      if (!ObjectId.isValid(req.params.id)) {
+        res.send("Invalid coach ID");
+        return;
+      }
+      var d = null;
+      d = await Coach.findOne({ _id: req.params.id });
+      if (d == null) {
+        res.send("No coach with that ID");
+        return;
+      }
+      Coach.updateOne({ _id: req.params.id }, req.body).then(() =>
+        res.redirect("/coach_admin")
+      );
+    } catch (error) {
+      res.status(500).json({ err: "ERROR" });
+    }
+  }
+  //////////////////////////////////s////////
   async CheckForWarranty(transportation) {
     var date1 = transportation.Warranty.WarrantyTime.getTime();
     var date2 = Date.now();
@@ -260,12 +344,12 @@ class AdminController {
   }
 
   async AddAdmin(req, res) {
-    const {Account, Password } = req.body;
+    const { Account, Password } = req.body;
     try {
       const hashedPassword = await bcrypt.hash(Password, 10);
       const admin = new Admin({ Account: Account, Password: hashedPassword });
       admin.save();
-      res.send(`Added ${Account}`)
+      res.send(`Added ${Account}`);
     } catch {}
   }
 
