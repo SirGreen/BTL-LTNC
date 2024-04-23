@@ -1,7 +1,39 @@
-function showForm() {
-  overlay.style.display = "block";
-  var modal = document.getElementById("formContainer");
-  modal.style.display = "block";
+async function fetchDrivers() {
+  const response = await fetch("driver/all");
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const drivers = await response.json();
+  return drivers;
+}
+
+
+async function fetchJourneys() {
+  const response = await fetch("journey/all");
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const drivers = await response.json();
+  return drivers;
+}
+
+async function showForm() {
+  // overlay.style.display = "block";
+  // var modal = document.getElementById("formContainer");
+  // modal.style.display = "block";
+  await  fetchJourneys()
+  .then(Journeys => {
+    console.log(Journeys)
+  })
+  .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
+
+
+  await  fetchDrivers()
+  .then(drivers => {
+    for (let driver of drivers)
+      console.log(driver)
+  })
+  .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
 }
 function hideForm(event) {
   event.preventDefault(); // Prevent default behavior
