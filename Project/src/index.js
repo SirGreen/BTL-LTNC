@@ -129,6 +129,9 @@ app.get("/driverjourney", (req, res) => {
   res.render("driverjourney.ejs")
 })
 
+app.get("/test", (req, res) => {
+  res.render("test.ejs")
+})
 //Route init
 route(app);
 
