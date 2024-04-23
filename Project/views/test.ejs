@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <title>ArcGIS Maps SDK for JavaScript Tutorials: Find places</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 90%;
+        width: 90%;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.29/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.29/"></script>
+
+    <script>
+      require([
+        "esri/config",
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/rest/locator",
+        "esri/Graphic",
+        "esri/core/reactiveUtils",
+        "esri/layers/RouteLayer",
+        "esri/widgets/Search",
+        "esri/widgets/Search/LocatorSearchSource",
+        "esri/core/Collection"
+      ], (
+        esriConfig,
+        Map,
+        MapView,
+        locator,
+        Graphic,
+        reactiveUtils,
+        RouteLayer,
+        Search,
+        LocatorSearchSource,
+        Collection
+      ) => {
+        esriConfig.apiKey =
+          "AAPK062e7a74a2014006a64fa63cb03059eaR1dlWYZg2svCwpD6QR8TTpGnxbaSfEtpp-UMmus4jB31-Sf_snHx8I6UY_vsuvPt";
+
+        const routeLayer = new RouteLayer();
+
+        const map = new Map({
+          basemap: "topo-vector",
+          layers: [routeLayer],
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          center: [106.65791, 10.77221],
+          zoom: 16,
+        });
+
+        const searchSource = new LocatorSearchSource({
+          countryCode: "VN"
+        })
+
+        const sourceCol = new Collection()
+        sourceCol.add(searchSource)
+
+        searchBox = new Search({
+          view: view,
+          //sources: sourceCol
+        });
+        view.ui.add(searchBox, "top-right");
+        
+        searchBox.on('search-complete', () => {
+          document.getElementById("showSearch").innerHTML = view.searchTerm()
+          console.log("bruh")
+          console.log(view.searchTerm())
+        })
+        
+      });
+    </script>
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+    <div id="showSearch">Showing: </div>
+  </body>
+</html>

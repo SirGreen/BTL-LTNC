@@ -256,4 +256,12 @@
     font-weight: 500;
     padding: 6px 12px;
   }
+
+  #map {
+    height: 300px;
+}
+
+ #spacer{
+  height: 200px;
+ }
   
