@@ -132,7 +132,6 @@ app.get("/driverjourney", (req, res) => {
 app.get("/test", (req, res) => {
   res.render("test.ejs")
 })
-
 app.get("/test2", (req, res) => {
   res.render("test2.ejs")
 })
