@@ -16,8 +16,9 @@ const Journey = new Schema({
   Price: { type: Number },
   DateTime: { type: Date, default: Date.now() },
   StartLocation: { type: String, require: true },
-  Endlocation: { type: String, require: true },
+  EndLocation: { type: String, require: true },
   Status: { type: Number, default: 0 }, /// 0:chua di, 1: dang di, 2: xong
+  Time: {type: Number, default: 0}
 });
 
 module.exports = mongoose.model("Journey", Journey);
