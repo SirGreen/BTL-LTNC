@@ -1,164 +1,206 @@
-function initMap() {
-    const map = new google.maps.Map(document.getElementById("map"), {
-      center: {
-        lat: 10.77221,
-        lng: 106.65791
+var map;
+var routeParams;
+var routeLayer;
+var journeyData = {
+  StartLocation: "NullA",
+  EndLocation: "NullB",
+  Kilomet: 0,
+  Time: 0,
+  TransportationType: "car",
+};
+require([
+  "esri/config",
+  "esri/Map",
+  "esri/views/MapView",
+  "esri/rest/locator",
+  "esri/core/reactiveUtils",
+  "esri/widgets/Search",
+  "esri/Graphic",
+  "esri/layers/GraphicsLayer",
+  "esri/rest/route",
+  "esri/rest/support/RouteParameters",
+  "esri/rest/support/FeatureSet",
+  "esri/rest/networkService",
+], (
+  esriConfig,
+  Map,
+  MapView,
+  locator,
+  reactiveUtils,
+  Search,
+  Graphic,
+  GraphicsLayer,
+  route,
+  RouteParameters,
+  FeatureSet,
+  networkService
+) => {
+  esriConfig.apiKey =
+    "AAPK062e7a74a2014006a64fa63cb03059eaR1dlWYZg2svCwpD6QR8TTpGnxbaSfEtpp-UMmus4jB31-Sf_snHx8I6UY_vsuvPt";
+
+  // Point the URL to a valid routing service
+  const routeUrl =
+    "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World";
+  const apiKey =
+    "AAPK062e7a74a2014006a64fa63cb03059eaR1dlWYZg2svCwpD6QR8TTpGnxbaSfEtpp-UMmus4jB31-Sf_snHx8I6UY_vsuvPt";
+  // The stops and route result will be stored in this layer
+  routeLayer = new GraphicsLayer();
+
+  // Setup the route parameters
+  routeParams = new RouteParameters({
+    // An authorization string used to access the routing service
+    apiKey: apiKey,
+    stops: new FeatureSet(),
+    outSpatialReference: {
+      // autocasts as new SpatialReference()
+      wkid: 3857,
+    },
+  });
+
+  // Define the symbology used to display the stops
+  const stopSymbol = {
+    type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+    style: "cross",
+    size: 15,
+    outline: {
+      // autocasts as new SimpleLineSymbol()
+      width: 4,
+    },
+  };
+
+  // Define the symbology used to display the route
+  const routeSymbol = {
+    type: "simple-line", // autocasts as SimpleLineSymbol()
+    color: [0, 0, 255, 0.5],
+    width: 5,
+  };
+
+  map = new Map({
+    basemap: "topo-vector",
+    layers: [routeLayer],
+  });
+
+  const view = new MapView({
+    container: "viewDiv",
+    map: map,
+    center: [106.65791, 10.77221],
+    zoom: 16,
+  });
+
+  searchBoxStart = new Search({
+    view: view,
+    includeDefaultSources: false,
+    maxResults: 5,
+    maxSuggestions: 8,
+    sources: [
+      {
+        url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+        countryCode: "VNM",
+        placeholder: "Start point",
+        singleLineFieldName: "SingleLine",
+        apiKey: apiKey,
+        name: "Custom Geocoding Service",
+        localSearchOptions: {
+          minScale: 300000,
+          distance: 50000,
+        },
       },
-      zoom: 18,
-      mapTypeControl: false,
-  
-    });
-    const card = document.getElementById("pac-card");
-    const card2 = document.getElementById("pac-card2");
-    const input = document.getElementById("pac-input");
-    const input2 = document.getElementById("pac-input2");
-    const options = {
-      fields: ["formatted_address", "geometry", "name"],
-      strictBounds: false,
-    };
-  
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(card);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(card2);
-  
-    const autocomplete = new google.maps.places.Autocomplete(input, options);
-    const autocomplete2 = new google.maps.places.Autocomplete(input2, options);
-  
-    // Bind the map's bounds (viewport) property to the autocomplete object,
-    // so that the autocomplete requests use the current map bounds for the
-    // bounds option in the request.
-    autocomplete.bindTo("bounds", map);
-    autocomplete2.bindTo("bounds", map);
-  
-    const infowindow = new google.maps.InfoWindow();
-    const infowindowContent = document.getElementById("infowindow-content");
-  
-    infowindow.setContent(infowindowContent);
-  
-    const marker = new google.maps.Marker({
-      map,
-      anchorPoint: new google.maps.Point(0, -29),
-    });
-  
-    /* autocomplete.addListener("place_changed", () => {
-      infowindow.close();
-      marker.setVisible(false);
-    
-      const place = autocomplete.getPlace();
-    
-      if (!place.geometry || !place.geometry.location) {
-        // User entered the name of a Place that was not suggested and
-        // pressed the Enter key, or the Place Details request failed.
-        window.alert("No details available for input: '" + place.name + "'");
-        return;
-      }
-    
-      // If the place has a geometry, then present it on a map.
-      if (place.geometry.viewport) {
-        map.fitBounds(place.geometry.viewport);
-      } else {
-        map.setCenter(place.geometry.location);
-        map.setZoom(17);
-      }
-    
-      marker.setPosition(place.geometry.location);
-      marker.setVisible(true);
-      infowindowContent.children["place-name"].textContent = place.name;
-      infowindowContent.children["place-address"].textContent =
-        place.formatted_address;
-      infowindow.open(map, marker);
-    });
-    autocomplete2.addListener("place_changed", () => {
-      infowindow.close();
-      marker.setVisible(false);
-    
-      const place = autocomplete.getPlace();
-    
-      if (!place.geometry || !place.geometry.location) {
-        // User entered the name of a Place that was not suggested and
-        // pressed the Enter key, or the Place Details request failed.
-        window.alert("No details available for input: '" + place.name + "'");
-        return;
-      }
-    
-      // If the place has a geometry, then present it on a map.
-      if (place.geometry.viewport) {
-        map.fitBounds(place.geometry.viewport);
-      } else {
-        map.setCenter(place.geometry.location);
-        map.setZoom(17);
-      }
-    
-      marker.setPosition(place.geometry.location);
-      marker.setVisible(true);
-      infowindowContent.children["place-name"].textContent = place.name;
-      infowindowContent.children["place-address"].textContent =
-        place.formatted_address;
-      infowindow.open(map, marker);
-    }); */
-  
-    autocomplete.bindTo("bounds", map);
-    autocomplete2.bindTo("bounds", map);
-  
-    const directionsService = new google.maps.DirectionsService();
-  
-    // Create a directions renderer.
-    const directionsRenderer = new google.maps.DirectionsRenderer({
-      map: map
-    });
-  
-      async function whenPlaceChanged() {
-        const originPlace = autocomplete.getPlace();
-  
-      if (!originPlace.geometry) {
-        // User entered the name of a Place that was not suggested and
-        // pressed the Enter key, or the Place Details request failed.
-        window.alert('No address available for input: \'' + originPlace.name + '\'');
-        return;
-      }
-  
-      // Clear any previous directions.
-      directionsRenderer.setDirections({
-        routes: []
-      });
-  
-      // Get destination address from the user.
-      const destinationPlace = autocomplete2.getPlace();
-  
-      if (!destinationPlace.geometry) {
-        // User entered the name of a Place that was not suggested and
-        // pressed the Enter key, or the Place Details request failed.
-        window.alert('No address available for input: \'' + destinationPlace.name + '\'');
-        return;
-      }
-  
-      // Calculate the directions.
-      directionsService.route({
-        origin: originPlace.geometry.location,
-        destination: destinationPlace.geometry.location,
-        travelMode: 'DRIVING'
-      }, (response, status) => {
-        // Check for the status of the request.
-        if (status === 'OK') {
-          // Display the directions on the map.
-          directionsRenderer.setDirections(response);
-          const route = response.routes[0];
-          const distance = route.legs[0].distance.text;
-          const time = route.legs[0].duration.text;
-  
-          // Display the distance and time in the UI.
-          document.getElementById('distance').innerHTML = distance;
-          document.getElementById('time').innerHTML = time; 
-          
-          console.log(distance);
-          console.log(time);
-        } else {
-          window.alert('Directions request failed due to ' + status);
-        }
-      });
+    ],
+  });
+
+  searchBoxEnd = new Search({
+    view: view,
+    includeDefaultSources: false,
+    maxResults: 5,
+    maxSuggestions: 8,
+    sources: [
+      {
+        url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+        countryCode: "VNM",
+        placeholder: "End point",
+        singleLineFieldName: "SingleLine",
+        apiKey: apiKey,
+        name: "Custom Geocoding Service",
+        localSearchOptions: {
+          minScale: 300000,
+          distance: 50000,
+        },
+      },
+    ],
+  });
+
+  searchBoxStart.on("search-complete", (event) => onSearchComplete(event, 1));
+
+  searchBoxEnd.on("search-complete", (event) =>
+    onSearchComplete(event, "showSearchEnd")
+  );
+
+  function onSearchComplete(event, id) {
+    if (id == 1) {
+      journeyData.StartLocation = event.searchTerm;
+      document.getElementById("showSearchStart").innerHTML = event.searchTerm;
+    } else {
+      journeyData.EndLocation = event.searchTerm;
+      document.getElementById("showSearchEnd").innerHTML = event.searchTerm;
     }
-  
-    autocomplete2.addListener('place_changed', whenPlaceChanged);
-    autocomplete.addListener('place_changed', whenPlaceChanged);
+    console.log(event);
+    addStop(event.results[0].results[0].feature.geometry);
   }
-  
-  window.initMap = initMap;
+
+  view.ui.add(searchBoxStart, "top-right");
+  view.ui.add(searchBoxEnd, "top-right");
+
+  function addStop(geo) {
+    // Add a point at the location of the map click
+    const stop = new Graphic({
+      geometry: geo,
+      symbol: stopSymbol,
+    });
+    routeLayer.add(stop);
+
+    // Execute the route if 2 or more stops are input
+    routeParams.stops.features.push(stop);
+    if (routeParams.stops.features.length >= 2) {
+      route.solve(routeUrl, routeParams).then(showRoute);
+    }
+  }
+  // Adds the solved route to the map as a graphic
+  function showRoute(data) {
+    const routeResult = data.routeResults[0].route;
+    routeResult.symbol = routeSymbol;
+    routeLayer.add(routeResult);
+    document.getElementById("showTravelTime").innerHTML =
+      routeResult.attributes.Total_TravelTime; //in minutes
+    document.getElementById("showTravelLength").innerHTML =
+      routeResult.attributes.Total_Kilometers;
+    journeyData.Time = routeResult.attributes.Total_TravelTime;
+    journeyData.Kilomet = routeResult.attributes.Total_Kilometers;
+  }
+});
+
+//outside
+function clearAll() {
+  console.log("Clearing map");
+  routeParams.stops.features = [];
+  routeLayer.removeAll();
+}
+
+async function send() {
+  let types = document.getElementsByName("type");
+  let selectedType;
+  for (let i = 0; i < types.length; i++) {
+    if (types[i].checked) {
+      selectedType = types[i].value;
+      break;
+    }
+  }
+  journeyData.TransportationType = selectedType;
+  console.log(journeyData);
+  await fetch("admin/addJourney", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(journeyData),
+  }).then((response) => console.log(response.json()));
+}

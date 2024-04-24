@@ -21,72 +21,27 @@
       href="https://js.arcgis.com/4.29/esri/themes/light/main.css"
     />
     <script src="https://js.arcgis.com/4.29/"></script>
-
-    <script>
-      require([
-        "esri/config",
-        "esri/Map",
-        "esri/views/MapView",
-        "esri/rest/locator",
-        "esri/Graphic",
-        "esri/core/reactiveUtils",
-        "esri/layers/RouteLayer",
-        "esri/widgets/Search",
-        "esri/widgets/Search/LocatorSearchSource",
-        "esri/core/Collection"
-      ], (
-        esriConfig,
-        Map,
-        MapView,
-        locator,
-        Graphic,
-        reactiveUtils,
-        RouteLayer,
-        Search,
-        LocatorSearchSource,
-        Collection
-      ) => {
-        esriConfig.apiKey =
-          "AAPK062e7a74a2014006a64fa63cb03059eaR1dlWYZg2svCwpD6QR8TTpGnxbaSfEtpp-UMmus4jB31-Sf_snHx8I6UY_vsuvPt";
-
-        const routeLayer = new RouteLayer();
-
-        const map = new Map({
-          basemap: "topo-vector",
-          layers: [routeLayer],
-        });
-
-        const view = new MapView({
-          container: "viewDiv",
-          map: map,
-          center: [106.65791, 10.77221],
-          zoom: 16,
-        });
-
-        const searchSource = new LocatorSearchSource({
-          countryCode: "VN"
-        })
-
-        const sourceCol = new Collection()
-        sourceCol.add(searchSource)
-
-        searchBox = new Search({
-          view: view,
-          //sources: sourceCol
-        });
-        view.ui.add(searchBox, "top-right");
-        
-        searchBox.on('search-complete', () => {
-          document.getElementById("showSearch").innerHTML = view.searchTerm()
-          console.log("bruh")
-          console.log(view.searchTerm())
-        })
-        
-      });
+    <script src="js/map.js">
     </script>
   </head>
   <body>
     <div id="viewDiv"></div>
-    <div id="showSearch">Showing: </div>
+    <div>
+      Showing:
+      <div id="showSearchStart">Start Point</div>
+      <div id="showSearchEnd">Start End</div>
+      <div id="showTravelTime">Travel Time</div>
+      <div id="showTravelLength">Path Length</div>
+      <button onclick="clearAll()">Clear</button>
+      <button onclick="send()">Send</button>
+      <input type="radio" id="type1" name="type" value="car" />
+      <label for="type1">Car</label><br />
+
+      <input type="radio" id="type2" name="type" value="truck" />
+      <label for="type2">Truck</label><br />
+
+      <input type="radio" id="type3" name="type" value="coach" />
+      <label for="type3">Coach</label>
+    </div>
   </body>
 </html>
