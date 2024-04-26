@@ -18,22 +18,22 @@ async function fetchJourneys() {
 }
 
 async function showForm() {
-  // overlay.style.display = "block";
-  // var modal = document.getElementById("formContainer");
-  // modal.style.display = "block";
-  await  fetchJourneys()
-  .then(Journeys => {
-    console.log(Journeys)
-  })
-  .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
+  overlay.style.display = "block";
+  var modal = document.getElementById("formContainer");
+  modal.style.display = "block";
+  // await  fetchJourneys()
+  // .then(Journeys => {
+  //   console.log(Journeys)
+  // })
+  // .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
 
 
-  await  fetchDrivers()
-  .then(drivers => {
-    for (let driver of drivers)
-      console.log(driver)
-  })
-  .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
+  // await  fetchDrivers()
+  // .then(drivers => {
+  //   for (let driver of drivers)
+  //     console.log(driver)
+  // })
+  // .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
 }
 function hideForm(event) {
   event.preventDefault(); // Prevent default behavior
