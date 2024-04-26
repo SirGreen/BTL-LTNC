@@ -4,6 +4,7 @@ const car = require("../models/Car");
 const truck = require("../models/Truck");
 const coach = require("../models/Coach");
 const admin = require("../controllers/AdminController");
+const Admin = require("../models/Admin");
 const { json } = require("express");
 
 class DriverController {
@@ -77,18 +78,27 @@ class DriverController {
       }
       //res.json(t);
       if (j.Status == 1) {
-        await d.JourneyList.push(j);
+        d.JourneyList.push(j);
         d.JourneyIncharge = null;
         j.Status = 2;
         t.VehicleStatus = "NotActive";
         t.Journey = null;
         await admin.FindJourneyForDriver(d);
-        // var warranty = await admin.CheckForWarranty(t);
-        // if (warranty == 1) {
-        await admin.FindJourneyForTransportation(t, j.TransportationType);
-        // } else {
-        //   console.log("Transportation go warranty");
-        // }
+
+        var warranty = await admin.CheckForWarranty(t);
+        if (warranty == 1) {
+          await admin.FindJourneyForTransportation(t, j.TransportationType);
+        } else {
+          console.log("Transportation go warranty");
+        }
+        var adm = null;
+        adm = await Admin.findOne({Account: "admin"});
+        if(adm!=null) {
+          adm.Income+=j.Price;
+        }
+        else console.log("Cannot find admin");
+        await adm.save();
+        console.log("RUNNING");
         await j.save();
         await d.save();
         await t.save();
