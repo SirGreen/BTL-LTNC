@@ -121,9 +121,12 @@ app.get("/adminjourney", (req, res) => {
   res.render("adminjourney.ejs", { information });
 });
 
-app.get("/car_admin", (req, res) => {
-  
-  res.render("car_admin.ejs");
+app.get("/car_admin", (req, res) => { 
+  let information =""
+  if (req.query.info) {
+    information = JSON.parse(req.query.info);
+  } 
+  res.render("car_admin.ejs", {information});
 });
 
 app.get("/truck_admin", (req, res) => {
