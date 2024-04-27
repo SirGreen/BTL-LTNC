@@ -76,18 +76,22 @@ class AdminController {
       const data = req.body;
       data.Warranty = warranty;
       //req.body.TransportationType = "truck"
-      switch (req.body.TransportationType) {
+      let redirTo = "/car_admin"
+      const { transportationType } = req.params;
+      switch (transportationType) {
         case "truck":
           // code block
           const truck = new Truck(data);
           await admin.FindJourneyForTransportation(truck, "truck");
           await truck.save();
+          redirTo = "/truck_admin"
           break;
         case "coach":
           // code block
           const coach = new Coach(data);
           await admin.FindJourneyForTransportation(coach, "coach");
           await coach.save();
+          redirTo = "/coach_admin"
           break;
         default:
           const car = new Car(data);
@@ -95,7 +99,7 @@ class AdminController {
           await car.save();
         // code block
       }
-      res.send("AddVehicle");
+      res.redirect(redirTo);
     } catch (error) {
       res.send("ERROR");
     }
