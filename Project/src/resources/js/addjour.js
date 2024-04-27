@@ -1,12 +1,5 @@
-async function fetchDrivers() {
-  const response = await fetch("driver/all");
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const drivers = await response.json();
-  return drivers;
-}
-
+var journeyInfo;
+var journey_list=[];
 
 async function fetchJourneys() {
   const response = await fetch("journey/all");
@@ -53,17 +46,50 @@ async function fetchJourneys() {
 
 //         });});
 // }
-function loadDriver(){
-    fetch('http://localhost:3000/admin/addDriver', {
-        method: 'POST',
-        body: JSON.stringify(driverInfo),
-        headers: {
-            "Content-type": "application/json"
-        }
-    })
-        .then(res=>res.json())
-        .then(data => console.log(data))
+function addEventListenerToButtons(journey_info, journeyInfo) {
+  // Lấy các nút từ newDiv
+  var closeButton = journey_info.querySelector(".close-info");
+  
+  
+  // Thêm sự kiện vào nút closeButton
+  closeButton.addEventListener("click", function(event) {
+      event.preventDefault();
+      deleteJourney(journeyInfo);
+  });
 }
+async function loadjourney(){
+  await  fetchJourneys()
+      .then(journeys => {
+        for (let journey of journeys)
+        {
+            journeyInfo = {
+              _id: journey._id,
+              Transportation: journey.Transportation,
+              TransportationType: journey.TransportationType,
+              Driver: journey.Driver,
+              Kilomet: journey.Kilomet,
+              Price: journey.Price,
+              DateTime: journey.DateTime,
+              StartLocation: journey.StartLocation,
+              EndLocation: journey.EndLocation,
+              Status: journey.Status,
+              Time: journey.Time,
+            };
+         const journey_info = createJourneyElement(journeyInfo);
+        
+         document.getElementById("List-container").appendChild(journey_info);
+
+        
+        journey_list.push(journey_info);
+        addEventListenerToButtons(journey_info,journeyInfo);
+        }
+       // console.log(driverElements);
+
+      
+      })
+      .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
+    }
+    
 //var overlay= document.getElementById("overlay");
 function showForm() {
    overlay.style.display="block";
@@ -98,38 +124,31 @@ function showForm() {
     }
   });
   let isEdit= false, editID
-  
-function NewTrip(event) {
-  event.preventDefault();
-  // Get the values from the form fields
-  /*var nameInput = document.getElementById("Driver").value;
-    var vehircleInput = document.getElementById("Vehicle").value;
-    var numInput = document.getElementById("Num").value;
-    var serviceInput = document.getElementById("Service").value;*/
-  var pickupInput = document.getElementById("pickUpAddress").value;
-  var destinationsInput = document.getElementById("Destinations").value;
-  var RDistance = document.getElementById("distance").value;
-  var estitime = document.getElementById("EstTime").value;
-  /*
-    if (!nameInput.trim() || !vehircleInput.trim() || !numInput.trim() || !serviceInput.trim() || !pickupInput.trim() || !destinationsInput.trim()) {
-        alert("All fields are required. Please fill out all fields.");
-        return; // Exit the function
-    }*/
-
-  // Create a new list item
+  function deleteJourney(journeyInfo){
+    console.log(journeyInfo._id);
+    fetch('admin/deleteJourney/' + journeyInfo._id, {
+      method: 'DELETE',
+    })
+    .then(res => res.text())
+    .then(res => console.log(res))
+  }
+function createJourneyElement(journeyInfo){
   var li = document.createElement("li");
   // Add the form data to the list item
   li.innerHTML =
     " <strong>Pick-up:</strong> " +
-    pickupInput +
+    journeyInfo.StartLocation +
     "<br>" +
     " <strong>Destinations:</strong> " +
-    destinationsInput;
+    journeyInfo.EndLocation + "<br>" +
   " <strong>Distance:</strong> " +
-    RDistance +
+    journeyInfo.Kilomet +
     "<br>" +
     " <strong>EstTime:</strong> " +
-    estitime;
+    journeyInfo.Time +
+    "<br>" +
+    " <strong>Price:</strong> " +
+    journeyInfo.Price;
   /*
     li.innerHTML = "<strong>Driver:</strong> " + nameInput + "<br>" +
                    " <strong>Vehicle:</strong> " + vehircleInput + "<br>" +
@@ -142,9 +161,54 @@ function NewTrip(event) {
   // li.classList.add("infoBox");
   document.getElementById("List-container").appendChild(li);
   let closespan = document.createElement("span");
-  // closespan.classList.add("close-info")
+  closespan.classList.add("close-info");
   closespan.innerHTML = "x";
   li.appendChild(closespan);
+  return li;
+}
+function NewTrip(event) {
+  event.preventDefault();
+  // Get the values from the form fields
+  /*var nameInput = document.getElementById("Driver").value;
+    var vehircleInput = document.getElementById("Vehicle").value;
+    var numInput = document.getElementById("Num").value;
+    how">Start Point</div>
+      <div id="showSearchEnd">Start End</div>
+      <div id="showTravelTime">Travel Time</div>
+      <div id="showTravelLength
+    var serviceInput = document.getElementById("Service").value;*/
+  var pickupInput = document.getElementById("showSearchStart").value;
+  var destinationsInput = document.getElementById("showSearchEnd").value;
+  var RDistance = document.getElementById("distance").value;
+  var estitime = document.getElementById("EstTime").value;
+  const options = document.querySelectorAll('input[name="type"]');
+    
+      let selectedValue = null;
+      for (const option of options) {
+          if (option.checked) {
+              selectedValue = option.value;
+              break; 
+          }
+      }
+  /*
+    if (!nameInput.trim() || !vehircleInput.trim() || !numInput.trim() || !serviceInput.trim() || !pickupInput.trim() || !destinationsInput.trim()) {
+        alert("All fields are required. Please fill out all fields.");
+        return; // Exit the function
+    }*/
+
+  // Create a new list item
+  journeyInfo = {
+    TransportationType: options,
+    Driver: journey.Driver,
+    Kilomet: RDistance,
+    Price: RDistance*5000,
+    
+    StartLocation: pickupInput,
+    EndLocation: destinationsInput,
+    
+    Time: estitime,
+  };
+  
   /*closespan.addEventListener("click", function() {
         li.remove();
     });*/
@@ -163,6 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       } else if (e.target.tagName === "SPAN") {
         e.target.parentElement.remove();
+        
       }
     });
   } else {
@@ -183,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   } else {
-    console.error("List-container element not found");
+    console.error("CList-container element not found");
   }
 });
 
