@@ -71,7 +71,7 @@ app.get("/signin_driver", (req, res) => {
 app.post("/sendform_driver", async (req, res) => {
   let driver = await driverController.GetDriver(req.body.Account);
   if (driver.length == 0)
-    res.render("signin_driver.ejs", {
+    return res.render("signin_driver.ejs", {
       messages: { error: "No Account found" },
     });
   driver = driver.at(0);
@@ -127,6 +127,14 @@ app.get("/car_admin", (req, res) => {
     information = JSON.parse(req.query.info);
   } 
   res.render("car_admin.ejs", {information});
+});
+
+app.get("/car1_admin", (req, res) => { 
+  let information =""
+  if (req.query.info) {
+    information = JSON.parse(req.query.info);
+  } 
+  res.render("car1_admin.ejs", {information});
 });
 
 app.get("/truck_admin", (req, res) => {
