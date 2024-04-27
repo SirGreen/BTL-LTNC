@@ -77,7 +77,26 @@
     background: #c0d8c1;
 }
 /*add Driver*/
-
+.editbutton{
+  position: absolute;
+  bottom: 0%;
+  right: 0%;
+  height: 40px;
+  width: 40px;
+  background-image: url('../images/edit.png');
+  background-position: center;
+  background-size: cover;
+}
+.viewbutton{
+  position: absolute;
+  bottom: 40%;
+  right: 0%;
+  height: 40px;
+  width: 40px;
+  background-image: url('../images/view.png');
+  background-position: center;
+  background-size: cover;
+}
 .close-button{
     position:absolute;
     right:0 ;
