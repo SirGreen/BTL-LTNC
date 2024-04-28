@@ -9,14 +9,29 @@ const Truck = require("../models/Truck");
 const WarrantyService = require("../models/WarrantyService");
 const ObjectId = require("mongodb").ObjectId;
 
+function threeMonthFromNow() {
+  let d = new Date();
+  d.setMonth(d.getMonth() + 3);
+  return d;
+}
+
 function CalPrice(kilo) {
-  return kilo * 5000;
+  return kilo * 12500;
 }
 
 class AdminController {
   index(req, res) {
     //res.render('admin')
     res.send("ADMIN PAGE");
+  }
+
+  // [GET] /checkIncome
+  async CheckIncome(req, res)
+  {
+    var adm = await Admin.findOne({Account: "admin"});
+    var income = adm.Income;
+    console.log(income);
+    res.send(`Income ${income}`); 
   }
 
   async FindJourneyForDriver(driver) {
@@ -178,6 +193,9 @@ class AdminController {
       transportation != null &&
       transportation.VehicleStatus == "UnderMaintainance"
     ) {
+      var warranty = await WarrantyService.findOne({_id: transportation.Warranty._id});
+      warranty.IsWarranty = true;
+      await warranty.save();
       transportation.VehicleStatus = "Active";
       await transportation.save();
       return transportation;
@@ -328,29 +346,41 @@ class AdminController {
       res.status(500).json({ err: "ERROR" });
     }
   }
-  //////////////////////////////////s////////
+  /////////////////////Warranty/////////////////////
   async CheckForWarranty(transportation) {
-    var date1 = transportation.Warranty.WarrantyTime.getTime();
-    var date2 = Date.now();
-    if (date1 > date2) {
-      transportation.VehicleStatus = "UnderMaintainance";
-      await transportation.save();
-      return 0; //maintain
+    try{
+      var warranty = await WarrantyService.findOne({_id: transportation.Warranty._id});
+      var date1 = warranty.WarrantyTime.getTime();
+      var date2 = Date.now();
+      console.log(date1);
+      console.log(date2);
+      if (date1 <= date2) {
+        transportation.VehicleStatus = "UnderMaintainance";
+        await transportation.save();
+        warranty.IsWarranty = false;
+        warranty.WarrantyHis.push(warranty.WarrantyTime);
+        warranty.WarrantyTime = threeMonthFromNow();
+        await warranty.save();
+        return 0; //maintain
+      }
+      return 1; //normal
     }
-    return 1; //normal
+    catch(error)
+    {
+      console.log(error);
+    }
   }
-  UpdateVehicleInfo() {}
 
   async GetAdmin(Acc) {
-    return Admin.find({ Account: Acc }).then((admin) => admin);
+    return await Admin.find({ Account: Acc }).then((admin) => admin);
   }
 
   async AddAdmin(req, res) {
     const { Account, Password } = req.body;
     try {
       const hashedPassword = await bcrypt.hash(Password, 10);
-      const admin = new Admin({ Account: Account, Password: hashedPassword });
-      admin.save();
+      const adm = new Admin({ Account: Account, Password: hashedPassword });
+      adm.save();
       res.send(`Added ${Account}`);
     } catch {}
   }

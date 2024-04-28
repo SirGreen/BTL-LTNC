@@ -7,14 +7,17 @@ router.use("/addTransportation/:transportationType", adminController.AddNewTrans
 router.use("/addDriver", adminController.AddNewDriver);
 router.use("/addJourney", adminController.AddJourney);
 router.use("/addAdmin", adminController.AddAdmin);
+
 router.use("/update/driver/:id", adminController.UpdateDriver);
 router.use("/update/car/:id", adminController.UpdateCar);
 router.use("/update/truck/:id", adminController.UpdateTruck);
 router.use("/update/coach/:id", adminController.UpdateCoach);
-router.use("/addAdmin",adminController.AddAdmin);
+
 router.use("/deleteTransportation/:type/:id", adminController.DeleteTransportation);
 router.use("/deleteDriver/:id", adminController.DeleteDriver);
 router.use("/deleteJourney/:id", adminController.DeleteJourney);
+
+router.use("/checkIncome", adminController.CheckIncome);
 router.use("/", adminController.index);
 
 module.exports = router;
