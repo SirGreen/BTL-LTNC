@@ -181,13 +181,15 @@ require([
 });
 
 //outside
-function clearAll() {
+function clearAll(event) {
+  event.preventDefault();
   console.log("Clearing map");
   routeParams.stops.features = [];
   routeLayer.removeAll();
 }
 
-async function send() {
+async function send(event) {
+  event.preventDefault();
   let types = document.getElementsByName("type");
   let selectedType;
   for (let i = 0; i < types.length; i++) {

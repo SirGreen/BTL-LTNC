@@ -1,6 +1,14 @@
 var journeyInfo;
 var journey_list=[];
 
+document.addEventListener("DOMContentLoaded", async function() {
+  try {
+      // Gọi hàm loadDriver để tự động tải danh sách tài xế khi trang được truy cập
+      await loadjourney();
+  } catch (error) {
+      console.error('Error loading journeys:', error);
+  }
+});
 async function fetchJourneys() {
   const response = await fetch("journey/all");
   if (!response.ok) {

@@ -65,11 +65,17 @@
           </div>
       </nav>
   </header>
-  <iframe src="map.html" width="100%" height="800px" frameborder="0"></iframe>
-    </div>
+  <section>
+    <iframe src="map.html" width="100%" height="900px" style="overflow: hidden; border: none;"></iframe>
+
+  
+   
     <% if (information) { %>
       <%=information%>
+      window.location.reload();
     <%}%>
+    
+    </section>
     <main>
       <!--  -->
       <section id="driver_journey">
@@ -84,11 +90,11 @@
 
                   <h1 class="text-center">Current Trip</h1>
 
-                  <button onclick="showForm()" id="modalForm">+</button>
+                  <!-- <button onclick="showForm()" id="modalForm">+</button>
                   <div class="overlay" id="overlay"></div>
                   <div id="formContainer" class="modal">
-                    <!-- Modal content -->
-                    <div class="modal-content">
+                      Modal content -->
+                    <!-- <div class="modal-content">
                       <span class="close" onclick="hideForm(event)"
                         >&times;</span
                       >
@@ -98,21 +104,21 @@
                         method="post"
                         novalidate=""
                         id="myForm"
-                      >
+                      > -->
                         <!-- Các trường form ở đây -->
-                        <h2>Create Trip Form</h2>
+                        <!-- <h2>Create Trip Form</h2>
 
-                        <!--chỉnh ở đây nè-->
+                       
                         <input
                           id="searchInput"
                           class="controls"
                           type="text"
                           placeholder="Enter a location"
                         />
-                        <div id="map">This is map</div>
+                        <div id="map">This is map</div> -->
 
                         <!-- Display geolocation data -->
-                        <ul class="geo-data">
+                        <!-- <ul class="geo-data">
                           <li>Full Address: <span id="location"></span></li>
                           <li>Postal Code: <span id="postal_code"></span></li>
                           <li>Country: <span id="country"></span></li>
@@ -124,9 +130,9 @@
                         <div id="infowindow-content">
                           <span id="place-name" class="title"></span><br />
                           <span id="place-address"></span>
-                        </div>
+                        </div> -->
                         <!------>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                           <label class="w-100">
                             Distance
                             <div class="form-control" id="distance"></div>
@@ -151,7 +157,7 @@
                         >
                       </form>
                     </div>
-                  </div>
+                  </div> --> 
                   <div class="addTrip">
                     <ul id="List-container"></ul>
                   </div>
