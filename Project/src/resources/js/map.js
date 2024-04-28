@@ -203,4 +203,7 @@ async function send() {
     },
     body: JSON.stringify(journeyData),
   }).then((response) => console.log(response.json()));
+  let information = "Added successfully!";
+  information = JSON.stringify(information);
+  window.location.href = `/adminjourney?info=${information}`;
 }

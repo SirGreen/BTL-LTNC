@@ -60,20 +60,37 @@
     </header>
     <main>
         <!-- HOME -->
-        <section id="home">
-            <div class="home container-fluid text-center">
-                <p>
-                <h1>CAR </h1>
-                <h2> MANAGEMENT</h2>
-
-                <p>
-
-                    <a href="#contact">
-                        <img src="images/arrow_bottom.png" alt="Jump to portfolio">
-                    </a>
-            </div>
-        </section>
         <!-- PORTFOLIO -->
+        <section>
+          <script>
+            function onSubmit() {
+              document.getElementById("AddDriverForm").reset()
+            }
+          </script>
+          <section id="AddDriverForm" class="portfolio container-fluid text-center" onsubmit="onSubmit()">
+            <h2>Add Driver</h2>
+            <% if (information) { %>
+              <%=information%>
+            <%}%>
+            <form action="/admin/addDriver" method="post">
+              Name: <input type="text" placeholder="Tran" name="Name"> <br>
+            Phone Number: <input type="text" placeholder="113" name="PhoneNumber"> <br>
+            Driving Experience: 
+            <input type="radio" id="option1" name="option" value="1">
+            <label for="option1">1</label>
+            
+            <input type="radio" id="option2" name="option" value="2">
+            <label for="option2">2</label>
+            
+            <input type="radio" id="option3" name="option" value="3">
+            <label for="option3">3</label><br>
+            Liscence Number: <input type="text" placeholder="000000" name="LiscenceNumber"> <br>
+            Account: <input type="text" placeholder="driver" name="Account"> <br>
+            Password: <input type="text" placeholder="123" name="Password"> <br>
+            <input type="submit" value="Submit">
+            </form>
+          </div>
+        </section>
         <section id="portfolio">
             <div class="portfolio container-fluid text-center">
                 <h2>Driver list</h2>
@@ -92,84 +109,49 @@
               <!-- Modal content -->
           <div class="modal-content">
             <span class="close" onclick="hideForm(event)">&times;</span>
-            <form
-              class="m-auto text-left"
-              style="max-width: 500px"
-              method="post"
-              novalidate=""
-            >
-              <!-- Các trường form ở đây -->
-              <h2>Info</h2>
-              <div class="form-group">
-                <label class="w-100"
-                  >Driver's Name:
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="Driver"
-                    name="Driver"
-                    placeholder="Driver's Name"
-                /></label>
-              </div>
-              <div class="form-group">
-                <label class="w-100"
-                  >Driver's Number:
-                  <input
-                    class="form-control"
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    placeholder="Phone number:"
-                /></label>
-              </div>
+                    <form class="m-auto text-left" style="max-width: 500px" method="post" novalidate="">
+                        <!-- Các trường form ở đây -->
+                        <h2>Info</h2>
+                        <div class="form-group">
+                            <label class="w-100">Driver's Name:
+                                <input class="form-control" type="text" id="Driver" name="Driver"
+                                    placeholder="Tran"></label>
+                        </div>
 
-              <div class="form-group">
-                <label class="w-100"
-                  >Account:
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="newDriverAccount"
-                    name="newDriverAccount"
-                    placeholder="Account:"
-                /></label>
-              </div>
+                        <div class="form-group">
+                            <label class="w-100">Driver's Number:
+                                <input class="form-control" type="tel" id="phone" name="phone"
+                                    placeholder="113"></label>
+                        </div>
+                        <div class="form-group">
+                          <label class="w-100">Driving Experience: 
+                        <input type="radio" id="option1" name="option" value="1">
+                        <label for="option1">1</label>
+                        
+                        <input type="radio" id="option2" name="option" value="2">
+                        <label for="option2">2</label>
+                        
+                        <input type="radio" id="option3" name="option" value="3">
+                        <label for="option3">3</label><br>
+                        </label>
+                      </div>
+                      <div class="form-group">
+                        <label class="w-100">Liscence Number:
+                            <input class="form-control"  type="text" placeholder="000000" id="license" name="LiscenceNumber"></label>
+                      </div>
+                       
 
-              <div class="form-group">
-                <label class="w-100"
-                  >Password:
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="password"
-                    name="newDriverpass"
-                    placeholder="Password:"
-                /></label>
-              </div>
+                        <div class="form-group">
+                            <label class="w-100">Account:
+                                <input class="form-control" type="text" id="newDriverAccount" name="newDriverAccount"
+                                    placeholder="driver"></label>
+                        </div>
 
-              <fieldset>
-                <legend>Driver's licenses:</legend>
-
-                <div>
-                  <input type="checkbox" id="b2" name="B2" checked />
-                  <label for="B2">B2</label>
-                </div>
-
-                <div>
-                  <input type="checkbox" id="c" name="C" checked />
-                  <label for="C">C</label>
-                </div>
-
-                <div>
-                  <input type="checkbox" id="d" name="D" checked />
-                  <label for="D">D</label>
-                </div>
-
-                <div>
-                  <input type="checkbox" id="e" name="E" checked />
-                  <label for="E">E</label>
-                </div>
-              </fieldset>
+                        <div class="form-group">
+                            <label class="w-100">Password:
+                                <input class="form-control" type="text" id="password" name="newDriverpass"
+                                    placeholder="123"></label>
+                        </div>
               <br>
               <input type="file" id="picture" name="picture" accept="image/*" />
               <br>
@@ -194,32 +176,50 @@
                       <div class="form-group">
                           <label class="w-100">Driver's Name:
                               <input class="form-control" type="text" id="showDriver" name="Driver"
-                               placeholder="Driver's Name" disabled></label>
+                               placeholder="Tran" disabled></label>
                           </div>
                       
                       <div class="form-group">
                           <label class="w-100">Driver's Number:
                               <input class="form-control" type="tel" id="showphone" name="phone"
-                                  placeholder="Phone number:" disabled></label>
+                                  placeholder="113" disabled></label>
                       </div>
+                      <div class="form-group">
+                        <label class="w-100">Driving Experience: 
+                      <input type="radio" id="option1" name="showoption" value="1" disabled>
+                      <label for="option1">1</label>
+                      
+                      <input type="radio" id="option2" name="showoption" value="2" disabled>
+                      <label for="option2">2</label>
+                      
+                      <input type="radio" id="option3" name="showoption" value="3" disabled>
+                      <label for="option3">3</label><br>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="w-100">Liscence Number:
+                          <input class="form-control"  type="text" placeholder="000000" id="showlicense" name="LiscenceNumber" disabled></label>
+                    </div>
                       
                       <div class="form-group">
                           <label class="w-100">Account:
                               <input class="form-control" type="text" id="shownewDriverAccount" 
-                                  name="newDriverAccount" placeholder="Account:" disabled></label>
+                                  name="newDriverAccount" placeholder="driver" disabled></label>
                       </div>
                       
                       <div class="form-group">
                           <label class="w-100">Password:
-                      <input class="form-control" type="text" id="showpassword" name="newDriverpass" placeholder="Password:" disabled></label>
+                      <input class="form-control" type="text" id="showpassword" name="newDriverpass" placeholder="111" disabled></label>
                       </div>
+
+                    
 <!--                       
                       <div class="form-group">
                         <label class="w-100">Password:
                       <input class="form-control" type="text" id="showpassword" name="newDriverpass" placeholder="Password:" disabled></label>
                     </div> -->
 
-                      <fieldset disabled>
+                      <!-- <fieldset disabled>
                           <legend>Driver's licenses:</legend>
 
                           <div>
@@ -241,7 +241,7 @@
                               <input type="checkbox" id="e" name="E" checked />
                               <label for="E">E</label>
                           </div>
-                      </fieldset>
+                      </fieldset> -->
                       <br>
                       <input type="file" id="showpicture" name="picture" accept="image/*" disabled>
                       <br>
