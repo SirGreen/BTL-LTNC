@@ -9,53 +9,43 @@ async function fetchJourneys() {
   const drivers = await response.json();
   return drivers;
 }
-//let getData= localStorage.getItem('userProfile')? JSON.parse(localStorage.getItem('userProfile')):[]
 
-// async function showForm() {
-//   // overlay.style.display = "block";
-//   // var modal = document.getElementById("formContainer");
-//   // modal.style.display = "block";
-//   await  fetchJourneys()
-//   .then(Journeys => {
-//     console.log(Journeys)
-//   })
-//   .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
-
-
-//   await  fetchDrivers()
-//   .then(drivers => {
-//     for (let driver of drivers)
-//       console.log(driver)
-//   })
-//   .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
-// }
-// function hideForm(event) {
-//   event.preventDefault(); // Prevent default behavior
-//   var modal = document.getElementById("formContainer");
-//   modal.style.display = "none";
-//   overlay.style.display = "none";
-// }
-// function fetchDriver(){
-//     fetch('http://localhost:3000/driver/all')
-//         .then(res=>res.json())
-//         .then(data =>{
-//             data.forEach(user =>{
-//             const info= {
-
-//             }
-
-//         });});
-// }
 function addEventListenerToButtons(journey_info, journeyInfo) {
   // Lấy các nút từ newDiv
+
   var closeButton = journey_info.querySelector(".close-info");
   
   
   // Thêm sự kiện vào nút closeButton
   closeButton.addEventListener("click", function(event) {
       event.preventDefault();
-      deleteJourney(journeyInfo);
+      if(journeyInfo.Status=== 2){
+        journey_info.remove();
+      deleteJourney(journeyInfo); 
+      
+      }else{
+        alert("can't delete!");
+      }
+
   });
+  journey_info.addEventListener("click", function(event) {
+    // Kiểm tra xem sự kiện xảy ra trên phần tử span close-info hay không
+    if (event.target !== closeButton) {
+      // Nếu không phải sự kiện xảy ra trên closeButton, thực hiện hành động check()
+      if(journeyInfo.Status=== 2){
+        journey_info.classList.toggle("checked");
+
+        if (journey_info.classList.contains("checked")) {
+          completedTrip(journey_info);
+        
+        }
+      } else {
+        alert("can't complete");
+        
+      }
+    }
+    });
+  
 }
 async function loadjourney(){
   await  fetchJourneys()
@@ -190,13 +180,7 @@ function NewTrip(event) {
               break; 
           }
       }
-  /*
-    if (!nameInput.trim() || !vehircleInput.trim() || !numInput.trim() || !serviceInput.trim() || !pickupInput.trim() || !destinationsInput.trim()) {
-        alert("All fields are required. Please fill out all fields.");
-        return; // Exit the function
-    }*/
-
-  // Create a new list item
+  
   journeyInfo = {
     TransportationType: options,
     Driver: journey.Driver,
@@ -216,24 +200,26 @@ function NewTrip(event) {
   document.getElementById("myForm").reset();
   hideForm(event);
 }
-document.addEventListener("DOMContentLoaded", function () {
-  const lisCon = document.getElementById("List-container");
-  if (lisCon) {
-    lisCon.addEventListener("click", function (e) {
-      if (e.target.tagName === "LI") {
-        e.target.classList.toggle("checked");
-        if (e.target.classList.contains("checked")) {
-          completedTrip(e.target);
-        }
-      } else if (e.target.tagName === "SPAN") {
-        e.target.parentElement.remove();
+// document.addEventListener("DOMContentLoaded", function () {
+//   const lisCon = document.getElementById("List-container");
+//   if (lisCon) {
+//     lisCon.addEventListener("click", function (e) {
+//       if (e.target.tagName === "LI") {
+
+//         e.target.classList.toggle("checked");
+
+//         if (e.target.classList.contains("checked")) {
+//           completedTrip(e.target);
+//         }
+//       } else if (e.target.tagName === "SPAN") {
+//         e.target.parentElement.remove();
         
-      }
-    });
-  } else {
-    console.error("List-container element not found");
-  }
-});
+//       }
+//     });
+//   } else {
+//     console.error("List-container element not found");
+//   }
+// });
 
 function completedTrip(li) {
   // Do something with the completed <li> element
