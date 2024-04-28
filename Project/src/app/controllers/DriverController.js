@@ -58,6 +58,10 @@ class DriverController {
         res.send("invalid journey");
         return;
       }
+      if (j.Transportation==null)
+      {
+        return res.send("no transportation assigned")
+      }
       switch (j.TransportationType) {
         case "truck":
           // Truck
