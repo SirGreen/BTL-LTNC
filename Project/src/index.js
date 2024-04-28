@@ -99,8 +99,9 @@ app.get("/account_driver", (req, res) => {
   res.render("account_driver.ejs", {
     Name: storedUser.Name,
     Phone: storedUser.PhoneNumber,
-    Address: storedUser.Address,
+    DrivingExperience: storedUser.DrivingExperience,
     Account: storedUser.Account,
+    LiscenceNumber: storedUser.LiscenceNumber
   });
 });
 
