@@ -71,7 +71,7 @@ app.get("/signin_driver", (req, res) => {
 app.post("/sendform_driver", async (req, res) => {
   let driver = await driverController.GetDriver(req.body.Account);
   if (driver.length == 0)
-    res.render("signin_driver.ejs", {
+    return res.render("signin_driver.ejs", {
       messages: { error: "No Account found" },
     });
   driver = driver.at(0);
@@ -107,35 +107,55 @@ app.get("/account_driver", (req, res) => {
 
 //Render trang động
 app.get("/driver_admin", (req, res) => {
-  res.render("driver_admin.ejs")
-})
+  let information =""
+  if (req.query.info) {
+    information = JSON.parse(req.query.info);
+  }
+  res.render("driver_admin.ejs", { information });
+});
 
 app.get("/adminjourney", (req, res) => {
-  res.render("adminjourney.ejs")
-})
+  let information =""
+  if (req.query.info) {
+    information = JSON.parse(req.query.info);
+  }
+  res.render("adminjourney.ejs", { information });
+});
 
-app.get("/car_admin", (req, res) => {
-  res.render("car_admin.ejs")
-})
+app.get("/car_admin", (req, res) => { 
+  let information =""
+  if (req.query.info) {
+    information = JSON.parse(req.query.info);
+  } 
+  res.render("car_admin.ejs", {information});
+});
+
+app.get("/car1_admin", (req, res) => { 
+  let information =""
+  if (req.query.info) {
+    information = JSON.parse(req.query.info);
+  } 
+  res.render("car1_admin.ejs", {information});
+});
 
 app.get("/truck_admin", (req, res) => {
-  res.render("truck_admin.ejs")
-})
+  res.render("truck_admin.ejs");
+});
 
 app.get("/coach_admin", (req, res) => {
-  res.render("coach_admin.ejs")
-})
+  res.render("coach_admin.ejs");
+});
 
 app.get("/driverjourney", (req, res) => {
-  res.render("driverjourney.ejs")
-})
+  res.render("driverjourney.ejs");
+});
 
 app.get("/test", (req, res) => {
-  res.render("test.ejs")
-})
+  res.render("test.ejs");
+});
 app.get("/test2", (req, res) => {
-  res.render("test2.ejs")
-})
+  res.render("test2.ejs");
+});
 //Route init
 route(app);
 

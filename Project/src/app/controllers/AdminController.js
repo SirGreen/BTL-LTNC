@@ -51,7 +51,7 @@ class AdminController {
       Status: 0,
     });
     if (journey == null) {
-      console.log("Cannot find suitable Journey")
+      console.log("Cannot find suitable Journey");
       return;
     }
     journey.Driver = driver;
@@ -84,26 +84,29 @@ class AdminController {
 
   //[POST] /addTransportation
   async AddNewTransportation(req, res, next) {
-    try{
-
+    try {
       //Factory Pattern
       const warranty = new WarrantyService();
       await warranty.save();
       const data = req.body;
       data.Warranty = warranty;
       //req.body.TransportationType = "truck"
-      switch (req.body.TransportationType) {
+      let redirTo = "/car_admin"
+      const { transportationType } = req.params;
+      switch (transportationType) {
         case "truck":
           // code block
           const truck = new Truck(data);
           await admin.FindJourneyForTransportation(truck, "truck");
           await truck.save();
+          redirTo = "/truck_admin"
           break;
         case "coach":
           // code block
           const coach = new Coach(data);
           await admin.FindJourneyForTransportation(coach, "coach");
           await coach.save();
+          redirTo = "/coach_admin"
           break;
         default:
           const car = new Car(data);
@@ -111,16 +114,15 @@ class AdminController {
           await car.save();
         // code block
       }
-      res.send("AddVehicle");
-    }
-    catch(error){
+      res.redirect(redirTo);
+    } catch (error) {
       res.send("ERROR");
     }
   }
 
   //[POST] /addDriver
   async AddNewDriver(req, res, next) {
-    try{
+    try {
       const { Name, PhoneNumber, Account, Password } = req.body;
       const hashedPassword = await bcrypt.hash(Password, 10);
       const driver = new Driver({
@@ -131,16 +133,16 @@ class AdminController {
       });
       await admin.FindJourneyForDriver(driver);
       await driver.save();
-      res.send("AddDriver");
+    } catch (error) {
+      return res.send("ERROR");
     }
-    catch(error)
-    {
-      res.send("ERROR");
-    }
+    let information = "Added successfully!";
+    information = JSON.stringify(information)
+    res.redirect(`/driver_admin?info=${information}`);
   }
 
   async FindDriver(journey) {
-    try{
+    try {
       if (journey.Driver != null) return;
       var driver = null;
       var level = 1; //Car
@@ -163,10 +165,10 @@ class AdminController {
       driver.JourneyIncharge = journey;
       await driver.save();
       journey.Driver = driver;
-      if(journey.Driver!=null && journey.Transportation!=null) journey.Status = 1;
+      if (journey.Driver != null && journey.Transportation != null)
+        journey.Status = 1;
       await journey.save();
-    }
-    catch(error){
+    } catch (error) {
       res.send("Error!!!");
     }
   }
@@ -241,25 +243,25 @@ class AdminController {
     transportation.Journey = journey;
     await transportation.save();
     journey.Transportation = transportation;
-    if(journey.Driver!=null && journey.Transportation!=null) journey.Status = 1;
+    if (journey.Driver != null && journey.Transportation != null)
+      journey.Status = 1;
     await journey.save();
   }
 
   //[POST] /addJourney
   async AddJourney(req, res, next) {
-    try{
+    try {
       const data = req.body;
       data.Price = CalPrice(data.Kilomet);
       const journey = new Journey(data);
-      
+
       await admin.FindDriver(journey);
       await admin.FindTransportation(journey);
-      if(journey.Driver!=null && journey.Transportation!=null) journey.Status = 1;
+      if (journey.Driver != null && journey.Transportation != null)
+        journey.Status = 1;
       await journey.save();
       res.send("AddJourney");
-    }
-    catch(error)
-    {
+    } catch (error) {
       res.send("ERROR");
     }
   }
@@ -384,21 +386,18 @@ class AdminController {
   }
 
   //[DELETE] /deleteDriver/:id
-  async DeleteDriver(req, res, next){
-    try{
+  async DeleteDriver(req, res, next) {
+    try {
       const id = req.params.id;
-      const driver = await Driver.findOne({_id: id});
-      if(driver==null) 
-      {
+      const driver = await Driver.findOne({ _id: id });
+      if (driver == null) {
         console.log("Cannot find driver");
         return;
       }
-      if(driver.JourneyIncharge!=null)
-      {
+      if (driver.JourneyIncharge != null) {
         var journey = null;
-        journey = await Journey.findOne({_id: driver.JourneyIncharge._id})
-        if(journey==null)
-        {
+        journey = await Journey.findOne({ _id: driver.JourneyIncharge._id });
+        if (journey == null) {
           console.log("Journey is not valid");
           return;
         }
@@ -408,53 +407,47 @@ class AdminController {
         await journey.save();
       }
       await Driver.deleteOne(driver);
-      res.send("DELETE DRIVER")
-    }
-    catch(error){
+      res.send("DELETE DRIVER");
+    } catch (error) {
       res.send("ERROR!!!");
     }
   }
 
   //[DELETE] /deleteTransportation/:type/:id
-  async DeleteTransportation(req, res, next){
-    try{
+  async DeleteTransportation(req, res, next) {
+    try {
       const type = req.params.type;
       const id = req.params.id;
-      var transportation =null ;
-      switch(type)
-      {
+      var transportation = null;
+      switch (type) {
         case "truck":
           // Truck
-          transportation = await Truck.findOne({_id: id});
+          transportation = await Truck.findOne({ _id: id });
           break;
         case "coach":
           // Coach
-          transportation = await Coach.findOne({_id: id});
+          transportation = await Coach.findOne({ _id: id });
           break;
         default:
           // Car
-          transportation = await Car.findOne({_id: id});
+          transportation = await Car.findOne({ _id: id });
           break;
       }
-      if(transportation==null)
-      {
+      if (transportation == null) {
         console.log("Cannot find Transportation");
         return;
       }
       var warranty = null;
-      warranty = WarrantyService.findOne({_id: transportation.Warranty._id});
-      if(warranty==null)
-      {
+      warranty = WarrantyService.findOne({ _id: transportation.Warranty._id });
+      if (warranty == null) {
         console.log("Invalid warranty service");
         return;
       }
       await WarrantyService.deleteOne(warranty);
-      if(transportation.Journey!=null)
-      {
+      if (transportation.Journey != null) {
         var journey = null;
-        journey = await Journey.findOne({_id: transportation.Journey._id});
-        if(journey==null)
-        {
+        journey = await Journey.findOne({ _id: transportation.Journey._id });
+        if (journey == null) {
           console.log("Journey is not valid");
           return;
         }
@@ -463,8 +456,7 @@ class AdminController {
         await admin.FindTransportation(journey);
         await journey.save();
       }
-      switch(type)
-      {
+      switch (type) {
         case "truck":
           // Truck
           await Truck.deleteOne(transportation);
@@ -478,29 +470,25 @@ class AdminController {
           await Car.deleteOne(transportation);
           break;
       }
-      res.send("DELETE TRANSPORTATION")
-    }
-    catch(error){
+      res.send("DELETE TRANSPORTATION");
+    } catch (error) {
       res.send("ERROR");
     }
   }
 
   //[DELETE] /deleteJourney/:id
-  async DeleteJourney(req, res, next){
-    try{
+  async DeleteJourney(req, res, next) {
+    try {
       const id = req.params.id;
-      const journey = await Journey.findOne({_id: id});
-      if(journey==null) 
-      {
+      const journey = await Journey.findOne({ _id: id });
+      if (journey == null) {
         console.log("Cannot find Journey");
         return;
       }
-      if(journey.Driver!=null)
-      {
+      if (journey.Driver != null) {
         var driver = null;
-        driver = await Driver.findOne({_id: journey.Driver._id})
-        if(driver==null)
-        {
+        driver = await Driver.findOne({ _id: journey.Driver._id });
+        if (driver == null) {
           console.log("Driver is not valid");
           return;
         }
@@ -509,39 +497,44 @@ class AdminController {
         await driver.save();
       }
 
-      if(journey.Transportation!=null)
-      {
+      if (journey.Transportation != null) {
         var transportation = null;
-        switch(journey.TransportationType)
-        {
+        switch (journey.TransportationType) {
           case "truck":
             // Truck
-            transportation = await Truck.findOne({_id: journey.Transportation._id});
+            transportation = await Truck.findOne({
+              _id: journey.Transportation._id,
+            });
             break;
           case "coach":
             // Coach
-            transportation = await Coach.findOne({_id: journey.Transportation._id});
+            transportation = await Coach.findOne({
+              _id: journey.Transportation._id,
+            });
             break;
           default:
             // Car
-            transportation = await Car.findOne({_id: journey.Transportation._id});
+            transportation = await Car.findOne({
+              _id: journey.Transportation._id,
+            });
             break;
         }
 
-        if(transportation == null)
-        {
+        if (transportation == null) {
           console.log("Transportation is not valid");
           return;
         }
         transportation.Journey = null;
-        await admin.FindJourneyForTransportation(transportation, journey.TransportationType);
+        await admin.FindJourneyForTransportation(
+          transportation,
+          journey.TransportationType
+        );
         await transportation.save();
       }
 
       await Journey.deleteOne(journey);
-      res.send("DELETE JOURNEY")
-    }
-    catch(error){
+      res.send("DELETE JOURNEY");
+    } catch (error) {
       res.send("ERROR!!!");
     }
   }
