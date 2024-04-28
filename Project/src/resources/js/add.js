@@ -89,7 +89,7 @@ function hideForm(event) {
                 _id: driver._id,
                 Name: driver.Name,  
                 PhoneNumber: driver.PhoneNumber,  
-                DrivingExperience: 1, 
+                DrivingExperience: driver.DrivingExperience, 
                 LiscenceNumber: driver.LiscenceNumber,  
                 JourneyList: driver.JourneyList,  
                 Account: driver.Account, 
@@ -305,8 +305,21 @@ function hideForm(event) {
         editID=driverInfo._id,
         document.querySelector("#Driver").value = driverInfo.Name,
         document.querySelector("#phone").value = driverInfo.PhoneNumber,
-        document.querySelector("#newDriverAccount").value = driverInfo.Account;
-        document.querySelector("#password").value = driverInfo.Password
+        document.querySelector("#newDriverAccount").value = driverInfo.Account,
+        document.querySelector("#password").value = driverInfo.Password,
+        document.querySelector("#license").value=driverInfo.LiscenceNumber;
+        const options = document.querySelectorAll('input[name="option"]');
+    
+  
+        for (const option of options) {
+      
+        if (option.value == driverInfo.DrivingExperience) {
+          
+            option.checked = true;
+            break; 
+        }
+       // option.disabled = true;
+        }
         
         showForm()
         
@@ -326,23 +339,30 @@ function hideForm(event) {
        var phone = document.getElementById("phone").value;
        var account =document.getElementById("newDriverAccount").value;
        var pw= document.getElementById("password").value;
+
+       var driverLicense= document.getElementById("license").value;
+       const options = document.querySelectorAll('input[name="option"]');
+    
+      let selectedValue = null;
+      for (const option of options) {
+          if (option.checked) {
+              selectedValue = option.value;
+              break; 
+          }
+      }
+      console.log(selectedValue);
    
-       var selectedLicenses = [];
-       var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-       checkboxes.forEach(function(checkbox) {
-           selectedLicenses.push(checkbox.name);
-       });
-     
     const driverInfo = {
           Name: name,
           PhoneNumber: phone,
-          DrivingExperience: 1,
-          LiscenceNumber: selectedLicenses.join(", "), 
+          DrivingExperience: selectedValue,
+          LiscenceNumber: driverLicense, 
           JourneyList: [],
           Account: account,
           Password: pw,
       };
-      
+      //hideForm(event);
+      console.log(driverInfo);
    
       
       try {
@@ -385,7 +405,7 @@ function hideForm(event) {
           });
   
           const putContentType = putResponse.headers.get('Content-Type');
-          if (!putResponse.ok || putContentType !== 'application/json') {
+          if (!putResponse.ok) {
               const errorMessage = await putResponse.text();
               console.error('Problem with the PUT request: ' + errorMessage);
               return;
@@ -396,28 +416,35 @@ function hideForm(event) {
           console.log(data);
 
         }
-        
-        
-        
-        
        
     } catch (e) {
         console.error('There was a problem with the POST request: ' + e.message);
-    }
-    
-  
+    };
      
-      window.location.reload();
+    window.location.reload();
     
-      hideForm(event);
     
   }
   function readInfo(driverInfo){
  
     document.querySelector("#showDriver").value = driverInfo.Name,
     document.querySelector("#showphone").value = driverInfo.PhoneNumber,
-    document.querySelector("#shownewDriverAccount").value = driverInfo.Account;
-    document.querySelector("#showpassword").value = driverInfo.Password
+    document.querySelector("#shownewDriverAccount").value = driverInfo.Account,
+    document.querySelector("#showpassword").value = driverInfo.Password,
+    document.querySelector("#showlicense").value=driverInfo.LiscenceNumber;
+    console.log(driverInfo.DrivingExperience);
+    const options = document.querySelectorAll('input[name="showoption"]');
+    
+  
+    for (const option of options) {
+      
+        if (option.value == driverInfo.DrivingExperience) {
+          
+            option.checked = true;
+            break; 
+        }
+        option.disabled = true;
+    }
  
 }
 
