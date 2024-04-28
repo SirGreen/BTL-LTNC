@@ -92,6 +92,7 @@ require([
     includeDefaultSources: false,
     maxResults: 5,
     maxSuggestions: 8,
+    locationEnabled: false,
     sources: [
       {
         url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
@@ -113,6 +114,7 @@ require([
     includeDefaultSources: false,
     maxResults: 5,
     maxSuggestions: 8,
+    locationEnabled: false,
     sources: [
       {
         url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
