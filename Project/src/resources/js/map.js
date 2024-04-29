@@ -212,5 +212,5 @@ async function send(event) {
   }).then((response) => console.log(response.json()));
   let information = "Added successfully!";
   information = JSON.stringify(information);
-  window.location.href = `/adminjourney?info=${information}`;
+  window.parent.location.href = `/adminjourney?info=${information}`;
 }
