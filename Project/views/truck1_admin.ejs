@@ -10,6 +10,151 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <!-- <script src="js/script_create.js"></script> -->
+    <script> 
+        // Define the editCar function
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('productId');
+        async function fetchCar() {
+    const response = await fetch("http://localhost:3000/truck");
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const drivers = await response.json();
+    return drivers;
+  }
+
+        async function fetchCarID() {
+        const response = await fetch('http://localhost:3000/truck/'+productId);
+        if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const driver = await response.json();
+        const vehicleInfo = {
+                Brand: driver.Brand,
+                _id: driver._id,
+                Capacity: driver.Capacity,
+                Size: driver.Size,
+                TypeOfFuel: driver.TypeOfFuel,
+                VehicleStatus: driver.VehicleStatus,
+                Warranty: driver.Warranty,
+                Journey: driver.Journey,
+                License: driver.License,
+                
+            };
+         //   editID=vehicleInfo._id;
+    // <h3>Mercedes - Ready for a new journey</h3>
+    //                     <p>
+    //                         Do what you want in your own way. The Suzuki XL7, with its robust SUV design and outstanding
+    //                         safety features, offers comfort and convenience in all seats.
+    //                     </p>
+    var h3= document.createElement("h3");
+    h3.innerHTML= vehicleInfo.Brand + "- Ready for a new journey";
+    var p= document.createElement("p");
+    p.innerHTML= "Do what you want in your own way. The "+ vehicleInfo.Brand +
+    " , with its robust SUV design and outstanding safety features, offers comfort and convenience in all seats.";
+
+    var img=document.createElement("img");
+    if (vehicleInfo.Brand === 'VAN DONGBEN') {
+        img.setAttribute("src", "floai_ltnc/t1.png");
+        img.setAttribute("alt", "Jump to portfolio");
+        // Thực hiện các thao tác tương ứng với thương hiệu SUZUKI XL7
+    } else if (vehicleInfo.Brand === 'VAN KENBO') {
+        img.setAttribute("src", "floai_ltnc/t2.png");
+        img.setAttribute("alt", "Jump to portfolio");
+    } else if (vehicleInfo.Brand === 'VAN FOTON') {
+        img.setAttribute("src", "floai_ltnc/t3.jpg");
+        img.setAttribute("alt", "Jump to portfolio");
+    } else if (vehicleInfo.Brand === 'VAN SUZUKI BLIND') {
+        img.setAttribute("src", "floai_ltnc/pickup-truck-isolated-white-background-d-render-pickup-truck-isolated-205954001.webp");
+        img.setAttribute("alt", "Jump to portfolio");
+    } else {
+        console.log('Unknown brand.');
+        // Thực hiện các thao tác cho trường hợp thương hiệu không xác định
+    }
+    document.getElementById("Carimg").appendChild(img);
+    
+
+
+    document.getElementById("Car1Info").appendChild(h3);
+    document.getElementById("Car1Info").appendChild(p);
+    document.getElementById("Brand_edit").value= vehicleInfo.Brand,
+    document.querySelector("#Capacity_edit").value = vehicleInfo.Capacity,
+    document.querySelector("#Size_edit").value = vehicleInfo.Size,
+    document.querySelector("#Fuel_edit").value = vehicleInfo.TypeOfFuel;
+    document.getElementById("Warranty_edit").innerHTML = '';
+    document.getElementById("Status_edit").innerHTML = '';
+    
+    var p1 = document.createElement("p");
+    p1.innerHTML = vehicleInfo.Warranty;
+    document.getElementById("Warranty_edit").appendChild(p1);
+    
+    var p2 = document.createElement("p");
+    p2.innerHTML = vehicleInfo.VehicleStatus;
+    document.getElementById("Status_edit").appendChild(p2);
+    
+
+   
+        return driver;
+    }
+async function submitedit(event){
+    event.preventDefault();
+    var nameInput=document.getElementById("Brand_edit").value;
+    var vehircleF = document.getElementById("Fuel_edit").value;
+    
+    var ECapacity= document.getElementById("Capacity_edit").value;
+    var ESize= document.getElementById("Size_edit").value;
+
+    vehicleInfo = {
+        Brand: nameInput,
+        Capacity: ECapacity,
+        Size: ESize,
+        TypeOfFuel: vehircleF,
+       
+    };
+    try {
+        const drivers = await fetchCar();
+        console.log(drivers);
+        
+        
+          drivers[productId] = vehicleInfo;
+          isEdit = false;
+  
+          // Gửi yêu cầu PUT để chỉnh sửa tài xế
+          const putResponse = await fetch('admin/update/coach/'+productId, {
+              method: 'PUT',
+              headers: {
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify(vehicleInfo)
+          });
+  
+          const putContentType = putResponse.headers.get('Content-Type');
+          if (!putResponse.ok) {
+              const errorMessage = await putResponse.text();
+              console.error('Problem with the PUT request: ' + errorMessage);
+              return;
+          }
+          
+  
+          const data = await putResponse.json();
+          console.log(data);
+  
+        
+       
+    } catch (e) {
+        console.error('There was a problem with the POST request: ' + e.message);
+    };
+     
+      window.location.reload();
+
+}
+        // Function to call editCar automatically when the page loads
+        window.onload = function() {
+            
+            fetchCarID();
+        };
+    </script>
 </head>
 
 <body>
@@ -44,10 +189,12 @@
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                             aria-haspopup="true" aria-expanded="false">MENU</a>
                         <div class="dropdown-menu">
+
                             <a class="dropdown-item" href="\driver_admin">Driver</a>
 
                             <a class="dropdown-item" href="\adminjourney">Journey</a>
                             <a class="dropdown-item" href="\account">Account</a>
+
                         </div>
                     </li>
                 </ul>
@@ -61,28 +208,33 @@
             <div class="car container-fluid">
                 <div class="row">
                     <!-- Left column -->
-                    <div class="col-lg-6">
-                        <img src="floai_ltnc/pickup-truck-isolated-white-background-d-render-pickup-truck-isolated-205954001.webp"
-                            alt="Jump to portfolio">
+                    <div class="col-lg-6" id="Carimg">
+
                     </div>
 
                     <!-- Right column -->
                     <div class="col-lg-6">
-                        <h3>Van Suzuki Blind - Ready for a new journey</h3>
-                        <p>
-                            Do what you want in your own way. The Suzuki XL7, with its robust SUV design and outstanding
-                            safety features, offers comfort and convenience in all seats.
-                        </p>
+                        <div id="Car1Info">
+                        
+                        </div>
 
                     </div>
                 </div>
                 <div class="property_car container-fluid">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6" >
+                            Brand:
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="text" id="Brand_edit" name="capacity" required placeholder="320 kg" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6" >
                             Capacity:
                         </div>
                         <div class="col-lg-2">
-                            <input type="text" name="capacity" required placeholder="25 tons" class="form-control">
+                            <input type="text" id="Capacity_edit" name="capacity" required placeholder="320 kg" class="form-control">
                         </div>
                     </div>
                     <br>
@@ -91,7 +243,8 @@
                             Size:
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" name="size" required placeholder=" 235x80x75 inches"
+
+                            <input type="text" id="Size_edit" name="size" required placeholder=" 190x75x60 inches"
                                 class="form-control">
                         </div>
                     </div>
@@ -101,7 +254,7 @@
                             Type Of Fuel:
                         </div>
                         <div class="col-lg-2">
-                            <input type="text" name="type_of_fuel" required placeholder=" Diesel" class="form-control">
+                            <input type="text" id="Fuel_edit" name="type_of_fuel" required placeholder=" Diesel" class="form-control">
                         </div>
                     </div>
                     <br>
@@ -109,8 +262,8 @@
                         <div class="col-lg-6">
                             Warranty Time:
                         </div>
-                        <div class="col-lg-2">
-                            01/07/2024
+                        <div class="col-lg-2" id="Warranty_edit">
+                            
                         </div>
                     </div>
                     <br>
@@ -118,14 +271,23 @@
                         <div class="col-lg-6">
                             Status:
                         </div>
-                        <div class="col-lg-2">
-                            JourneyInCharge
+                        <div class="col-lg-2" id="Status_edit">
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            Liscense:
+                        </div>
+                        <div class="col-lg-2" >
+                            <input class="form-control" type="text" id="License_edit" name="Num"
+                                    placeholder="License Number"></label>
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-lg-7 text-right">
-                            <button type="SAVE">SAVE</button>
+                            <button onclick="submitedit(event)" type="SAVE">SAVE</button>
                         </div>
                     </div>
                 </div>

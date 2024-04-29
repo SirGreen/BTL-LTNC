@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     }
 });
 async function fetchCar() {
-    const response = await fetch("http://localhost:3000/car");
+    const response = await fetch("http://localhost:3000/truck");
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -89,7 +89,7 @@ async function loadCar(){
 }
 function deleteCar(vehicleInfo){
     console.log(vehicleInfo._id);
-    fetch('admin/deleteTransportation/car/' + vehicleInfo._id, {
+    fetch('admin/deleteTransportation/truck/' + vehicleInfo._id, {
       method: 'DELETE',
     })
     .then(res => res.text())
@@ -115,24 +115,19 @@ function createVehicleElement(vehicleInfo){
     // Add the form data to the list item
     var elem = document.createElement("img");
 
-    elem.setAttribute("src", "floai_ltnc/car white background 1.png");
-    elem.setAttribute("alt", "added_car");
    // var img=document.createElement("img");
-    if (vehicleInfo.Brand === 'SUZUKI XL7') {
-        elem.setAttribute("src", "floai_ltnc/Screenshot 2024-03-31 215845.png");
+    if (vehicleInfo.Brand === 'VAN DONGBEN') {
+        elem.setAttribute("src", "floai_ltnc/t1.png");
         elem.setAttribute("alt", "added_car");
         // Thực hiện các thao tác tương ứng với thương hiệu SUZUKI XL7
-    } else if (vehicleInfo.Brand === 'SUZUKI SWIFT') {
-        elem.setAttribute("src", "floai_ltnc/Screenshot 2024-03-31 220006.png");
+    } else if (vehicleInfo.Brand === 'VAN KENBO') {
+        elem.setAttribute("src", "floai_ltnc/t2.png");
         elem.setAttribute("alt", "added_car");
-    } else if (vehicleInfo.Brand === 'SUZUKI CIAZ') {
-        elem.setAttribute("src", "floai_ltnc/Screenshot 2024-03-31 220034.png");
+    } else if (vehicleInfo.Brand === 'VAN FOTON') {
+        elem.setAttribute("src", "floai_ltnc/t3.png");
         elem.setAttribute("alt", "added_car");
-    } else if (vehicleInfo.Brand === 'MERCEDES') {
-        elem.setAttribute("src", "floai_ltnc/car white background 1.png");
-        elem.setAttribute("alt", "added_car");
-    } else if (vehicleInfo.Brand === 'FERRARI') {
-        elem.setAttribute("src", "floai_ltnc/kisspng-ferrari-458-car-ferrari-f12-2017-ferrari-488-gtb-5af68701a38a217967992315261058576699.png");
+    } else if (vehicleInfo.Brand === 'VAN SUZUKI BLIND') {
+        elem.setAttribute("src", "floai_ltnc/pickup-truck-isolated-white-background-d-render-pickup-truck-isolated-205954001.webp");
         elem.setAttribute("alt", "added_car");
     } else {
         console.log('Unknown brand.');
@@ -149,7 +144,7 @@ function createVehicleElement(vehicleInfo){
     divbox2.classList.add("content");
 
     var a2 = document.createElement("a");
-    a2.setAttribute("href", 'car1_admin?productId='+vehicleInfo._id);
+    a2.setAttribute("href", 'truck1_admin?productId='+vehicleInfo._id);
     a2.innerHTML = "<span> " + vehicleInfo.Brand + "</span> <br>";
     //editCar(vehicleInfo);
 
@@ -191,6 +186,7 @@ async function NewTrip(event) {
     var VSize= document.getElementById("Size").value;
    
     
+    
 
     // if (!nameInput.trim() || !vehircleInput.trim() || !numInput.trim() || !serviceInput.trim()) {
     //     alert("All fields are required. Please fill out all fields.");
@@ -201,7 +197,7 @@ async function NewTrip(event) {
         Capacity: VCapacity,
         Size: VSize,
         TypeOfFuel: vehircleInput,
-       // VehicleStatus: selectedValue,
+        //VehicleStatus: selectedValue,
         License: VLicense,
     };
     //hideForm(event);
@@ -217,7 +213,7 @@ async function NewTrip(event) {
           drivers.push(vehicleInfo);
           localStorage.setItem('drivers', JSON.stringify(drivers));
           // Gửi yêu cầu POST để thêm tài xế mới
-          const response = await fetch('admin/addTransportation/car', {
+          const response = await fetch('admin/addTransportation/truck', {
               method: 'POST',
               headers: {
                   "Content-Type": "application/json"
@@ -242,99 +238,6 @@ async function NewTrip(event) {
    
     window.location.reload();
   
-    document.getElementById("myForm").reset();
-    hideForm(event);
-
-}
-///////////////////////////
-
-function NewTrip1(event) {
-    event.preventDefault();
-    // Get the values from the form fields
-    var nameInput = document.getElementById("Driver").value;
-    var vehircleInput = document.getElementById("Vehircle").value;
-    var numInput = document.getElementById("Num").value;
-    var serviceInput = document.getElementById("Service").value;
-
-    if (!nameInput.trim() || !vehircleInput.trim() || !numInput.trim() || !serviceInput.trim()) {
-        alert("All fields are required. Please fill out all fields.");
-        return; // Exit the function
-    }
-    // Create a new list item
-    var div = document.createElement("div");
-    div.classList.add("col-sm-6", "col-md-4", "col-lg-4");
-
-    var divbox = document.createElement("div");
-    divbox.classList.add("box");
-
-    var a = document.createElement("a");
-
-    // Add the form data to the list item
-    var elem = document.createElement("img");
-    elem.setAttribute("src", "floai_ltnc/t1.png");
-    elem.setAttribute("alt", "added_car");
-    a.appendChild(elem);
-    divbox.appendChild(a);
-    div.appendChild(divbox);
-
-    var divbox2 = document.createElement("div");
-    divbox2.classList.add("content");
-
-    var a2 = document.createElement("a");
-    a2.setAttribute("href", "truck1.html");
-    a2.innerHTML = "<span> " + nameInput + "</span> <br>";
-
-    divbox2.appendChild(a2);
-    divbox.appendChild(divbox2);
-    document.getElementById("ROW").appendChild(div);
-
-    // Hide the form and overlay
-    document.getElementById("myForm").reset();
-    hideForm(event);
-
-}
-
-function NewTrip2(event) {
-    event.preventDefault();
-    // Get the values from the form fields
-    var nameInput = document.getElementById("Driver").value;
-    var vehircleInput = document.getElementById("Vehircle").value;
-    var numInput = document.getElementById("Num").value;
-    var serviceInput = document.getElementById("Service").value;
-
-    if (!nameInput.trim() || !vehircleInput.trim() || !numInput.trim() || !serviceInput.trim()) {
-        alert("All fields are required. Please fill out all fields.");
-        return; // Exit the function
-    }
-    // Create a new list item
-    var div = document.createElement("div");
-    div.classList.add("col-sm-6", "col-md-4", "col-lg-4");
-
-    var divbox = document.createElement("div");
-    divbox.classList.add("box");
-
-    var a = document.createElement("a");
-
-    // Add the form data to the list item
-    var elem = document.createElement("img");
-    elem.setAttribute("src", "floai_ltnc/c6.jpg");
-    elem.setAttribute("alt", "added_car");
-    a.appendChild(elem);
-    divbox.appendChild(a);
-    div.appendChild(divbox);
-
-    var divbox2 = document.createElement("div");
-    divbox2.classList.add("content");
-
-    var a2 = document.createElement("a");
-    a2.setAttribute("href", "coach1.html");
-    a2.innerHTML = "<span> " + nameInput + "</span> <br>";
-
-    divbox2.appendChild(a2);
-    divbox.appendChild(divbox2);
-    document.getElementById("ROW").appendChild(div);
-
-    // Hide the form and overlay
     document.getElementById("myForm").reset();
     hideForm(event);
 

@@ -19,12 +19,13 @@ document.addEventListener("DOMContentLoaded", async function() {
     try {
         // Gọi hàm loadDriver để tự động tải danh sách tài xế khi trang được truy cập
         await loadCar();
+        console.log(888);
     } catch (error) {
         console.error('Error loading Cars:', error);
     }
 });
 async function fetchCar() {
-    const response = await fetch("http://localhost:3000/car");
+    const response = await fetch("http://localhost:3000/coach");
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -89,7 +90,7 @@ async function loadCar(){
 }
 function deleteCar(vehicleInfo){
     console.log(vehicleInfo._id);
-    fetch('admin/deleteTransportation/car/' + vehicleInfo._id, {
+    fetch('admin/deleteTransportation/coach/' + vehicleInfo._id, {
       method: 'DELETE',
     })
     .then(res => res.text())
@@ -115,24 +116,20 @@ function createVehicleElement(vehicleInfo){
     // Add the form data to the list item
     var elem = document.createElement("img");
 
-    elem.setAttribute("src", "floai_ltnc/car white background 1.png");
-    elem.setAttribute("alt", "added_car");
+   
    // var img=document.createElement("img");
-    if (vehicleInfo.Brand === 'SUZUKI XL7') {
-        elem.setAttribute("src", "floai_ltnc/Screenshot 2024-03-31 215845.png");
+    if (vehicleInfo.Brand === 'HYUNDAI SOLATI') {
+        elem.setAttribute("src", "floai_ltnc/c1.png");
         elem.setAttribute("alt", "added_car");
         // Thực hiện các thao tác tương ứng với thương hiệu SUZUKI XL7
-    } else if (vehicleInfo.Brand === 'SUZUKI SWIFT') {
-        elem.setAttribute("src", "floai_ltnc/Screenshot 2024-03-31 220006.png");
+    } else if (vehicleInfo.Brand === 'FORD TRANSIT') {
+        elem.setAttribute("src", "floai_ltnc/c4.png");
         elem.setAttribute("alt", "added_car");
-    } else if (vehicleInfo.Brand === 'SUZUKI CIAZ') {
-        elem.setAttribute("src", "floai_ltnc/Screenshot 2024-03-31 220034.png");
+    } else if (vehicleInfo.Brand === 'HYUNDAI COUNTY') {
+        elem.setAttribute("src", "floai_ltnc/c6.jpg");
         elem.setAttribute("alt", "added_car");
-    } else if (vehicleInfo.Brand === 'MERCEDES') {
-        elem.setAttribute("src", "floai_ltnc/car white background 1.png");
-        elem.setAttribute("alt", "added_car");
-    } else if (vehicleInfo.Brand === 'FERRARI') {
-        elem.setAttribute("src", "floai_ltnc/kisspng-ferrari-458-car-ferrari-f12-2017-ferrari-488-gtb-5af68701a38a217967992315261058576699.png");
+    } else if (vehicleInfo.Brand === 'SAMCO') {
+        elem.setAttribute("src", "floai_ltnc/c7.jpg");
         elem.setAttribute("alt", "added_car");
     } else {
         console.log('Unknown brand.');
@@ -149,7 +146,7 @@ function createVehicleElement(vehicleInfo){
     divbox2.classList.add("content");
 
     var a2 = document.createElement("a");
-    a2.setAttribute("href", 'car1_admin?productId='+vehicleInfo._id);
+    a2.setAttribute("href", 'coach1_admin?productId='+vehicleInfo._id);
     a2.innerHTML = "<span> " + vehicleInfo.Brand + "</span> <br>";
     //editCar(vehicleInfo);
 
@@ -186,10 +183,19 @@ async function NewTrip(event) {
       }
       console.log(nameInput);
     var vehircleInput = document.getElementById("FuelType").value;
-    var VLicense = document.getElementById("Num").value;
+   var VLicense = document.getElementById("Num").value;
     var VCapacity= document.getElementById("Capacity").value;
     var VSize= document.getElementById("Size").value;
    
+    // const options = document.querySelectorAll('input[name="option"]');
+    
+    //   let selectedValue = null;
+    //   for (const option of options) {
+    //       if (option.checked) {
+    //           selectedValue = option.value;
+    //           break; 
+    //       }
+    //   }
     
 
     // if (!nameInput.trim() || !vehircleInput.trim() || !numInput.trim() || !serviceInput.trim()) {
@@ -202,7 +208,7 @@ async function NewTrip(event) {
         Size: VSize,
         TypeOfFuel: vehircleInput,
        // VehicleStatus: selectedValue,
-        License: VLicense,
+       License: VLicense,
     };
     //hideForm(event);
     console.log(vehicleInfo);
@@ -212,12 +218,12 @@ async function NewTrip(event) {
       const drivers = await fetchCar();
       console.log(drivers);
       console.log(isEdit);
-      {
+      
           // Thêm tài xế mới vào danh sách drivers
           drivers.push(vehicleInfo);
           localStorage.setItem('drivers', JSON.stringify(drivers));
           // Gửi yêu cầu POST để thêm tài xế mới
-          const response = await fetch('admin/addTransportation/car', {
+          const response = await fetch('admin/addTransportation/coach', {
               method: 'POST',
               headers: {
                   "Content-Type": "application/json"
@@ -234,7 +240,7 @@ async function NewTrip(event) {
           
           const data = await response.json();
           console.log(data);
-       }
+      
      
   } catch (e) {
       console.error('There was a problem with the POST request: ' + e.message);
@@ -242,8 +248,8 @@ async function NewTrip(event) {
    
     window.location.reload();
   
-    document.getElementById("myForm").reset();
-    hideForm(event);
+   // document.getElementById("myForm").reset();
+   // hideForm(event);
 
 }
 ///////////////////////////
