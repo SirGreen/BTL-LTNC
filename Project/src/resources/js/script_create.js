@@ -98,6 +98,7 @@ function createVehicleElement(vehicleInfo){
 
     var divbox = document.createElement("div");
     divbox.classList.add("box");
+    var row1=document.createElement("row");
 
     var a = document.createElement("a");
 
@@ -106,7 +107,7 @@ function createVehicleElement(vehicleInfo){
     elem.setAttribute("src", "floai_ltnc/car white background 1.png");
     elem.setAttribute("alt", "added_car");
     a.appendChild(elem);
-    divbox.appendChild(a);
+    row1.appendChild(a);
     div.appendChild(divbox);
 
     var divbox2 = document.createElement("div");
@@ -117,32 +118,34 @@ function createVehicleElement(vehicleInfo){
     a2.innerHTML = "<span> " + vehicleInfo.TypeOfFuel + "</span> <br>";
 ///////////////////////
     divbox2.appendChild(a2);
-    divbox.appendChild(divbox2);
-    var row=document.createElement("span");
+    row1.appendChild(divbox2);
+    divbox.appendChild(row1);
+    var row2=document.createElement("row");
    // document.getElementById("ROW").appendChild(div);
-   var closeButton = document.createElement("span");
+   var closeButton = document.createElement("div");
    closeButton.innerHTML = "x";
    closeButton.classList.add("close-button");
-   newDiv.appendChild(closeButton);
+   row2.appendChild(closeButton);
   
    closeButton.addEventListener("click", function () {
-     newDiv.remove();
+     div.remove();
      
    });
 
-   const editButton = document.createElement("span");
+   const editButton = document.createElement("div");
    
    editButton.classList.add("editbutton");
    editButton.id="edit";
    
-     newDiv.appendChild(editButton);
+    row2.appendChild(editButton);
    
-   const viewButton = document.createElement("span");
+   const viewButton = document.createElement("div");
    
    viewButton.classList.add("viewbutton");
    viewButton.id="view";
    
-     newDiv.appendChild(viewButton);
+    row2.appendChild(viewButton);
+    divbox.appendChild(row2);
     return div;
 }
 async function NewTrip(event) {
