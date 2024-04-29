@@ -32,7 +32,7 @@
                         <a class="nav-link" href="admin.html">HOME</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pre_signin.html">SIGNIN AS DRIVER</a>
+                        <a class="nav-link" href="\signin_driver">SIGNIN AS DRIVER</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
@@ -63,26 +63,26 @@
         <section id="AddCarForm" class="portfolio container-fluid text-center" onsubmit="onSubmit()">
             <h2>Add Car</h2>
             <% if (information) { %>
-              <%=information%>
-            <%}%>
-            <form action="/admin/addTransportation/car" method="post">
-            Capacity: <input type="number" placeholder="4" name="Capacity"> <br>
-            Size: <input type="number" placeholder="7" name="Size"> <br>
-            Type of Fuel: <input type="text" placeholder="Petrol" name="TypeOfFuel" value="Petrol"> <br>
-            Vehicle Status:
-            <input type="radio" id="option1" name="option" value="Active">
-            <label for="option1">Active</label>
-            
-            <input type="radio" id="option2" name="option" value="UnderMaintainance">
-            <label for="option2">Under Maintainance</label>
-            
-            <input type="radio" id="option3" name="option" value="NotActive">
-            <label for="option3">Not  Active</label><br>
-            <!-- Liscence Number: <input  type="text" placeholder="000000" name="LiscenceNumber"> <br>
+                <%=information%>
+                    <%}%>
+                        <form action="/admin/addTransportation/car" method="post">
+                            Capacity: <input type="number" placeholder="4" name="Capacity"> <br>
+                            Size: <input type="number" placeholder="7" name="Size"> <br>
+                            Type of Fuel: <input type="text" placeholder="Petrol" name="TypeOfFuel" value="Petrol"> <br>
+                            Vehicle Status:
+                            <input type="radio" id="option1" name="option" value="Active">
+                            <label for="option1">Active</label>
+
+                            <input type="radio" id="option2" name="option" value="UnderMaintainance">
+                            <label for="option2">Under Maintainance</label>
+
+                            <input type="radio" id="option3" name="option" value="NotActive">
+                            <label for="option3">Not Active</label><br>
+                            <!-- Liscence Number: <input  type="text" placeholder="000000" name="LiscenceNumber"> <br>
             Account: <input type="text" placeholder="driver" name="Account"> <br> -->
-            License: <input type="text" placeholder="113" name="License" value="113"> <br>
-            <input type="submit" value="Submit">
-            </form>
+                            License: <input type="text" placeholder="113" name="License" value="113"> <br>
+                            <input type="submit" value="Submit">
+                        </form>
         </section>
         <!-- PORTFOLIO -->
         <section id="portfolio">
