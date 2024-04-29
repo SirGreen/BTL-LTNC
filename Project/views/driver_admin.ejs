@@ -68,28 +68,27 @@
             }
           </script>
           <section id="AddDriverForm" class="portfolio container-fluid text-center" onsubmit="onSubmit()">
-            <h2>Add Driver</h2>
+            <!-- <h2>Add Driver</h2> -->
             <% if (information) { %>
               <%=information%>
             <%}%>
-            <form action="/admin/addDriver" method="post">
+            <!-- <form action="/admin/addDriver" method="post">
               Name: <input type="text" placeholder="Tran" name="Name"> <br>
             Phone Number: <input type="text" placeholder="113" name="PhoneNumber"> <br>
             Driving Experience: 
-            <input type="radio" id="option1" name="option" value="1">
+            <input type="radio" id="option1" name="DrivingExperience" value="1">
             <label for="option1">1</label>
             
-            <input type="radio" id="option2" name="option" value="2">
+            <input type="radio" id="option2" name="DrivingExperience" value="2">
             <label for="option2">2</label>
             
-            <input type="radio" id="option3" name="option" value="3">
+            <input type="radio" id="option3" name="DrivingExperience" value="3">
             <label for="option3">3</label><br>
             Liscence Number: <input type="text" placeholder="000000" name="LiscenceNumber"> <br>
             Account: <input type="text" placeholder="driver" name="Account"> <br>
             Password: <input type="text" placeholder="123" name="Password"> <br>
             <input type="submit" value="Submit">
-            </form>
-          </div>
+            </form> -->
         </section>
         <section id="portfolio">
             <div class="portfolio container-fluid text-center">
@@ -125,13 +124,13 @@
                         </div>
                         <div class="form-group">
                           <label class="w-100">Driving Experience: 
-                        <input type="radio" id="option1" name="option" value="1">
+                        <input type="radio" id="option1" name="option" value=1>
                         <label for="option1">1</label>
                         
-                        <input type="radio" id="option2" name="option" value="2">
+                        <input type="radio" id="option2" name="option" value=2>
                         <label for="option2">2</label>
                         
-                        <input type="radio" id="option3" name="option" value="3">
+                        <input type="radio" id="option3" name="option" value=3>
                         <label for="option3">3</label><br>
                         </label>
                       </div>
