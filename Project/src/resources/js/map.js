@@ -180,7 +180,6 @@ require([
   }
 });
 
-//outside
 function clearAll(event) {
   // event.preventDefault();
   // console.log("Clearing map");
