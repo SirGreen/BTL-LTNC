@@ -1,10 +1,43 @@
 var journeyInfo;
 var journey_list=[];
+async function loadjourney(){
+  await  fetchJourneys()
+      .then(journeys => {
+        for (let journey of journeys)
+        {
+            journeyInfo = {
+              _id: journey._id,
+              Transportation: journey.Transportation,
+              TransportationType: journey.TransportationType,
+              Driver: journey.Driver,
+              Kilomet: journey.Kilomet,
+              Price: journey.Price,
+              DateTime: journey.DateTime,
+              StartLocation: journey.StartLocation,
+              EndLocation: journey.EndLocation,
+              Status: journey.Status,
+              Time: journey.Time,
+            };
+         const journey_info = createJourneyElement(journeyInfo);
+        
+         document.getElementById("List-container").appendChild(journey_info);
 
+        
+        journey_list.push(journey_info);
+        addEventListenerToButtons(journey_info,journeyInfo);
+        }
+       // console.log(driverElements);
+
+      
+      })
+      .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
+    }
+    
 document.addEventListener("DOMContentLoaded", async function() {
   try {
       // Gọi hàm loadDriver để tự động tải danh sách tài xế khi trang được truy cập
       await loadjourney();
+      console.log(12300);
   } catch (error) {
       console.error('Error loading journeys:', error);
   }
@@ -14,8 +47,8 @@ async function fetchJourneys() {
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-  const drivers = await response.json();
-  return drivers;
+  const journeys = await response.json();
+  return journeys;
 }
 
 function addEventListenerToButtons(journey_info, journeyInfo) {
@@ -55,39 +88,7 @@ function addEventListenerToButtons(journey_info, journeyInfo) {
     });
   
 }
-async function loadjourney(){
-  await  fetchJourneys()
-      .then(journeys => {
-        for (let journey of journeys)
-        {
-            journeyInfo = {
-              _id: journey._id,
-              Transportation: journey.Transportation,
-              TransportationType: journey.TransportationType,
-              Driver: journey.Driver,
-              Kilomet: journey.Kilomet,
-              Price: journey.Price,
-              DateTime: journey.DateTime,
-              StartLocation: journey.StartLocation,
-              EndLocation: journey.EndLocation,
-              Status: journey.Status,
-              Time: journey.Time,
-            };
-         const journey_info = createJourneyElement(journeyInfo);
-        
-         document.getElementById("List-container").appendChild(journey_info);
 
-        
-        journey_list.push(journey_info);
-        addEventListenerToButtons(journey_info,journeyInfo);
-        }
-       // console.log(driverElements);
-
-      
-      })
-      .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
-    }
-    
 //var overlay= document.getElementById("overlay");
 function showForm() {
    overlay.style.display="block";

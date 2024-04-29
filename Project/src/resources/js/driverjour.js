@@ -1,3 +1,5 @@
+ import { LocalStorage } from 'node-localstorage';
+const localStorage = new LocalStorage("./UserData");
 const storedUserJSON = localStorage.getItem("user");
 
 // Parse the JSON string to an object

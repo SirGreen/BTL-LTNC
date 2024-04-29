@@ -29,11 +29,12 @@ async function fetchCar() {
     const drivers = await response.json();
     return drivers;
   }
-//   function addEventListenerToButtons(vehicleElement, vehicleInfo) {
+
+   function addEventListenerToButtons(vehicleElement, vehicleInfo) {
 //     // Lấy các nút từ newDiv
 //     var editButton = vehicleElement.querySelector(".editbutton");
 //     var viewButton = vehicleElement.querySelector(".viewbutton");
-//     var closeButton = vehicleElement.querySelector(".close-button");
+       var closeButton = vehicleElement.querySelector(".close-button");
     
 //     // Thêm sự kiện vào nút editButton
 //     editButton.addEventListener("click", function(event) {
@@ -48,18 +49,19 @@ async function fetchCar() {
 //         showreadForm();
 //     });
     
-//     // Thêm sự kiện vào nút closeButton
-//     closeButton.addEventListener("click", function(event) {
-//         event.preventDefault();
-//         deleteDriver(vehicleInfo);
-//     });
-// }
+    //Thêm sự kiện vào nút closeButton
+        closeButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        deleteCar(vehicleInfo);
+    });
+ }
 async function loadCar(){
     await  fetchCar()
       .then(drivers => {
         for (let driver of drivers)
         {
             vehicleInfo = {
+                Brand: driver.Brand,
                 _id: driver._id,
                 Capacity: driver.Capacity,
                 Size: driver.Size,
@@ -75,7 +77,7 @@ async function loadCar(){
 
         
          vehicle_list.push(vehicleElement);
-        //  addEventListenerToButtons(vehicleElement, vehicleInfo);
+         addEventListenerToButtons(vehicleElement, vehicleInfo);
         }
         console.log(vehicle_list);
 
@@ -83,13 +85,20 @@ async function loadCar(){
       })
       .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
 }
-  
-const submitTripButton = document.getElementById("submitcar");
+function deleteCar(vehicleInfo){
+    console.log(vehicleInfo._id);
+    fetch('admin/deleteTransportation/car/' + vehicleInfo._id, {
+      method: 'DELETE',
+    })
+    .then(res => res.text())
+    .then(res => console.log(res))
+}  
+
 
 // Attach a click event listener to the button
 function CarAdd(event) {
     // Call the function onSubmit() when the button is clicked
-    event.preventDefault;
+    event.preventDefault();
     NewTrip(event);
 }
 function createVehicleElement(vehicleInfo){
@@ -98,7 +107,6 @@ function createVehicleElement(vehicleInfo){
 
     var divbox = document.createElement("div");
     divbox.classList.add("box");
-    var row1=document.createElement("row");
 
     var a = document.createElement("a");
 
@@ -107,52 +115,49 @@ function createVehicleElement(vehicleInfo){
     elem.setAttribute("src", "floai_ltnc/car white background 1.png");
     elem.setAttribute("alt", "added_car");
     a.appendChild(elem);
-    row1.appendChild(a);
+    divbox.appendChild(a);
     div.appendChild(divbox);
 
     var divbox2 = document.createElement("div");
     divbox2.classList.add("content");
-//////////////////////
+
     var a2 = document.createElement("a");
-    a2.setAttribute("href", "car1.html");
-    a2.innerHTML = "<span> " + vehicleInfo.TypeOfFuel + "</span> <br>";
-///////////////////////
+    a2.setAttribute("href", 'car1_admin?productId='+vehicleInfo._id);
+    a2.innerHTML = "<span> " + vehicleInfo.Brand + "</span> <br>";
+    //editCar(vehicleInfo);
+
     divbox2.appendChild(a2);
-    row1.appendChild(divbox2);
-    divbox.appendChild(row1);
-    var row2=document.createElement("row");
+    divbox.appendChild(divbox2);
+   
    // document.getElementById("ROW").appendChild(div);
    var closeButton = document.createElement("div");
    closeButton.innerHTML = "x";
    closeButton.classList.add("close-button");
-   row2.appendChild(closeButton);
+   divbox.appendChild(closeButton);
   
    closeButton.addEventListener("click", function () {
      div.remove();
      
    });
 
-   const editButton = document.createElement("div");
    
-   editButton.classList.add("editbutton");
-   editButton.id="edit";
-   
-    row2.appendChild(editButton);
-   
-   const viewButton = document.createElement("div");
-   
-   viewButton.classList.add("viewbutton");
-   viewButton.id="view";
-   
-    row2.appendChild(viewButton);
-    divbox.appendChild(row2);
     return div;
 }
 async function NewTrip(event) {
     event.preventDefault();
     console.log(123);
     // Get the values from the form fields
-    var nameInput = document.getElementById("Carbrand").value;
+  //  var nameInput = document.getElementById("Carbrand").value;
+    const brands = document.querySelectorAll('input[name="brandoption"]');
+    
+      let nameInput = null;
+      for (const brand of brands) {
+          if (brand.checked) {
+              nameInput = brand.value;
+              break; 
+          }
+      }
+      console.log(nameInput);
     var vehircleInput = document.getElementById("FuelType").value;
     var VLicense = document.getElementById("Num").value;
     var VCapacity= document.getElementById("Capacity").value;
@@ -174,6 +179,7 @@ async function NewTrip(event) {
     //     return; // Exit the function
     // }
     vehicleInfo = {
+        Brand: nameInput,
         Capacity: VCapacity,
         Size: VSize,
         TypeOfFuel: vehircleInput,
@@ -188,7 +194,7 @@ async function NewTrip(event) {
       const drivers = await fetchCar();
       console.log(drivers);
       console.log(isEdit);
-      if (!isEdit) {
+      {
           // Thêm tài xế mới vào danh sách drivers
           drivers.push(vehicleInfo);
           localStorage.setItem('drivers', JSON.stringify(drivers));
@@ -210,37 +216,13 @@ async function NewTrip(event) {
           
           const data = await response.json();
           console.log(data);
-       }else {
-        drivers[editID] = vehicleInfo;
-        isEdit = false;
-
-        // Gửi yêu cầu PUT để chỉnh sửa tài xế
-        const putResponse = await fetch('admin/update/car/:id'+editID, {
-            method: 'PUT',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(vehicleInfo)
-        });
-
-        const putContentType = putResponse.headers.get('Content-Type');
-        if (!putResponse.ok) {
-            const errorMessage = await putResponse.text();
-            console.error('Problem with the PUT request: ' + errorMessage);
-            return;
-        }
-        
-
-        const data = await putResponse.json();
-        console.log(data);
-
-      }
+       }
      
   } catch (e) {
       console.error('There was a problem with the POST request: ' + e.message);
   };
    
-  window.location.reload();
+    window.location.reload();
   
     document.getElementById("myForm").reset();
     hideForm(event);

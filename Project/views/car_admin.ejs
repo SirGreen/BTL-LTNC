@@ -83,18 +83,11 @@
                                 </a href="#">
 
                             </div>
-                        
-                        
-                            <div  class="close-button">x</div> 
-                            <div  class="editbutton" id="edit"></div>
-                            <div class="viewbutton" id="view"></div>
-
-                            </div>
-                    </div>
-
                         </div>
 
                     </div>
+
+                   
                     <div class="col-sm-6 col-md-4 col-lg-4">
                         <div class="box">
                             <a href="#">
@@ -182,10 +175,25 @@
                     <form class="m-auto text-left" style="max-width: 500px"  method="post" novalidate="" id="myForm">
                         <!-- Các trường form ở đây -->
                         <h2>Car Information</h2>
+                        
                         <div class="form-group">
-                            <label class="w-100"> Brand:
-                                <input class="form-control" type="text" id="Carbrand" name="CarType"
-                                    placeholder="Brand"></label>
+                            <label class="w-100"> Brand:<br>
+                               
+                                <input type="radio" id="brandoption1" name="brandoption" value="SUZUKI XL7">
+                                <label for="brandoption1">SUZUKI XL7</label><br>
+                                
+                                <input type="radio" id="brandoption2" name="brandoption" value="SUZUKI SWIFT">
+                                <label for="brandoption2">SUZUKI SWIFT</label><br>
+                                
+                                <input type="radio" id="brandoption3" name="brandoption" value="SUZUKI CIAZ">
+                                <label for="brandoption3">SUZUKI CIAZ</label><br>
+
+                                <input type="radio" id="brandoption4" name="brandoption" value="MERCEDES">
+                                <label for="brandoption4">MERCEDES</label><br>
+
+                                <input type="radio" id="brandoption5" name="brandoption" value="FERRARI">
+                                <label for="brandoption5">FERRARI</label>
+                            </label>
                         </div>
 
                         <div class="form-group">
@@ -207,7 +215,7 @@
                         <div class="form-group">
                             <label class="w-100">License:
                                 <input class="form-control" type="text" id="Num" name="Num"
-                                    placeholder="Plate Number"></label>
+                                    placeholder="License Number"></label>
                         </div>
 
                         <div class="form-group">
