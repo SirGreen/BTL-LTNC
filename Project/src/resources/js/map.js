@@ -181,10 +181,14 @@ require([
 });
 
 function clearAll(event) {
-  event.preventDefault();
-  console.log("Clearing map");
-  routeParams.stops.features = [];
-  routeLayer.removeAll();
+  // event.preventDefault();
+  // console.log("Clearing map");
+  // routeParams.stops.features = [];
+  // routeLayer.removeAll();
+  // var iframe = document.getElementById("myFrame");
+  // Reload the iframe content
+  // iframe.contentWindow.location.reload();
+  window.parent.location.reload()
 }
 
 async function send(event) {
