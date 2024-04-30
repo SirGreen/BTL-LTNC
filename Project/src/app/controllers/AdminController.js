@@ -26,12 +26,11 @@ class AdminController {
   }
 
   // [GET] /checkIncome
-  async CheckIncome(req, res)
-  {
-    var adm = await Admin.findOne({Account: "admin"});
+  async CheckIncome(req, res) {
+    var adm = await Admin.findOne({ Account: "admin" });
     var income = adm.Income;
     console.log(income);
-    res.send(`Income ${income}`); 
+    res.send(`Income ${income}`);
   }
 
   async FindJourneyForDriver(driver) {
@@ -91,7 +90,7 @@ class AdminController {
       const data = req.body;
       data.Warranty = warranty;
       //req.body.TransportationType = "truck"
-      let redirTo = "/car_admin"
+      let redirTo = "/car_admin";
       const { transportationType } = req.params;
       switch (transportationType) {
         case "truck":
@@ -99,14 +98,14 @@ class AdminController {
           const truck = new Truck(data);
           await admin.FindJourneyForTransportation(truck, "truck");
           await truck.save();
-          redirTo = "/truck_admin"
+          redirTo = "/truck_admin";
           break;
         case "coach":
           // code block
           const coach = new Coach(data);
           await admin.FindJourneyForTransportation(coach, "coach");
           await coach.save();
-          redirTo = "/coach_admin"
+          redirTo = "/coach_admin";
           break;
         default:
           const car = new Car(data);
@@ -123,11 +122,13 @@ class AdminController {
   //[POST] /addDriver
   async AddNewDriver(req, res, next) {
     try {
-      const { Name, PhoneNumber, Account, Password } = req.body;
+      const { Name, PhoneNumber, Account, Password, DrivingExperience, LiscenceNumber } = req.body;
       const hashedPassword = await bcrypt.hash(Password, 10);
       const driver = new Driver({
         Name: Name,
         PhoneNumber: PhoneNumber,
+        LiscenceNumber: LiscenceNumber,
+        DrivingExperience: DrivingExperience,
         Account: Account,
         Password: hashedPassword,
       });
@@ -137,7 +138,7 @@ class AdminController {
       return res.send("ERROR");
     }
     let information = "Added successfully!";
-    information = JSON.stringify(information)
+    information = JSON.stringify(information);
     res.redirect(`/driver_admin?info=${information}`);
   }
 
@@ -193,7 +194,9 @@ class AdminController {
       transportation != null &&
       transportation.VehicleStatus == "UnderMaintainance"
     ) {
-      var warranty = await WarrantyService.findOne({_id: transportation.Warranty._id});
+      var warranty = await WarrantyService.findOne({
+        _id: transportation.Warranty._id,
+      });
       warranty.IsWarranty = true;
       await warranty.save();
       transportation.VehicleStatus = "Active";
@@ -348,8 +351,10 @@ class AdminController {
   }
   /////////////////////Warranty/////////////////////
   async CheckForWarranty(transportation) {
-    try{
-      var warranty = await WarrantyService.findOne({_id: transportation.Warranty._id});
+    try {
+      var warranty = await WarrantyService.findOne({
+        _id: transportation.Warranty._id,
+      });
       var date1 = warranty.WarrantyTime.getTime();
       var date2 = Date.now();
       console.log(date1);
@@ -364,9 +369,7 @@ class AdminController {
         return 0; //maintain
       }
       return 1; //normal
-    }
-    catch(error)
-    {
+    } catch (error) {
       console.log(error);
     }
   }
