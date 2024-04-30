@@ -19,12 +19,15 @@ async function loadjourney(){
               Time: journey.Time,
             };
          const journey_info = createJourneyElement(journeyInfo);
-        
+         if(journeyInfo.Status===2){
+          journey_info.classList.add("checked");
+          
+          var closeButton = journey_info.querySelector(".close-info");
+          journey_info.removeChild(closeButton);
+          document.getElementById("CList-container").appendChild(journey_info);
+         }else{
          document.getElementById("List-container").appendChild(journey_info);
-
-        
-        journey_list.push(journey_info);
-        addEventListenerToButtons(journey_info,journeyInfo);
+            addEventListenerToButtons(journey_info,journeyInfo);}
         }
        // console.log(driverElements);
 
@@ -140,10 +143,10 @@ function createJourneyElement(journeyInfo){
     "<br>" +
     " <strong>Destinations:</strong> " +
     journeyInfo.EndLocation + "<br>" +
-  " <strong>Distance:</strong> " +
+  " <strong>Distance (km):</strong> " +
     journeyInfo.Kilomet +
     "<br>" +
-    " <strong>EstTime:</strong> " +
+    " <strong>EstTime (minutes):</strong> " +
     journeyInfo.Time +
     "<br>" +
     " <strong>Price:</strong> " +
