@@ -54,7 +54,7 @@ app.post("/sendform_admin", async (req, res) => {
   if (isMatch) {
     const userJSON = JSON.stringify(admin);
     localStorage.setItem("user", userJSON);
-    res.redirect("admin.html");
+    res.json(userJSON);
   } else {
     res.render("signin_admin.ejs", {
       messages: { error: "Wrong Password" },
@@ -79,7 +79,7 @@ app.post("/sendform_driver", async (req, res) => {
   if (isMatch) {
     const userJSON = JSON.stringify(driver);
     localStorage.setItem("user", userJSON);
-    res.redirect("driver.html");
+    res.json(userJSON);
   } else {
     res.render("signin_driver.ejs", {
       messages: { error: "Wrong Password" },

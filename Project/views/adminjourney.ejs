@@ -71,95 +71,34 @@
 
 
     <% if (information) { %>
-      <%=information%>
-        window.location.reload();
-        <%}%>
+      <%= information %> 
+      
+  <% } %>
+  
+    
+    </section>
+    <main>
+      <!--  -->
+      <section id="driver_journey">
+        <div class="portfolio container-fluid text-center">
+          <h1>JOURNEY</h1>
+          <!-- <button onclick="loadjourney()" id="ff" ><strong>*</strong></button> -->
+          <div class="container-fluid text-center">
+            <div class="container-fluid px-0 my-5">
+              <div class="d-flex justify-content-between">
+                <div class="box p-5 border flex-grow-1">
+                  <!-- Nội dung -->
 
-  </section>
-  <main>
-    <!--  -->
-    <section id="driver_journey">
-      <div class="portfolio container-fluid text-center">
-        <h1>JOURNEY</h1>
-        <button onclick="loadjourney()" id="ff"><strong>*</strong></button>
-        <div class="container-fluid text-center">
-          <div class="container-fluid px-0 my-5">
-            <div class="d-flex justify-content-between">
-              <div class="box p-5 border flex-grow-1">
-                <!-- Nội dung -->
+                  
 
-                <h1 class="text-center">Current Trip</h1>
+                  <!-- <button onclick="showForm()" id="modalForm">+</button> -->
+                  
+                  <div class="addTrip">
+                    <h1 class="text-center">Current Trip</h1>
+                    <ul id="List-container">
 
-                <!-- <button onclick="showForm()" id="modalForm">+</button>
-                  <div class="overlay" id="overlay"></div>
-                  <div id="formContainer" class="modal">
-                      Modal content -->
-                <!-- <div class="modal-content">
-                      <span class="close" onclick="hideForm(event)"
-                        >&times;</span
-                      >
-                      <form
-                        class="m-auto text-left"
-                        style="max-width: 500px"
-                        method="post"
-                        novalidate=""
-                        id="myForm"
-                      > -->
-                <!-- Các trường form ở đây -->
-                <!-- <h2>Create Trip Form</h2>
-
-                       
-                        <input
-                          id="searchInput"
-                          class="controls"
-                          type="text"
-                          placeholder="Enter a location"
-                        />
-                        <div id="map">This is map</div> -->
-
-                <!-- Display geolocation data -->
-                <!-- <ul class="geo-data">
-                          <li>Full Address: <span id="location"></span></li>
-                          <li>Postal Code: <span id="postal_code"></span></li>
-                          <li>Country: <span id="country"></span></li>
-                          <li>Latitude: <span id="lat"></span></li>
-                          <li>Longitude: <span id="lon"></span></li>
-                        </ul>
-
-                        <div id="map"></div>
-                        <div id="infowindow-content">
-                          <span id="place-name" class="title"></span><br />
-                          <span id="place-address"></span>
-                        </div> -->
-                <!------>
-                <!-- <div class="form-group">
-                          <label class="w-100">
-                            Distance
-                            <div class="form-control" id="distance"></div>
-                          </label>
-                        </div>
-                        <div class="form-group">
-                          <label class="w-100">
-                            Estimated time:
-                            <div class="form-control" id="EstTime"></div>
-                          </label>
-                        </div>
-
-                        <br />
-                        <span>
-                          <button
-                            onclick="NewTrip(event)"
-                            type="submit"
-                            id="submittrip"
-                          >
-                            Submit
-                          </button></span
-                        >
-                      </form>
-                    </div>
-                  </div> -->
-                <div class="addTrip">
-                  <ul id="List-container"></ul>
+                    </ul>
+                  </div>
                 </div>
               </div>
               <div class="box p-5 border flex-grow-1">

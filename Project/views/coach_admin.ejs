@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-    <script src="js/script_create.js"></script>
+    <script src="js/script_create1.js"></script>
 </head>
 
 <body>
@@ -61,34 +61,13 @@
     </header>
     <main>
         <!-- HOME -->
-        <section id="AddCoachForm" class="portfolio container-fluid text-center" onsubmit="onSubmit()">
-            <h2>Add Coach</h2>
-            <form action="/admin/addTransportation/coach" method="post">
-                Capacity: <input type="number" placeholder="4" name="Capacity"> <br>
-                Size: <input type="number" placeholder="7" name="Size"> <br>
-                Type of Fuel: <input type="text" placeholder="Petrol" name="TypeOfFuel" value="Petrol"> <br>
-                Vehicle Status:
-                <input type="radio" id="option1" name="option" value="Active">
-                <label for="option1">Active</label>
-
-                <input type="radio" id="option2" name="option" value="UnderMaintainance">
-                <label for="option2">Under Maintainance</label>
-
-                <input type="radio" id="option3" name="option" value="NotActive">
-                <label for="option3">Not Active</label><br>
-                <!-- Liscence Number: <input  type="text" placeholder="000000" name="LiscenceNumber"> <br>
-            Account: <input type="text" placeholder="driver" name="Account"> <br> -->
-                License: <input type="text" placeholder="113" name="License" value="113"> <br>
-                <input type="submit" value="Submit">
-            </form>
-        </section>
         <!-- PORTFOLIO -->
         <section id="portfolio">
             <div class="portfolio container-fluid text-center">
                 <h2>Coach Collection</h2>
 
                 <div class="row" , id="ROW">
-                    <div class="col-sm-6 col-md-4 col-lg-4">
+                    <!-- <div class="col-sm-6 col-md-4 col-lg-4">
                         <div class="box">
                             <a href="#">
                                 <img src="floai_ltnc/c1.png" alt="Portfolio 1">
@@ -152,51 +131,91 @@
 
                             </div>
 
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
             <button onclick="showForm()" id="modalForm">+</button>
             <div class="overlay" id="overlay"></div>
+            <div id="AddCoachForm" class="portfolio container-fluid text-center">
+               
+                
             <div id="formContainer" class="modal">
 
                 <!-- Modal content -->
                 <div class="modal-content">
                     <span class="close" onclick="hideForm(event)">&times;</span>
-                    <form class="m-auto text-left" style="max-width: 500px" method="post" novalidate="" id="myForm">
+                    <form class="m-auto text-left" style="max-width: 500px"  method="post" novalidate="" id="myForm">
                         <!-- Các trường form ở đây -->
-                        <h2>Coach Information</h2>
+                        <h2>Car Information</h2>
+                        
                         <div class="form-group">
-                            <label class="w-100"> Brand:
-                                <input class="form-control" type="text" id="Driver" name="Driver"
-                                    placeholder="Brand"></label>
+                            <label class="w-100"> Brand:<br>
+                                <!-- coach : HYUNDAI SOLATI; FORD TRANSIT; HYUNDAI COUNTY; SAMCO -->
+                               
+                                <input type="radio" id="brandoption1" name="brandoption" value="HYUNDAI SOLATI">
+                                <label for="brandoption1">HYUNDAI SOLATI</label><br>
+                                
+                                <input type="radio" id="brandoption2" name="brandoption" value="FORD TRANSIT">
+                                <label for="brandoption2">FORD TRANSIT</label><br>
+                                
+                                <input type="radio" id="brandoption3" name="brandoption" value="HYUNDAI COUNTY">
+                                <label for="brandoption3">HYUNDAI COUNTY</label><br>
+
+                                <input type="radio" id="brandoption4" name="brandoption" value="SAMCO">
+                                <label for="brandoption4">SAMCO</label><br>
+
+                            </label>
                         </div>
 
                         <div class="form-group">
-                            <label class="w-100">Type:
-                                <input class="form-control" type="text" id="Vehircle" name="Vehircle"
-                                    placeholder="Type"></label>
+                            <label class="w-100">Type of Fuel:
+                                <input class="form-control" type="text" id="FuelType" name="FuelType"
+                                    placeholder="Petrol" value="Petrol"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="w-100">Capacity:
+                                <input class="form-control" type="number" placeholder="4" id="Capacity"
+                                name="Capacity"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="w-100">Size:
+                                <input class="form-control" type="number" placeholder="7" id="Size"
+                                name="Size"></label>
                         </div>
 
                         <div class="form-group">
-                            <label class="w-100">Plate Number:
+                            <label class="w-100">License:
                                 <input class="form-control" type="text" id="Num" name="Num"
-                                    placeholder="Plate Number"></label>
+                                    placeholder="License Number"></label>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
+                            <label class="w-100"> Vehicle Status:<br>
+                                <input type="radio" id="option1" name="option" value="Active">
+                                <label for="option1">Active</label>
+                                
+                                <input type="radio" id="option2" name="option" value="UnderMaintainance">
+                                <label for="option2">Under Maintainance</label>
+                                
+                                <input type="radio" id="option3" name="option" value="NotActive">
+                                <label for="option3">Not  Active</label>
+                            </label>
+                        </div> -->
+
+                        <!-- <div class="form-group">
                             <label class="w-100">Warranty Time:
                                 <input class="form-control" type="text" id="Service" name="Service"
                                     placeholder="Warranty Time"></label>
-                        </div>
+                        </div> -->
 
                         <br>
-                        <span>
-
-                            <button onclick="NewTrip2(event)" type="submit" id="submittrip">Submit</button></span>
+                        <button onclick="CarAdd(event)" type="submit" id="submitcar">Submit</button>
+                        
                     </form>
                 </div>
 
+            </div>
             </div>
         </section>
 

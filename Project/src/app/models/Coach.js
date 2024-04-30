@@ -17,6 +17,7 @@ const Coach = new Schema({
   },
   Warranty: { type: Schema.Types.ObjectId, ref: "WarrantyService" },
   Journey: { type: Schema.Types.ObjectId, ref: "Journey", default: null },
+  License: { type: String, default: "113" },
 });
 
 module.exports = mongoose.model("Coach", Coach);
