@@ -16,6 +16,7 @@ app.set("view-engine", "ejs");
 // Connect to DB
 const db = require("./config/db");
 const admin = require("./app/controllers/AdminController");
+const { experimentalSetDeliveryMetricsExportedToBigQueryEnabled } = require("firebase/messaging/sw");
 db.connect();
 //test
 //Middleware
@@ -131,11 +132,16 @@ app.get("/car_admin", (req, res) => {
 });
 
 app.get("/car1_admin", (req, res) => { 
-  let information =""
-  if (req.query.info) {
-    information = JSON.parse(req.query.info);
-  } 
-  res.render("car1_admin.ejs", {information});
+  const postedData=(req.body)
+  // console.log(JSON.parse(req.body))
+  res.render("car1_admin.ejs",{postedData})
+});
+
+app.post("/car1_admin", (req, res) => { 
+  const data=(req.body)
+  console.log(req.body)
+  console.log("Hell123o")
+  res.render("car1_admin.ejs",{data})
 });
 
 app.get("/truck_admin", (req, res) => {

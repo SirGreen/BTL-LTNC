@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <!-- <script src="js/script_create.js"></script> -->
-    <script> 
+    <!-- <script> 
         // Define the editCar function
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('productId');
@@ -156,7 +156,7 @@ async function submitedit(event){
             
             fetchCarID();
         };
-    </script>
+    </script> -->
 </head>
 
 <body>
@@ -228,7 +228,8 @@ async function submitedit(event){
                             Brand:
                         </div>
                         <div class="col-lg-2">
-                            <input type="text" id="Brand_edit" name="capacity" required placeholder="320 kg" class="form-control" disabled>
+                            <input type="text" id="Brand_edit" name="capacity" required placeholder=
+                                "<%=data.Brand%>" class="form-control" disabled>
                         </div>
                     </div>
                     <div class="row">
@@ -236,7 +237,8 @@ async function submitedit(event){
                             Capacity:
                         </div>
                         <div class="col-lg-2">
-                            <input type="text" id="Capacity_edit" name="capacity" required placeholder="320 kg" class="form-control">
+                            <input type="text" id="Capacity_edit" name="capacity" required placeholder=
+                            "<%=data.Capacity%>" class="form-control">
                         </div>
                     </div>
                     <br>
@@ -246,7 +248,8 @@ async function submitedit(event){
                         </div>
                         <div class="col-lg-3">
 
-                            <input type="text" id="Size_edit" name="size" required placeholder=" 190x75x60 inches"
+                            <input type="text" id="Size_edit" name="size" required placeholder=
+                            "<%=data.Size%>"
                                 class="form-control">
                         </div>
                     </div>
@@ -256,7 +259,8 @@ async function submitedit(event){
                             Type Of Fuel:
                         </div>
                         <div class="col-lg-2">
-                            <input type="text" id="Fuel_edit" name="type_of_fuel" required placeholder=" Diesel" class="form-control">
+                            <input type="text" id="Fuel_edit" name="type_of_fuel" required placeholder=
+                            "<%=data.TypeOfFuel%>" class="form-control">
                         </div>
                     </div>
                     <br>
@@ -264,8 +268,8 @@ async function submitedit(event){
                         <div class="col-lg-6">
                             Warranty Time:
                         </div>
-                        <div class="col-lg-2" id="Warranty_edit">
-                            
+                        <div class="col-lg-2" id="Warranty_edit" >
+                            <%=data.Warranty%>
                         </div>
                     </div>
                     <br>
@@ -283,7 +287,7 @@ async function submitedit(event){
                         </div>
                         <div class="col-lg-2" >
                             <input class="form-control" type="text" id="License_edit" name="Num"
-                                    placeholder="License Number"></label>
+                                    placeholder="<%=data.License%>"></label>
                         </div>
                     </div>
                     <br>
