@@ -142,8 +142,16 @@ app.get("/truck_admin", (req, res) => {
   res.render("truck_admin.ejs");
 });
 
+app.get("/truck1_admin", (req, res) => {
+  res.render("truck1_admin.ejs");
+});
+
 app.get("/coach_admin", (req, res) => {
   res.render("coach_admin.ejs");
+});
+
+app.get("/coach1_admin", (req, res) => {
+  res.render("coach1_admin.ejs");
 });
 
 app.get("/driverjourney", (req, res) => {
