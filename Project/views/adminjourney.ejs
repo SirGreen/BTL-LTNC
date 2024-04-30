@@ -1,101 +1,100 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BakOneTemplate</title>
-    <link rel="shortcut icon" href="images/favicon2.ico" type="image/x-icon">
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-    <script src="js/script_create.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BakOneTemplate</title>
+  <link rel="shortcut icon" href="images/favicon2.ico" type="image/x-icon">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 
-    <script src="js/web.js"></script>
-    <script src="js/addjour.js"></script>
-    <style>
-      /* Style to remove border from iframe */
-      iframe {
-          border: none;
-      }
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+  <script src="js/script_create.js"></script>
+
+  <script src="js/web.js"></script>
+  <script src="js/addjour.js"></script>
+  <style>
+    /* Style to remove border from iframe */
+    iframe {
+      border: none;
+    }
   </style>
-  </head>
+</head>
 
-  <body>
-    <header>
-      <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
-          <a class="navbar-brand" href="#">
-              <img src="images/logoxe.png" alt="">
-          </a>
-          <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
-              data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
-              aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="collapsibleNavId">
-              <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                  <li class="nav-item active">
-                      <a class="nav-link" href="/">HOME</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="pre_signin.html">SIGNIN AS DRIVER</a>
-                  </li>
-                  <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                          aria-haspopup="true" aria-expanded="false">VEHICLE</a>
-                      <div class="dropdown-menu">
-                          <a class="dropdown-item" href="\car_admin">CAR</a>
-                          <a class="dropdown-item" href="\truck_admin">TRUCK</a>
-                          <a class="dropdown-item" href="\coach_admin">COACH</a>
-                      </div>
-                  </li>
-                  <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                          aria-haspopup="true" aria-expanded="false">MENU</a>
-                      <div class="dropdown-menu">
-                          <a class="dropdown-item" href="\driver_admin">Driver</a>
-                          <a class="dropdown-item" href="\adminjourney">Journey</a>
-                          <a class="dropdown-item" href="\account">Account</a>
-                      </div>
-                  </li>
-              </ul>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+      <a class="navbar-brand" href="#">
+        <img src="images/logoxe.png" alt="">
+      </a>
+      <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+        aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">HOME</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="\signin_driver">SIGNIN AS DRIVER</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+              aria-expanded="false">VEHICLE</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="\car_admin">CAR</a>
+              <a class="dropdown-item" href="\truck_admin">TRUCK</a>
+              <a class="dropdown-item" href="\coach_admin">COACH</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+              aria-expanded="false">MENU</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="\driver_admin">Driver</a>
+              <a class="dropdown-item" href="\adminjourney">Journey</a>
+              <a class="dropdown-item" href="\account">Account</a>
+            </div>
+          </li>
+        </ul>
 
-          </div>
-      </nav>
+      </div>
+    </nav>
   </header>
   <section>
     <iframe src="map.html" width="100%" height="900px" style="overflow: hidden; border: none;"></iframe>
 
-  
-   
+
+
     <% if (information) { %>
-      <%= information %> 
-      
-  <% } %>
-  
-    
-    </section>
-    <main>
-      <!--  -->
-      <section id="driver_journey">
-        <div class="portfolio container-fluid text-center">
-          <h1>JOURNEY</h1>
-          <button onclick="loadjourney()" id="ff" ><strong>*</strong></button>
-          <div class="container-fluid text-center">
-            <div class="container-fluid px-0 my-5">
-              <div class="d-flex justify-content-between">
-                <div class="box p-5 border flex-grow-1">
-                  <!-- Nội dung -->
+      <%=information%>
+        window.location.reload();
+        <%}%>
 
-                  <h1 class="text-center">Current Trip</h1>
+  </section>
+  <main>
+    <!--  -->
+    <section id="driver_journey">
+      <div class="portfolio container-fluid text-center">
+        <h1>JOURNEY</h1>
+        <button onclick="loadjourney()" id="ff"><strong>*</strong></button>
+        <div class="container-fluid text-center">
+          <div class="container-fluid px-0 my-5">
+            <div class="d-flex justify-content-between">
+              <div class="box p-5 border flex-grow-1">
+                <!-- Nội dung -->
 
-                  <!-- <button onclick="showForm()" id="modalForm">+</button>
+                <h1 class="text-center">Current Trip</h1>
+
+                <!-- <button onclick="showForm()" id="modalForm">+</button>
                   <div class="overlay" id="overlay"></div>
                   <div id="formContainer" class="modal">
                       Modal content -->
-                    <!-- <div class="modal-content">
+                <!-- <div class="modal-content">
                       <span class="close" onclick="hideForm(event)"
                         >&times;</span
                       >
@@ -106,8 +105,8 @@
                         novalidate=""
                         id="myForm"
                       > -->
-                        <!-- Các trường form ở đây -->
-                        <!-- <h2>Create Trip Form</h2>
+                <!-- Các trường form ở đây -->
+                <!-- <h2>Create Trip Form</h2>
 
                        
                         <input
@@ -118,8 +117,8 @@
                         />
                         <div id="map">This is map</div> -->
 
-                        <!-- Display geolocation data -->
-                        <!-- <ul class="geo-data">
+                <!-- Display geolocation data -->
+                <!-- <ul class="geo-data">
                           <li>Full Address: <span id="location"></span></li>
                           <li>Postal Code: <span id="postal_code"></span></li>
                           <li>Country: <span id="country"></span></li>
@@ -132,8 +131,8 @@
                           <span id="place-name" class="title"></span><br />
                           <span id="place-address"></span>
                         </div> -->
-                        <!------>
-                        <!-- <div class="form-group">
+                <!------>
+                <!-- <div class="form-group">
                           <label class="w-100">
                             Distance
                             <div class="form-control" id="distance"></div>
@@ -158,106 +157,84 @@
                         >
                       </form>
                     </div>
-                  </div> --> 
-                  <div class="addTrip">
-                    <ul id="List-container"></ul>
-                  </div>
+                  </div> -->
+                <div class="addTrip">
+                  <ul id="List-container"></ul>
                 </div>
-                <div class="box p-5 border flex-grow-1">
-                  <!-- Nội dung -->
+              </div>
+              <div class="box p-5 border flex-grow-1">
+                <!-- Nội dung -->
 
-                  <h1 class="text-center">Completed Trip</h1>
-                  <div class="addTrip">
-                    <ul id="CList-container"></ul>
-                  </div>
+                <h1 class="text-center">Completed Trip</h1>
+                <div class="addTrip">
+                  <ul id="CList-container"></ul>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-      <!-- CONTACT -->
-      <section id="contact">
-        <div class="contact container-fluid">
-          <h2>Contact Us</h2>
-          <div class="row">
-            <!-- Left column -->
-            <div class="col-lg-6">
-              <form action="#" method="POST">
-                <div class="row">
-                  <div class="col-lg-6">
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      placeholder="Your name"
-                      class="form-control"
-                    />
-                  </div>
-                  <div class="col-lg-6">
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      placeholder="Your email"
-                      class="form-control"
-                    />
-                  </div>
-                  <div class="col-lg-12">
-                    <textarea
-                      name="message"
-                      cols="30"
-                      rows="10"
-                      required
-                      placeholder="Your message"
-                      class="form-control"
-                    ></textarea>
-                  </div>
-                  <div class="col-lg-12 text-right">
-                    <button onclick="NewTrip()">SUBMIT</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-
-            <!-- Right column -->
-            <div class="col-lg-6">
-              <h3>INFORMATION</h3>
-              <address>
-                <i class="fa-solid fa-location-dot"></i>
-                <span>
-                  Bak-One Company <br />
-                  12345 Hollywood Bvld Street <br />
-                  Los Angeles, California
-                </span>
-              </address>
-              <p>
-                <i class="fa-solid fa-square-phone"></i>
-                +444 (Phone) 123456
-              </p>
-              <p>
-                <i class="fa-solid fa-print"></i>
-                +123 (FAX) 0011223
-              </p>
-              <p>
-                <i class="fa-solid fa-envelope"></i>
-                info@bak-onecompany.com
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-    <footer>
-      <div class="container-fluid">
-        <span>© Copyright 2013 Bak-One | One Page Flat Template</span>
       </div>
-      <a href="#" class="back-to-top">
-        <i class="fa-solid fa-angle-up"></i>
-      </a>
-    </footer>
-    <script src="assets/jquery.min.js"></script>
-    <script src="assets/popper.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-  </body>
+    </section>
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="contact container-fluid">
+        <h2>Contact Us</h2>
+        <div class="row">
+          <!-- Left column -->
+          <div class="col-lg-6">
+            <form action="#" method="POST">
+              <div class="row">
+                <div class="col-lg-6">
+                  <input type="text" name="name" required placeholder="Your name" class="form-control" />
+                </div>
+                <div class="col-lg-6">
+                  <input type="email" name="email" required placeholder="Your email" class="form-control" />
+                </div>
+                <div class="col-lg-12">
+                  <textarea name="message" cols="30" rows="10" required placeholder="Your message"
+                    class="form-control"></textarea>
+                </div>
+                <div class="col-lg-12 text-right">
+                  <button onclick="NewTrip()">SUBMIT</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right column -->
+          <div class="col-lg-6">
+            <h3>INFORMATION</h3>
+            <address>
+              <i class="fa-solid fa-location-dot"></i>
+              <span>
+                BKHCM University <br>
+                268 Ly Thuong Kiet <br>
+                District 11, TPHCM
+              </span>
+
+            </address>
+
+            <p>
+              <i class="fa-solid fa-envelope"></i>
+              info@5anhem.com
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="container-fluid">
+      <span>BTL_LTNC 5 anh em siêu nhân | CAR MANAGEMENT </span>
+    </div>
+    <a href="#" class="back-to-top">
+      <i class="fa-solid fa-angle-up"></i>
+    </a>
+  </footer>
+  <script src="assets/jquery.min.js"></script>
+  <script src="assets/popper.min.js"></script>
+  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
 </html>
