@@ -2,7 +2,10 @@
 var journeyid;
 var cjourney_list= [];
 var journeyInfo;
+var cjourneyInfo;
 var driverInfo;
+var driver_id;
+
 function displayUserInfo() { 
   // Set an item in local storage
 
@@ -11,33 +14,71 @@ function displayUserInfo() {
 
   console.log(`User Information:`);
   console.log(`ID: ${user._id}`);
+  driver_id=user._id;
   console.log(`Name: ${user.Name}`);
   console.log(`Phone Number: ${user.PhoneNumber}`);
   console.log(`Driving Experience: ${user.DrivingExperience} year(s)`);
   console.log(`License Number: ${user.LiscenceNumber}`);
   console.log(`Journey List: ${user.JourneyList.join(", ")}`);
-  cjourney_list= user.JourneyList;
+ // cjourney_list= user.JourneyList;
   console.log(`Journey Incharge: ${user.JourneyIncharge}`);
-  journeyid= user.JourneyIncharge;
+  //journeyid= user.JourneyIncharge;
   console.log(`Account: ${user.Account}`);
   console.log(`Password (hashed): ${user.Password}`);
   console.log(`Version: ${user.__v}`);
-  driverInfo = {
-    _id: user._id,
-    Name: user.Name,
-    PhoneNumber: user.PhoneNumber,
-    DrivingExperience: user.DrivingExperience,
-    LiscenceNumber: user.LiscenceNumber,
-    JourneyList: user.JourneyList,
-    JourneyIncharge: user.JourneyIncharge,
-    Account: user.Account,
-    Password: user.Password,
-  };
+  // driverInfo = {
+  //   _id: user._id,
+  //   Name: user.Name,
+  //   PhoneNumber: user.PhoneNumber,
+  //   DrivingExperience: user.DrivingExperience,
+  //   LiscenceNumber: user.LiscenceNumber,
+  //   JourneyList: user.JourneyList,
+  //   JourneyIncharge: user.JourneyIncharge,
+  //   Account: user.Account,
+  //   Password: user.Password,
+  // };
+}
+async function fetchDrivers() {
+  const response = await fetch('driver/'+driver_id);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const drivers = await response.json();
+  return drivers;
+}
+async function loadDriver() {
+  await fetchDrivers()
+    .then(driver => {
+      
+        driverInfo = {
+          _id: driver._id,
+          Name: driver.Name,
+          PhoneNumber: driver.PhoneNumber,
+          DrivingExperience: driver.DrivingExperience,
+          LiscenceNumber: driver.LiscenceNumber,
+          JourneyList: driver.JourneyList,
+          JourneyIncharge: driver.JourneyIncharge,
+          Account: driver.Account,
+          Password: driver.Password,
+        };
+
+        cjourney_list=driverInfo.JourneyList;
+        journeyid=driverInfo.JourneyIncharge;
+      
+      
+    })
+    .catch((e) =>
+      console.error(
+        "There was a problem with the fetch operation: " + e.message
+      )
+    );
 }
 document.addEventListener("DOMContentLoaded", async function() {
   displayUserInfo() ;
+  
   try {
       // Gọi hàm loadDriver để tự động tải danh sách tài xế khi trang được truy cập
+      await loadDriver();
       await loadjourney();
       await loadCompletedjourney();
       console.log(cjourney_list);
@@ -64,6 +105,8 @@ async function fetchCompletedJourneys() {
             continue; // Skip this iteration and proceed with the next journey_id
         }
     }
+    console.log(10);
+    console.log(journeys);
 
     return journeys;
 }
@@ -106,12 +149,48 @@ async function loadjourney(){
       })
       .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
 }
-async function loadCompletedjourney(){
-  await  fetchCompletedJourneys()
-      .then(journeys => {
-        for (let journey of journeys)
-        {
-            journeyInfo = {
+// async function loadCompletedjourney(){
+//   await  fetchCompletedJourneys()
+//       .then(journeys => {
+//         for (let journey of journeys)
+//         {
+//             cjourneyInfo = {
+//               _id: journey._id,
+//               Transportation: journey.Transportation,
+//               TransportationType: journey.TransportationType,
+//               Driver: journey.Driver,
+//               Kilomet: journey.Kilomet,
+//               Price: journey.Price,
+//               DateTime: journey.DateTime,
+//               StartLocation: journey.StartLocation,
+//               EndLocation: journey.EndLocation,
+//               Status: journey.Status,
+//               Time: journey.Time,
+//             };
+//          const journey_info = createJourneyElement(cjourneyInfo);
+        
+//          document.getElementById("CList-container").appendChild(journey_info);
+//          journey_info.classList.toggle("checked");
+
+        
+//         journey_list.push(journey_info);
+//         //addEventListenerToButtons(journey_info,journeyInfo);
+//         }
+//        // console.log(driverElements);
+
+      
+//       })
+//       .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
+//     }
+async function loadCompletedjourney() {
+  try {
+      const journeys = await fetchCompletedJourneys(); // Await fetchCompletedJourneys()
+      console.log(90);
+    console.log(journeys);
+
+      for (let journey of journeys) {
+          // Create a journey information object
+          const cjourneyInfo = {
               _id: journey._id,
               Transportation: journey.Transportation,
               TransportationType: journey.TransportationType,
@@ -123,22 +202,24 @@ async function loadCompletedjourney(){
               EndLocation: journey.EndLocation,
               Status: journey.Status,
               Time: journey.Time,
-            };
-         const journey_info = createJourneyElement(journeyInfo);
-        
-         document.getElementById("CList-container").appendChild(journey_info);
-         journey_info.classList.toggle("checked");
+          };
 
-        
-        journey_list.push(journey_info);
-        //addEventListenerToButtons(journey_info,journeyInfo);
-        }
-       // console.log(driverElements);
+          // Create a journey element
+          const journeyInfoElement = createJourneyElement(cjourneyInfo);
 
-      
-      })
-      .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
-    }
+          // Append the journey element to the container
+          document.getElementById("CList-container").appendChild(journeyInfoElement);
+
+          // Toggle the "checked" class
+          journeyInfoElement.classList.toggle("checked");
+
+          
+      }
+  } catch (error) {
+      console.error('There was a problem with the fetch operation: ' + error.message);
+  }
+}
+
     
     function createJourneyElement(journeyInfo){
       var li = document.createElement("li");
