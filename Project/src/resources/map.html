@@ -10,59 +10,51 @@
 </style>
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
-<link
-  rel="stylesheet"
-  href="https://js.arcgis.com/4.29/esri/themes/light/main.css"
-/>
+<link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
 <script src="https://js.arcgis.com/4.29/"></script>
 <script src="js/map.js"></script>
+
 <body>
-<br>
-<br>
-<br>
-<div id="viewDiv"></div>
-<div>
-<form
-  class="m-auto text-left"
-  style="max-width: 500px"
-  method="post"
-  novalidate=""
-  id="myForm"
->
-<br>
-  <h3 style="text-align: center; color:#1bbc9b;" >Showing</h3>
-  <label class="w-100">
-    Start Point:
-    <div class="form-control" id="showSearchStart"></div>
-  </label>
-  <label class="w-100">
-    Start End:
-    <div class="form-control" id="showSearchEnd"></div>
-  </label>
-  <label class="w-100">
-    Travel Time:
-    <div class="form-control" id="showTravelTime"></div>
-  </label>
-  <label class="w-100">
-    Path Length:
-    <div class="form-control" id="showTravelLength"></div>
-  </label>
-  <label class="w-100">
-    Transportation Type:
-    <br>
-  <input type="radio" id="type1" name="type" value="car" />
-  <label for="type1">Car</label>
+  <br>
+  <br>
+  <br>
+  <div id="viewDiv"></div>
+  <div>
+    <form class="m-auto text-left" style="max-width: 850px" method="post" novalidate="" id="myForm">
+      <br>
+      <h3 style="text-align: center; color:#1bbc9b;">Showing</h3>
+      <label class="w-100">
+        Start Point:
+        <div class="form-control" id="showSearchStart"></div>
+      </label>
+      <label class="w-100">
+        Start End:
+        <div class="form-control" id="showSearchEnd"></div>
+      </label>
+      <label class="w-100">
+        Travel Time:
+        <div class="form-control" id="showTravelTime"></div>
+      </label>
+      <label class="w-100">
+        Path Length:
+        <div class="form-control" id="showTravelLength"></div>
+      </label>
+      <label class="w-100">
+        Transportation Type:
+        <br>
+        <input type="radio" id="type1" name="type" value="car" />
+        <label for="type1">Car</label>
 
-  <input type="radio" id="type2" name="type" value="truck" />
-  <label for="type2">Truck</label>
+        <input type="radio" id="type2" name="type" value="truck" />
+        <label for="type2">Truck</label>
 
-  <input type="radio" id="type3" name="type" value="coach" />
-  <label for="type3">Coach</label><br>
-  </label>
-  
+        <input type="radio" id="type3" name="type" value="coach" />
+        <label for="type3">Coach</label><br>
+      </label>
 
-  <button onclick="clearAll(event)">Clear</button>
-  <button onclick="send(event)">Send</button>
-</form>
-</div>
+
+      <button onclick="clearAll(event)">Clear</button>
+      <button onclick="send(event)">Send</button>
+    </form>
+  </div>
