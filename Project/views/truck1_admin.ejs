@@ -16,7 +16,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('productId');
         async function fetchCar() {
-    const response = await fetch("http://localhost:3000/truck");
+    const response = await fetch("/truck");
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -25,7 +25,7 @@
   }
 
         async function fetchCarID() {
-        const response = await fetch('http://localhost:3000/truck/'+productId);
+        const response = await fetch('/truck/'+productId);
         if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -42,6 +42,7 @@
                 License: driver.License,
                 
             };
+            
          //   editID=vehicleInfo._id;
     // <h3>Mercedes - Ready for a new journey</h3>
     //                     <p>
@@ -63,7 +64,7 @@
         img.setAttribute("src", "floai_ltnc/t2.png");
         img.setAttribute("alt", "Jump to portfolio");
     } else if (vehicleInfo.Brand === 'VAN FOTON') {
-        img.setAttribute("src", "floai_ltnc/t3.jpg");
+        img.setAttribute("src", "floai_ltnc/t3.png");
         img.setAttribute("alt", "Jump to portfolio");
     } else if (vehicleInfo.Brand === 'VAN SUZUKI BLIND') {
         img.setAttribute("src", "floai_ltnc/pickup-truck-isolated-white-background-d-render-pickup-truck-isolated-205954001.webp");
@@ -94,14 +95,14 @@
     document.getElementById("Status_edit").appendChild(p2);
     
 
-   
+    document.querySelector("#License_edit").value = vehicleInfo.License;
         return driver;
     }
 async function submitedit(event){
     event.preventDefault();
     var nameInput=document.getElementById("Brand_edit").value;
     var vehircleF = document.getElementById("Fuel_edit").value;
-    
+    var ELicense = document.getElementById("License_edit").value;
     var ECapacity= document.getElementById("Capacity_edit").value;
     var ESize= document.getElementById("Size_edit").value;
 
@@ -110,18 +111,17 @@ async function submitedit(event){
         Capacity: ECapacity,
         Size: ESize,
         TypeOfFuel: vehircleF,
-       
+        License: ELicense,
     };
     try {
         const drivers = await fetchCar();
         console.log(drivers);
         
-        
           drivers[productId] = vehicleInfo;
           isEdit = false;
   
           // Gửi yêu cầu PUT để chỉnh sửa tài xế
-          const putResponse = await fetch('admin/update/coach/'+productId, {
+          const putResponse = await fetch('admin/update/truck/'+productId, {
               method: 'PUT',
               headers: {
                   "Content-Type": "application/json"

@@ -94,14 +94,14 @@
     document.getElementById("Status_edit").appendChild(p2);
     
 
-   
+    document.querySelector("#License_edit").value = vehicleInfo.License;
         return driver;
     }
 async function submitedit(event){
     event.preventDefault();
     var nameInput=document.getElementById("Brand_edit").value;
     var vehircleF = document.getElementById("Fuel_edit").value;
-    
+    var ELicense = document.getElementById("License_edit").value;
     var ECapacity= document.getElementById("Capacity_edit").value;
     var ESize= document.getElementById("Size_edit").value;
 
@@ -110,7 +110,7 @@ async function submitedit(event){
         Capacity: ECapacity,
         Size: ESize,
         TypeOfFuel: vehircleF,
-       
+        License: ELicense,
     };
     try {
         const drivers = await fetchCar();
