@@ -234,18 +234,18 @@ function completedTrip(li) {
   // Do something with the completed <li> element
   document.getElementById("CList-container").appendChild(li);
 }
-document.addEventListener("DOMContentLoaded", function () {
-  const ClisCon = document.getElementById("CList-container");
-  if (ClisCon) {
-    ClisCon.addEventListener("click", function (e) {
-      if (e.target.tagName === "SPAN") {
-        e.target.parentElement.remove();
-      }
-    });
-  } else {
-    console.error("CList-container element not found");
-  }
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//   const ClisCon = document.getElementById("CList-container");
+//   if (ClisCon) {
+//     ClisCon.addEventListener("click", function (e) {
+//       if (e.target.tagName === "SPAN") {
+//         e.target.parentElement.remove();
+//       }
+//     });
+//   } else {
+//     console.error("CList-container element not found");
+//   }
+// });
 
 
 function submitForm() {
