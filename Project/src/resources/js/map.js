@@ -171,12 +171,12 @@ require([
     const routeResult = data.routeResults[0].route;
     routeResult.symbol = routeSymbol;
     routeLayer.add(routeResult);
-    document.getElementById("showTravelTime").innerHTML =
-      routeResult.attributes.Total_TravelTime; //in minutes
-    document.getElementById("showTravelLength").innerHTML =
-      routeResult.attributes.Total_Kilometers;
-    journeyData.Time = routeResult.attributes.Total_TravelTime;
-    journeyData.Kilomet = routeResult.attributes.Total_Kilometers;
+    const TravelTime = routeResult.attributes.Total_TravelTime.toFixed(4);
+    const TravelDist = routeResult.attributes.Total_Kilometers.toFixed(4);
+    document.getElementById("showTravelTime").innerHTML = TravelTime; //in minutes
+    document.getElementById("showTravelLength").innerHTML = TravelDist;
+    journeyData.Time = TravelTime;
+    journeyData.Kilomet = TravelDist;
   }
 });
 
@@ -188,7 +188,7 @@ function clearAll(event) {
   // var iframe = document.getElementById("myFrame");
   // Reload the iframe content
   // iframe.contentWindow.location.reload();
-  window.parent.location.reload()
+  window.parent.location.reload();
 }
 
 async function send(event) {
