@@ -232,6 +232,13 @@ app.get("/test2", (req, res) => {
   res.render("test2.ejs");
 });
 
+app.get('/logout', function(req, res, next) {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
+});
+
 app.all("/admin/*", checkAuthenticatedasAdmin, (req, res, next) => {
   // If user is authenticated, proceed to the next middleware
   next();
