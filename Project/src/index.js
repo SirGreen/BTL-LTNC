@@ -9,7 +9,6 @@ const morgan = require("morgan");
 const bcrypt = require("bcrypt");
 const { LocalStorage } = require("node-localstorage");
 const localStorage = new LocalStorage("./UserData");
-const port = 3000;
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
@@ -322,6 +321,10 @@ async function checkAuthenticatedasDriver(req, res, next) {
 //Route init
 route(app);
 
-app.listen(port, () => {
+port = process.env.PORT || 3000;
+
+// Listen on `port` and 0.0.0.0
+app.listen(port, "0.0.0.0", function () {
   console.log(`App listening on port http://localhost:${port}`);
 });
+
