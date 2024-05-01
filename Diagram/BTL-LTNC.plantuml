@@ -7,7 +7,9 @@ package TransportationFactory <<Folder>>{
         # int: Capacity
         # int: Size
         # string: TypeOfFuel
-        # CarStatus: Status
+        # VehicleStatus: Status
+        # string: License
+        # string: Brand
         + WarrantyService: Warranty
         + Journey: JourneyInCharge
         + DisplayInfo()
@@ -23,28 +25,19 @@ package TransportationFactory <<Folder>>{
     }
 
     class Coach {
-}
+    }
 }
 
 class WarrantyService{
     - bool: IsWarranty
     - DateTime: WarrantyTime
-    - WarrantyHistory: WarrantyHis
-
-    - ChangeWarrantyStatus()
-    + ShowTimeLeft()
-    + UpdateTimeLeft()
-    + Warranty()
-    + DisplayStatus()
+    - DateTime[]: WarrantyHis
+    + DisplayInfo()
     + DisplayWarrantyHistory()
 }
 
-class WarrantyHistory{
-    - DateTime: WarrantyDate
-    + Display()
-}
 
-enum CarStatus{
+enum VehicleStatus{
     1: Active
     2: UnderMaintainace
     3: NotActive
@@ -53,79 +46,66 @@ class Driver{
     - string: Name
     - string: PhoneNumber
     - string: Address
-    + DrivingExperience: Quality
-    - image: DriverLicense
+    - string: Account
+    - string: Password
+    + Quality: DrivingExperience
     + Journey: JourneyInCharge
-    + JourneyHistory: JourneyHis
+    + Journey: JourneyList
     + DisplayInfo()
     + CompleteJourney() 
 }
-note left of Driver::CompleteJourney()
-    AddJourneyHistory
-    DeleteJourney
-end note
 
 class Journey{
     - Transportation: Vehicle
     - Driver: DriverInCharge
     - double: Kilomet
     - double: Price
-    - DateTime: Time
     - string: StartLocation
     - string: EndLocation
+    - int: Status
+    - string: Time
     + DisplayInfo()
 }
 
-class JourneyHistory{
-    + int: Kilomet
-    + double: Price
-    + Transportation: Vehicle
-}
+note top of Journey
+Status:
+0: chưa đủ điều kiện khởi hành, 1 là đủ, 2 là đã hoàn thành
+end note
 
-class System <<Singleton>>{
+class Admin <<Singleton>>{
+    - string: Account
+    - string: Password
+    --
     + AddNewVehicle()
     + AddNewDriver()
-    --
     + DisplayVehicle()
     + DisplayDrive()
-    --
     + AddJourney()
-    - CalDisAndPrice()
-    + UpdateVehicleInfo()
+    - CalPrice()
+    + CheckForWarranty()
+    + CheckIncome()
 }
 
-note left of System::UpdateVehicleInfo
-    - Update Vehicle Status 
-    - Update Warranty Status 
-    base on Time of Journey
-    When the Driver CompleteJourney()
-end note
-
-note left of System::AddJourney
-    - Find Driver & Vehicle
-    - Calculate Kilomet 
-    & Time & Price
-end note
-
-enum DrivingExperience{
-    1: Truck
-    2: Car
-    3: Coach
-    4: Container
+enum Quality{
+    1, 2, 3
 }
+
+note bottom of Quality
+1 (tương đương bằng B) lái đc car 
+2 (tương đương bằng C) lái đc truck, (và car)
+3 (tương đương bằng D) lái đc coach (và car, truck)
+end note
 
 Transportation <|-- Truck
 Transportation <|-- Car
 Transportation <|-- Coach
 Transportation <|-- Container
 Transportation -right- WarrantyService
-Driver -right- DrivingExperience
-Driver -down-*Journey
-CarStatus -up- Transportation
-WarrantyService "1" *-up- "1..*" WarrantyHistory
-System -down[dashed]-> Transportation: Adds & Updates & Assign for Journey
-System -left[dashed]-> Driver: Adds & Journey assignment & Observe
-Journey <-right[dashed]- System: Create & Observe
+Driver -right- Quality
+Driver "1"-down-* "0..*"Journey
+VehicleStatus -up- Transportation
+Admin -down[dashed]-> Transportation: Adds & Updates & Assign for Journey
+Admin -left[dashed]-> Driver: Adds & Journey assignment & Observe
+Journey <-right[dashed]- Admin: Create & Observe
 Transportation -left-*Journey
-Driver "1"-left-"0..*" JourneyHistory
 @enduml
