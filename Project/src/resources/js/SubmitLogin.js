@@ -44,9 +44,9 @@ document
     //   return console.log(user)
       // Additional lines of code after successful authentication
       if (UserType == "Admin") {
-        window.location.href = "/admin.html";
+        window.location.href = "/admin";
       } else {
-        window.location.href = "/driver.html";
+        window.location.href = "/driver";
       }
     } catch (error) {
       console.error("Login failed:", error.message);

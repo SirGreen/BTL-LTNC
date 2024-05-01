@@ -22,7 +22,7 @@ function CalPrice(kilo) {
 class AdminController {
   index(req, res) {
     //res.render('admin')
-    res.send("ADMIN PAGE");
+    res.render("admin.ejs");
   }
 
   // [GET] /checkIncome
@@ -376,6 +376,10 @@ class AdminController {
 
   async GetAdmin(Acc) {
     return await Admin.find({ Account: Acc }).then((admin) => admin);
+  }
+
+  async GetAdminById(id) {
+    return await Admin.find({ _id: id }).then((admin) => admin);
   }
 
   async AddAdmin(req, res) {
