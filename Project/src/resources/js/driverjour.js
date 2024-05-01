@@ -1,5 +1,12 @@
 // Function to display user information
-function displayUserInfo() {
+var journeyid;
+var cjourney_list= [];
+var journeyInfo;
+var cjourneyInfo;
+var driverInfo;
+var driver_id;
+
+function displayUserInfo() { 
   // Set an item in local storage
 
   // Get an item from local storage
@@ -7,101 +14,383 @@ function displayUserInfo() {
 
   console.log(`User Information:`);
   console.log(`ID: ${user._id}`);
+  driver_id=user._id;
   console.log(`Name: ${user.Name}`);
   console.log(`Phone Number: ${user.PhoneNumber}`);
   console.log(`Driving Experience: ${user.DrivingExperience} year(s)`);
   console.log(`License Number: ${user.LiscenceNumber}`);
   console.log(`Journey List: ${user.JourneyList.join(", ")}`);
+ // cjourney_list= user.JourneyList;
   console.log(`Journey Incharge: ${user.JourneyIncharge}`);
+  //journeyid= user.JourneyIncharge;
   console.log(`Account: ${user.Account}`);
   console.log(`Password (hashed): ${user.Password}`);
   console.log(`Version: ${user.__v}`);
+  // driverInfo = {
+  //   _id: user._id,
+  //   Name: user.Name,
+  //   PhoneNumber: user.PhoneNumber,
+  //   DrivingExperience: user.DrivingExperience,
+  //   LiscenceNumber: user.LiscenceNumber,
+  //   JourneyList: user.JourneyList,
+  //   JourneyIncharge: user.JourneyIncharge,
+  //   Account: user.Account,
+  //   Password: user.Password,
+  // };
 }
-
-function NewTrip(event) {
-  event.preventDefault();
-  // Get the values from the form fields
-  /*var nameInput = document.getElementById("Driver").value;
-      var vehircleInput = document.getElementById("Vehicle").value;
-      var numInput = document.getElementById("Num").value;
-      var serviceInput = document.getElementById("Service").value;*/
-  var pickupInput = document.getElementById("pickUpAddress").value;
-  var destinationsInput = document.getElementById("Destinations").value;
-  var RDistance = document.getElementById("distance").value;
-  var estitime = document.getElementById("EstTime").value;
-  /*
-      if (!nameInput.trim() || !vehircleInput.trim() || !numInput.trim() || !serviceInput.trim() || !pickupInput.trim() || !destinationsInput.trim()) {
-          alert("All fields are required. Please fill out all fields.");
-          return; // Exit the function
-      }*/
-
-  // Create a new list item
-  var li = document.createElement("li");
-  // Add the form data to the list item
-  li.innerHTML =
-    " <strong>Pick-up:</strong> " +
-    pickupInput +
-    "<br>" +
-    " <strong>Destinations:</strong> " +
-    destinationsInput;
-  " <strong>Distance:</strong> " +
-    RDistance +
-    "<br>" +
-    " <strong>EstTime:</strong> " +
-    estitime;
-  /*
-      li.innerHTML = "<strong>Driver:</strong> " + nameInput + "<br>" +
-                     " <strong>Vehicle:</strong> " + vehircleInput + "<br>" +
-                     " <strong>Vehicle Number:</strong> " + numInput + "<br>" +
-                     " <strong>Type of Service:</strong> " + serviceInput + "<br>" +
-                     " <strong>Pick-up:</strong> " + pickupInput + "<br>" +
-                     " <strong>Destinations:</strong> " + destinationsInput;*/
-
-  // Append the list item to the list container
-  // li.classList.add("infoBox");
-  document.getElementById("List-container").appendChild(li);
-  let closespan = document.createElement("span");
-  // closespan.classList.add("close-info")
-  closespan.innerHTML = "x";
-  li.appendChild(closespan);
-  /*closespan.addEventListener("click", function() {
-          li.remove();
-      });*/
-  // Hide the form and overlay
-  document.getElementById("myForm").reset();
-  hideForm(event);
+async function fetchDrivers() {
+  const response = await fetch('driver/'+driver_id);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const drivers = await response.json();
+  return drivers;
 }
-document.addEventListener("DOMContentLoaded", function () {
-  const lisCon = document.getElementById("List-container");
-  if (lisCon) {
-    lisCon.addEventListener("click", function (e) {
-      if (e.target.tagName === "LI") {
-        e.target.classList.toggle("checked");
-        if (e.target.classList.contains("checked")) {
-          completedTrip(e.target);
-        }
-      } else if (e.target.tagName === "SPAN") {
-        e.target.parentElement.remove();
-      }
-    });
-  } else {
-    console.error("List-container element not found");
+async function loadDriver() {
+  await fetchDrivers()
+    .then(driver => {
+      
+        driverInfo = {
+          _id: driver._id,
+          Name: driver.Name,
+          PhoneNumber: driver.PhoneNumber,
+          DrivingExperience: driver.DrivingExperience,
+          LiscenceNumber: driver.LiscenceNumber,
+          JourneyList: driver.JourneyList,
+          JourneyIncharge: driver.JourneyIncharge,
+          Account: driver.Account,
+          Password: driver.Password,
+        };
+
+        cjourney_list=driverInfo.JourneyList;
+        journeyid=driverInfo.JourneyIncharge;
+      
+      
+    })
+    .catch((e) =>
+      console.error(
+        "There was a problem with the fetch operation: " + e.message
+      )
+    );
+}
+document.addEventListener("DOMContentLoaded", async function() {
+  displayUserInfo() ;
+  
+  try {
+      // Gọi hàm loadDriver để tự động tải danh sách tài xế khi trang được truy cập
+      await loadDriver();
+      await loadjourney();
+      await loadCompletedjourney();
+      console.log(cjourney_list);
+      console.log(journeyid);
+  } catch (error) {
+      console.error('Error loading journeys:', error);
   }
 });
+async function fetchCompletedJourneys() {
+  const journeys = []; // Initialize an array to store the journeys
+
+    for (let journey_id of cjourney_list) {
+        try {
+            const response = await fetch('journey/' + journey_id);
+            if (!response.ok) {
+                console.error(`HTTP error for journey ${journey_id}! Status: ${response.status}`);
+                continue; // Skip this iteration and proceed with the next journey_id
+            }
+            
+            const journey = await response.json(); // Parse the JSON response
+            journeys.push(journey); // Store the journey data in the array
+        } catch (error) {
+            console.error(`Error fetching journey ${journey_id}: ${error.message}`);
+            continue; // Skip this iteration and proceed with the next journey_id
+        }
+    }
+    console.log(10);
+    console.log(journeys);
+
+    return journeys;
+}
+async function fetchJourneys() {
+  const response = await fetch('journey/'+ journeyid);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const journeys = await response.json();
+  return journeys;
+}
+async function loadjourney(){
+  await  fetchJourneys()
+      .then(journey => {
+        
+            journeyInfo = {
+              _id: journey._id,
+              Transportation: journey.Transportation,
+              TransportationType: journey.TransportationType,
+              Driver: journey.Driver,
+              Kilomet: journey.Kilomet,
+              Price: journey.Price,
+              DateTime: journey.DateTime,
+              StartLocation: journey.StartLocation,
+              EndLocation: journey.EndLocation,
+              Status: journey.Status,
+              Time: journey.Time,
+            };
+         const journey_info = createJourneyElement(journeyInfo);
+        
+         document.getElementById("List-container").appendChild(journey_info);
+
+        
+        // journey_list.push(journey_info);
+        addEventListenerToButtons(journey_info,journeyInfo);
+        
+       // console.log(driverElements);
+
+      
+      })
+      .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
+}
+// async function loadCompletedjourney(){
+//   await  fetchCompletedJourneys()
+//       .then(journeys => {
+//         for (let journey of journeys)
+//         {
+//             cjourneyInfo = {
+//               _id: journey._id,
+//               Transportation: journey.Transportation,
+//               TransportationType: journey.TransportationType,
+//               Driver: journey.Driver,
+//               Kilomet: journey.Kilomet,
+//               Price: journey.Price,
+//               DateTime: journey.DateTime,
+//               StartLocation: journey.StartLocation,
+//               EndLocation: journey.EndLocation,
+//               Status: journey.Status,
+//               Time: journey.Time,
+//             };
+//          const journey_info = createJourneyElement(cjourneyInfo);
+        
+//          document.getElementById("CList-container").appendChild(journey_info);
+//          journey_info.classList.toggle("checked");
+
+        
+//         journey_list.push(journey_info);
+//         //addEventListenerToButtons(journey_info,journeyInfo);
+//         }
+//        // console.log(driverElements);
+
+      
+//       })
+//       .catch(e => console.error('There was a problem with the fetch operation: ' + e.message));
+//     }
+async function loadCompletedjourney() {
+  try {
+      const journeys = await fetchCompletedJourneys(); // Await fetchCompletedJourneys()
+      console.log(90);
+    console.log(journeys);
+
+      for (let journey of journeys) {
+          // Create a journey information object
+          const cjourneyInfo = {
+              _id: journey._id,
+              Transportation: journey.Transportation,
+              TransportationType: journey.TransportationType,
+              Driver: journey.Driver,
+              Kilomet: journey.Kilomet,
+              Price: journey.Price,
+              DateTime: journey.DateTime,
+              StartLocation: journey.StartLocation,
+              EndLocation: journey.EndLocation,
+              Status: journey.Status,
+              Time: journey.Time,
+          };
+
+          // Create a journey element
+          const journeyInfoElement = createJourneyElement(cjourneyInfo);
+
+          // Append the journey element to the container
+          document.getElementById("CList-container").appendChild(journeyInfoElement);
+
+          // Toggle the "checked" class
+          journeyInfoElement.classList.toggle("checked");
+
+          
+      }
+  } catch (error) {
+      console.error('There was a problem with the fetch operation: ' + error.message);
+  }
+}
+
+    
+    function createJourneyElement(journeyInfo){
+      var li = document.createElement("li");
+      // Add the form data to the list item
+      li.innerHTML =
+        " <strong>Pick-up:</strong> " +
+        journeyInfo.StartLocation +
+        "<br>" +
+        " <strong>Destinations:</strong> " +
+        journeyInfo.EndLocation + "<br>" +
+      " <strong>Distance:</strong> " +
+        journeyInfo.Kilomet +
+        "<br>" +
+        " <strong>EstTime:</strong> " +
+        journeyInfo.Time +
+        "<br>" +
+        " <strong>Price:</strong> " +
+        journeyInfo.Price;
+      /*
+        li.innerHTML = "<strong>Driver:</strong> " + nameInput + "<br>" +
+                       " <strong>Vehicle:</strong> " + vehircleInput + "<br>" +
+                       " <strong>Vehicle Number:</strong> " + numInput + "<br>" +
+                       " <strong>Type of Service:</strong> " + serviceInput + "<br>" +
+                       " <strong>Pick-up:</strong> " + pickupInput + "<br>" +
+                       " <strong>Destinations:</strong> " + destinationsInput;*/
+    
+      // Append the list item to the list container
+      // li.classList.add("infoBox");
+      //document.getElementById("List-container").appendChild(li);
+      // let closespan = document.createElement("span");
+      // closespan.classList.add("close-info");
+      // closespan.innerHTML = "x";
+      // li.appendChild(closespan);
+      return li;
+    }
+    function addEventListenerToButtons(journey_info, journeyInfo) {
+      // Lấy các nút từ newDiv
+    
+      // var closeButton = journey_info.querySelector(".close-info");
+      
+      
+      // // Thêm sự kiện vào nút closeButton
+      // closeButton.addEventListener("click", function(event) {
+      //     event.preventDefault();
+      //     if(journeyInfo.Status=== 2){
+      //       journey_info.remove();
+      //     deleteJourney(journeyInfo); 
+          
+      //     }else{
+      //       alert("can't delete!");
+      //     }
+    
+      // });
+      journey_info.addEventListener("click", async function(event) {
+        // Kiểm tra xem sự kiện xảy ra trên phần tử span close-info hay không
+        
+          // Nếu không phải sự kiện xảy ra trên closeButton, thực hiện hành động check()
+           if(journeyInfo.Status!== 0){
+             journey_info.classList.toggle("checked");
+    
+            if (journey_info.classList.contains("checked")) {
+              completedTrip(journey_info);
+              journeyInfo.Status= 2;
+              cjourney_list.push(journeyInfo._id);
+              try {
+            
+                  // Gửi yêu cầu PUT để chỉnh sửa tài xế
+                  const putResponse = await fetch("/driver/completeJourney/" + driverInfo._id , {
+                    method: "PUT",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(journeyInfo),
+                  });
+            
+                  const putContentType = putResponse.headers.get("Content-Type");
+                  if (!putResponse.ok) {
+                    const errorMessage = await putResponse.text();
+                    console.error("Problem with the PUT request: " + errorMessage);
+                    return;
+                  }
+            
+                  const data = await putResponse.json();
+                  console.log(data);
+                
+              } catch (e) {
+                console.error("There was a problem with the JourneyUp request: " + e);
+              }
+
+              try {
+                
+                 // driverInfo.JourneyIncharge=null;
+                  driverInfo=cjourney_list;
+            
+                  // Gửi yêu cầu PUT để chỉnh sửa tài xế
+                  const putResponse = await fetch("/admin/update/driver/" + driverInfo._id, {
+                    method: "PUT",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(driverInfo),
+                  });
+            
+                  const putContentType = putResponse.headers.get("Content-Type");
+                  if (!putResponse.ok) {
+                    const errorMessage = await putResponse.text();
+                    console.error("Problem with the PUT request: " + errorMessage);
+                    return;
+                  }
+            
+                  const data = await putResponse.json();
+                  console.log(data);
+                
+              } catch (e) {
+                console.error("There was a problem with the POST request: " + e);
+              }
+            
+              //window.location.reload();
+            }
+            
+            //}
+          // } else {
+          //   alert("can't complete");
+            
+          //}
+          }else{
+            alert("can complete! *");
+          }
+        });
+      
+    }
+    function deleteJourney(journeyInfo){
+      console.log(journeyInfo._id);
+      fetch('admin/deleteJourney/' + journeyInfo._id, {
+        method: 'DELETE',
+      })
+      .then(res => res.text())
+      .then(res => console.log(res))
+    }
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   const lisCon = document.getElementById("List-container");
+//   if (lisCon) {
+//     lisCon.addEventListener("click", function (e) {
+//       if (e.target.tagName === "LI") {
+//         e.target.classList.toggle("checked");
+//         if (e.target.classList.contains("checked")) {
+//           completedTrip(e.target);
+//         }
+//       } else if (e.target.tagName === "SPAN") {
+//         e.target.parentElement.remove();
+//       }
+//     });
+//   } else {
+//     console.error("List-container element not found");
+//   }
+// });
 
 function completedTrip(li) {
   // Do something with the completed <li> element
   document.getElementById("CList-container").appendChild(li);
 }
-document.addEventListener("DOMContentLoaded", function () {
-  const ClisCon = document.getElementById("CList-container");
-  if (ClisCon) {
-    ClisCon.addEventListener("click", function (e) {
-      if (e.target.tagName === "SPAN") {
-        e.target.parentElement.remove();
-      }
-    });
-  } else {
-    console.error("List-container element not found");
-  }
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//   const ClisCon = document.getElementById("CList-container");
+//   if (ClisCon) {
+//     ClisCon.addEventListener("click", function (e) {
+//       if (e.target.tagName === "SPAN") {
+//         e.target.parentElement.remove();
+//       }
+//     });
+//   } else {
+//     console.error("List-container element not found");
+//   }
+// });
