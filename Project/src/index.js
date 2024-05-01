@@ -90,7 +90,7 @@ app.post("/sendform_driver", async (req, res) => {
 app.get("/account", (req, res) => {
   const storedUserJSON = localStorage.getItem("user");
   const storedUser = JSON.parse(storedUserJSON);
-  res.render("account.ejs", { Name: storedUser.Account });
+  res.render("account.ejs", { Name: storedUser.Account, Income:storedUser.Income });
 });
 
 app.get("/account_driver", (req, res) => {
