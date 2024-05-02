@@ -6,11 +6,11 @@ var cjourneyInfo;
 var driverInfo;
 var driver_id;
 
-function displayUserInfo() { 
+function displayUserInfo(user) { 
   // Set an item in local storage
 
   // Get an item from local storage
-  const user = JSON.parse(localStorage.getItem('user'))
+  // const user = JSON.parse(localStorage.getItem('user'))
 
   console.log(`User Information:`);
   console.log(`ID: ${user._id}`);
@@ -39,17 +39,18 @@ function displayUserInfo() {
   // };
 }
 async function fetchDrivers() {
-  const response = await fetch('driver/'+driver_id);
+  const response = await fetch('/curUser');
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
   const drivers = await response.json();
   return drivers;
 }
+
 async function loadDriver() {
   await fetchDrivers()
     .then(driver => {
-      
+        displayUserInfo(driver)
         driverInfo = {
           _id: driver._id,
           Name: driver.Name,
@@ -74,7 +75,7 @@ async function loadDriver() {
     );
 }
 document.addEventListener("DOMContentLoaded", async function() {
-  displayUserInfo() ;
+  // displayUserInfo(user) ;
   
   try {
       // Gọi hàm loadDriver để tự động tải danh sách tài xế khi trang được truy cập

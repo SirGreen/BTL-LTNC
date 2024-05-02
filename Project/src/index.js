@@ -148,7 +148,7 @@ app.post(
 //   }
 // });
 
-app.get("/account",checkAuthenticated, (req, res) => {
+app.get("/account", checkAuthenticated, (req, res) => {
   const storedUserJSON = localStorage.getItem("user");
   const storedUser = JSON.parse(storedUserJSON);
   res.render("account.ejs", {
@@ -157,9 +157,9 @@ app.get("/account",checkAuthenticated, (req, res) => {
   });
 });
 
-app.get("/driver",checkAuthenticated, (req, res) => res.render("driver.ejs"));
+app.get("/driver", checkAuthenticated, (req, res) => res.render("driver.ejs"));
 
-app.get("/account_driver",checkAuthenticated, (req, res) => {
+app.get("/account_driver", checkAuthenticated, (req, res) => {
   const storedUserJSON = localStorage.getItem("user");
   const storedUser = JSON.parse(storedUserJSON);
   res.render("account_driver.ejs", {
@@ -172,7 +172,7 @@ app.get("/account_driver",checkAuthenticated, (req, res) => {
 });
 
 //Render trang động
-app.get("/driver_admin",checkAuthenticatedasAdmin, (req, res) => {
+app.get("/driver_admin", checkAuthenticatedasAdmin, (req, res) => {
   let information = "";
   if (req.query.info) {
     information = JSON.parse(req.query.info);
@@ -180,7 +180,7 @@ app.get("/driver_admin",checkAuthenticatedasAdmin, (req, res) => {
   res.render("driver_admin.ejs", { information });
 });
 
-app.get("/adminjourney",checkAuthenticatedasAdmin, (req, res) => {
+app.get("/adminjourney", checkAuthenticatedasAdmin, (req, res) => {
   let information = "";
   if (req.query.info) {
     information = JSON.parse(req.query.info);
@@ -188,7 +188,7 @@ app.get("/adminjourney",checkAuthenticatedasAdmin, (req, res) => {
   res.render("adminjourney.ejs", { information });
 });
 
-app.get("/car_admin",checkAuthenticatedasAdmin, (req, res) => {
+app.get("/car_admin", checkAuthenticatedasAdmin, (req, res) => {
   let information = "";
   if (req.query.info) {
     information = JSON.parse(req.query.info);
@@ -196,7 +196,7 @@ app.get("/car_admin",checkAuthenticatedasAdmin, (req, res) => {
   res.render("car_admin.ejs", { information });
 });
 
-app.get("/car1_admin",checkAuthenticatedasAdmin, (req, res) => {
+app.get("/car1_admin", checkAuthenticatedasAdmin, (req, res) => {
   let information = "";
   if (req.query.info) {
     information = JSON.parse(req.query.info);
@@ -204,23 +204,23 @@ app.get("/car1_admin",checkAuthenticatedasAdmin, (req, res) => {
   res.render("car1_admin.ejs", { information });
 });
 
-app.get("/truck_admin",checkAuthenticatedasAdmin, (req, res) => {
+app.get("/truck_admin", checkAuthenticatedasAdmin, (req, res) => {
   res.render("truck_admin.ejs");
 });
 
-app.get("/truck1_admin",checkAuthenticatedasAdmin, (req, res) => {
+app.get("/truck1_admin", checkAuthenticatedasAdmin, (req, res) => {
   res.render("truck1_admin.ejs");
 });
 
-app.get("/coach_admin",checkAuthenticatedasAdmin, (req, res) => {
+app.get("/coach_admin", checkAuthenticatedasAdmin, (req, res) => {
   res.render("coach_admin.ejs");
 });
 
-app.get("/coach1_admin",checkAuthenticatedasAdmin, (req, res) => {
+app.get("/coach1_admin", checkAuthenticatedasAdmin, (req, res) => {
   res.render("coach1_admin.ejs");
 });
 
-app.get("/driverjourney",checkAuthenticated, (req, res) => {
+app.get("/driverjourney", checkAuthenticated, (req, res) => {
   res.render("driverjourney.ejs");
 });
 
@@ -231,10 +231,12 @@ app.get("/test2", (req, res) => {
   res.render("test2.ejs");
 });
 
-app.get('/logout', function(req, res, next) {
-  req.logout(function(err) {
-    if (err) { return next(err); }
-    res.redirect('/');
+app.get("/logout", function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
   });
 });
 
@@ -288,7 +290,13 @@ app.all("/coach", checkAuthenticatedasAdmin, (req, res, next) => {
   next();
 });
 
-function checkAuthenticated(req, res, next) {
+app.get("/curUser", checkAuthenticated, async (req, res) => {
+  const storedUserJSON = localStorage.getItem("user");
+  const storedUser = JSON.parse(storedUserJSON);
+  return res.send(storedUser);
+});
+
+async function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
@@ -327,4 +335,3 @@ port = process.env.PORT || 3000;
 app.listen(port, "0.0.0.0", function () {
   console.log(`App listening on port http://localhost:${port}`);
 });
-
