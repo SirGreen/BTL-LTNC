@@ -517,7 +517,17 @@ footer a.back-to-top {
     ;
     /* Change color on hover */
 }
-
+/* .showIncome{
+    position: absolute;
+    bottom: 40%;
+    top: 50px;
+    right: 5%;
+    height: 40px;
+    width: 20px;
+    background-image: url('../images/money.png');
+    background-position: center;
+    background-size: cover;
+  } */
 /* Modal overlay */
 
 .overlay {
