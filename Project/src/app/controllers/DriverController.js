@@ -118,7 +118,11 @@ class DriverController {
   }
 
   async GetDriver(Acc) {
-    return driver.find({ Account: Acc }).then((admin) => admin);
+    return await driver.find({ Account: Acc }).then((driver) => driver);
+  }
+
+  async GetDriverById(id) {
+    return await driver.find({ _id: id }).then((driver) => driver);
   }
 }
 

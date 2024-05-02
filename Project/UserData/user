@@ -1,1 +1,1 @@
-{"_id":"66308af848292255989b5e67","Name":"Huong","PhoneNumber":"1414","DrivingExperience":1,"LiscenceNumber":"114","JourneyList":[],"JourneyIncharge":"662fd413244b35333189cf53","Account":"hihi","Password":"$2b$10$3iJpeSqeJJ08FLHj0.CGeuGKB7GxQ.ait7EyXZHL3RZE5BIiY8i/2","__v":0}
+{"_id":"66308c1448292255989b5e83","Name":"Nhi","PhoneNumber":"1118","DrivingExperience":null,"LiscenceNumber":"114","JourneyList":["662fd730bcf25177071a3a7d"],"JourneyIncharge":null,"Account":"nhi","Password":"$2b$10$e1lq4Ch1SBmHVP1wWjucsuympH3TuQvmsQGm8RXTT9XInm3.CAv6e","__v":1}
