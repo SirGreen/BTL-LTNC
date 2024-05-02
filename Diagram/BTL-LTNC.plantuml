@@ -17,9 +17,6 @@ package TransportationFactory <<Folder>>{
         + DisplayInfo()
     }
 
-    class Container{  
-    }
-
     class Car{
     }
 
@@ -92,7 +89,6 @@ end note
 Transportation <|-- Truck
 Transportation <|-- Car
 Transportation <|-- Coach
-Transportation <|-- Container
 Driver -right- Quality
 Driver "1"-down-* "0..*"Journey
 VehicleStatus -up- Transportation
