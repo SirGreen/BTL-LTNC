@@ -37,6 +37,7 @@
                 Capacity: driver.Capacity,
                 Size: driver.Size,
                 TypeOfFuel: driver.TypeOfFuel,
+                WarrantyHis: driver.WarrantyHis,
                 VehicleStatus: driver.VehicleStatus,
                 Warranty: formatDateTime(driver.WarrantyTime),
                 Journey: driver.Journey,
@@ -95,6 +96,13 @@
             var p2 = document.createElement("p");
             p2.innerHTML = vehicleInfo.VehicleStatus;
             document.getElementById("Status_edit").appendChild(p2);
+
+            const history=vehicleInfo.WarrantyHis;
+            for(let his of history){
+                var p3 = document.createElement("li");
+                p3.innerHTML = formatDateTime(his);
+                document.getElementById("hislist").appendChild(p3);
+            }
 
 
             document.querySelector("#License_edit").value = vehicleInfo.License;
@@ -269,6 +277,18 @@
                             Warranty Time:
                         </div>
                         <div class="col-lg-2" id="Warranty_edit">
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            Warranty History:
+                        </div>
+                        <div class="col-lg-2" id="WarrantyHis_edit">
+                            <ul id="hislist">
+
+                            </ul>
 
                         </div>
                     </div>

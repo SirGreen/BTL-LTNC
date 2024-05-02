@@ -1,5 +1,6 @@
 var journeyInfo;
 var journey_list=[];
+
 async function loadjourney(){
   await  fetchJourneys()
       .then(journeys => {
@@ -52,6 +53,25 @@ async function fetchJourneys() {
   }
   const journeys = await response.json();
   return journeys;
+}
+async function showIncome(){
+
+  const response = await fetch("admin/checkIncome");
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const journeys = await response.json();
+  var p=document.createElement("p");
+  p.innerHTML=journeys.value;
+  document.getElementById("incomeShow").appendChild(p);
+  showmodal();
+  return journeys;
+
+}
+function showmodal() {
+  overlay.style.display = "block";
+  var modal = document.getElementById("IncomeBox");
+  modal.style.display = "block";
 }
 
 function addEventListenerToButtons(journey_info, journeyInfo) {

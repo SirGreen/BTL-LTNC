@@ -46,8 +46,30 @@
     <!--  -->
     <section id="driver_journey">
       <div class="portfolio container-fluid text-center">
+       
         <h1>JOURNEY</h1>
-        <!-- <button onclick="loadjourney()" id="ff" ><strong>*</strong></button> -->
+        <button onclick="showIncome()">
+         Income
+        </button>
+        <div class="overlay" id="overlay"></div>
+        <div class="modal" id="IncomeBox">
+          
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+    
+                    <div class="modal-header">
+                        <h4 class="modal-title">Income</h4>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+    
+                    <div class="modal-body" id="incomeShow">
+
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+
         <div class="container-fluid text-center">
           <div class="container-fluid px-0 my-5">
             <div class="d-flex justify-content-between">
