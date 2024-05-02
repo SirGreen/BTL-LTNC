@@ -1,6 +1,8 @@
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const Driver = require("./app/models/Driver");
+const { LocalStorage } = require("node-localstorage");
+const localStorage = new LocalStorage("./UserData");
 
 async function initialize(
   passport,
@@ -17,6 +19,8 @@ async function initialize(
     }
     try {
       if (await bcrypt.compare(Password, user.Password)) {
+        const userJSON = JSON.stringify(user);
+        localStorage.setItem("user", userJSON);
         return done(null, user);
       } else {
         return done(null, false, { message: "Password incorrect" });
@@ -34,6 +38,8 @@ async function initialize(
     }
     try {
       if (await bcrypt.compare(Password, user.Password)) {
+        const userJSON = JSON.stringify(user);
+        localStorage.setItem("user", userJSON);
         return done(null, user);
       } else {
         return done(null, false, { message: "Password incorrect" });
