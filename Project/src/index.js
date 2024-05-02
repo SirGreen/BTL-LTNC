@@ -298,6 +298,10 @@ app.get("/curUser", checkAuthenticated, async (req, res) => {
   }
 });
 
+app.get("/chart", (req, res) => {
+  res.render("chart.ejs")
+});
+
 async function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
