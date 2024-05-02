@@ -69,7 +69,7 @@ app.get("/signin_admin", (req, res) => {
   res.render("signin_admin.ejs");
 });
 
-app.post("/register_admin", async (req, res) => {
+app.post("/register_admin",checkAuthenticatedasAdmin, async (req, res) => {
   const { Account, Password } = req.body;
   let coChua = await adminController.GetAdmin(Account);
   coChua = coChua.at(0);
