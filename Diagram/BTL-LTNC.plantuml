@@ -10,6 +10,7 @@ package TransportationFactory <<Folder>>{
         # VehicleStatus: Status
         + string: License
         + string: Brand
+        + DateTime: DateTime
         + DateTime: WarrantyTime
         + DateTime[]: WarrantyHis
         + Journey: JourneyInCharge
@@ -35,9 +36,9 @@ enum VehicleStatus{
     3: NotActive
 }
 class Driver{
-    - string: Name
-    - string: PhoneNumber
-    - string: Address
+    + string: Name
+    + string: PhoneNumber
+    + string: Address
     - string: Account
     - string: Password
     + Quality: DrivingExperience
@@ -48,14 +49,14 @@ class Driver{
 }
 
 class Journey{
-    - Transportation: Vehicle
-    - Driver: DriverInCharge
-    - double: Kilomet
-    - double: Price
-    - string: StartLocation
-    - string: EndLocation
+    + Transportation: Vehicle
+    + Driver: DriverInCharge
+    + double: Kilomet
+    + double: Price
+    + string: StartLocation
+    + string: EndLocation
     - int: Status
-    - string: Time
+    + string: Time
     + DisplayInfo()
 }
 
