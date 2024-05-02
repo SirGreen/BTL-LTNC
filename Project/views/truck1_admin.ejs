@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <!-- <script src="js/script_create.js"></script> -->
+    <script src="js/formatDateTime.js"></script>
     <script> 
         // Define the editCar function
         const urlParams = new URLSearchParams(window.location.search);
@@ -37,7 +37,7 @@
                 Size: driver.Size,
                 TypeOfFuel: driver.TypeOfFuel,
                 VehicleStatus: driver.VehicleStatus,
-                Warranty: driver.Warranty,
+                Warranty: formatDateTime(driver.WarrantyTime),
                 Journey: driver.Journey,
                 License: driver.License,
                 
