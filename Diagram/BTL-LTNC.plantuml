@@ -4,13 +4,14 @@ skinparam groupInheritance 3
 package TransportationFactory <<Folder>>{
 
     class Transportation{
-        # int: Capacity
-        # int: Size
-        # string: TypeOfFuel
+        + int: Capacity
+        + int: Size
+        + string: TypeOfFuel
         # VehicleStatus: Status
-        # string: License
-        # string: Brand
-        + WarrantyService: Warranty
+        + string: License
+        + string: Brand
+        + DateTime: WarrantyTime
+        + DateTime[]: WarrantyHis
         + Journey: JourneyInCharge
         + DisplayInfo()
     }
@@ -27,15 +28,6 @@ package TransportationFactory <<Folder>>{
     class Coach {
     }
 }
-
-class WarrantyService{
-    - bool: IsWarranty
-    - DateTime: WarrantyTime
-    - DateTime[]: WarrantyHis
-    + DisplayInfo()
-    + DisplayWarrantyHistory()
-}
-
 
 enum VehicleStatus{
     1: Active
@@ -100,7 +92,6 @@ Transportation <|-- Truck
 Transportation <|-- Car
 Transportation <|-- Coach
 Transportation <|-- Container
-Transportation -right- WarrantyService
 Driver -right- Quality
 Driver "1"-down-* "0..*"Journey
 VehicleStatus -up- Transportation

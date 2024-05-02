@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 const Car = require("../models/Car");
 const Coach = require("../models/Coach");
 const Truck = require("../models/Truck");
-const WarrantyService = require("../models/WarrantyService");
 const ObjectId = require("mongodb").ObjectId;
 
 function threeMonthFromNow() {
@@ -85,10 +84,7 @@ class AdminController {
   async AddNewTransportation(req, res, next) {
     try {
       //Factory Pattern
-      const warranty = new WarrantyService();
-      await warranty.save();
       const data = req.body;
-      data.Warranty = warranty;
       //req.body.TransportationType = "truck"
       let redirTo = "/car_admin";
       const { transportationType } = req.params;
@@ -194,11 +190,6 @@ class AdminController {
       transportation != null &&
       transportation.VehicleStatus == "UnderMaintainance"
     ) {
-      var warranty = await WarrantyService.findOne({
-        _id: transportation.Warranty._id,
-      });
-      warranty.IsWarranty = true;
-      await warranty.save();
       transportation.VehicleStatus = "Active";
       await transportation.save();
       return transportation;
@@ -352,20 +343,16 @@ class AdminController {
   /////////////////////Warranty/////////////////////
   async CheckForWarranty(transportation) {
     try {
-      var warranty = await WarrantyService.findOne({
-        _id: transportation.Warranty._id,
-      });
-      var date1 = warranty.WarrantyTime.getTime();
+      var date1 = transportation.WarrantyTime.getTime();
       var date2 = Date.now();
       console.log(date1);
       console.log(date2);
       if (date1 <= date2) {
         transportation.VehicleStatus = "UnderMaintainance";
         await transportation.save();
-        warranty.IsWarranty = false;
-        warranty.WarrantyHis.push(warranty.WarrantyTime);
-        warranty.WarrantyTime = threeMonthFromNow();
-        await warranty.save();
+        transportation.WarrantyHis.push(transportation.WarrantyTime);
+        transportation.WarrantyTime = threeMonthFromNow();
+        await transportation.save();
         return 0; //maintain
       }
       return 1; //normal
@@ -444,13 +431,6 @@ class AdminController {
         console.log("Cannot find Transportation");
         return;
       }
-      var warranty = null;
-      warranty = WarrantyService.findOne({ _id: transportation.Warranty._id });
-      if (warranty == null) {
-        console.log("Invalid warranty service");
-        return;
-      }
-      await WarrantyService.deleteOne(warranty);
       if (transportation.Journey != null) {
         var journey = null;
         journey = await Journey.findOne({ _id: transportation.Journey._id });
