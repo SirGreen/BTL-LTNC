@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/formatDateTime.js"></script>
-    <script> 
+    <script>
         // Define the editCar function
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('productId');
@@ -173,8 +173,8 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="/admin">HOME</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="\signin_driver">SIGNIN AS DRIVER</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">SIGN OUT</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
@@ -193,7 +193,8 @@
                             <a class="dropdown-item" href="\driver_admin">Driver</a>
 
                             <a class="dropdown-item" href="\adminjourney">Journey</a>
-                            <a class="dropdown-item" href="\account">Account</a>
+                            <a class="dropdown-item" href="\account">Revenue</a>
+
 
                         </div>
                     </li>
@@ -305,7 +306,7 @@
                 <div class="row">
                     <!-- Left column -->
                     <div class="col-lg-6">
-                        <form action="#" method="POST">
+                        <form action="/admin">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <input type="text" name="name" required placeholder="Your name"
