@@ -91,6 +91,7 @@ class AdminController {
       switch (transportationType) {
         case "truck":
           // code block
+          console.log(data)
           const truck = new Truck(data);
           await admin.FindJourneyForTransportation(truck, "truck");
           await truck.save();
@@ -111,7 +112,7 @@ class AdminController {
       }
       res.redirect(redirTo);
     } catch (error) {
-      res.send("ERROR");
+      res.send(error);
     }
   }
 
