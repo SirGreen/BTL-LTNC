@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BakOneTemplate</title>
+    <title>CAR MANAGEMENT</title>
     <link rel="shortcut icon" href="images/favicon2.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
@@ -28,7 +28,7 @@
             <div class="collapse navbar-collapse" id="collapsibleNavId">
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
-                        <a class="nav-link" href="admin.html">HOME</a>
+                        <a class="nav-link" href="/admin">HOME</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="\signin_driver">SIGNIN AS DRIVER</a>
@@ -76,7 +76,7 @@
             <label for="option3">Not  Active</label><br>
             Liscence Number: <input  type="text" placeholder="000000" name="LiscenceNumber"> <br>
             Account: <input type="text" placeholder="driver" name="Account"> <br> -->
-            <!-- License: <input type="text" placeholder="113" name="License" value="113"> <br>
+        <!-- License: <input type="text" placeholder="113" name="License" value="113"> <br>
             <input type="submit" value="Submit">
             </form>
         </section> -->
@@ -155,36 +155,36 @@
             <button onclick="showForm()" id="modalForm">+</button>
             <div class="overlay" id="overlay"></div>
             <div id="AddTruckForm" class="portfolio container-fluid text-center">
-               
-                
+
+
                 <div id="formContainer" class="modal">
-    
+
                     <!-- Modal content -->
                     <div class="modal-content">
                         <span class="close" onclick="hideForm(event)">&times;</span>
-                        <form class="m-auto text-left" style="max-width: 500px"  method="post" novalidate="" id="myForm">
+                        <form class="m-auto text-left" style="max-width: 500px" method="post" novalidate="" id="myForm">
                             <!-- Các trường form ở đây -->
                             <h2>Car Information</h2>
-                            
+
                             <div class="form-group">
                                 <label class="w-100"> Brand:<br>
                                     <!-- VAN DONGBEN; VAN KENBO; VAN FOTON; VAN SUZUKI BLIND -->
-                                   
+
                                     <input type="radio" id="brandoption1" name="brandoption" value="VAN DONGBEN">
                                     <label for="brandoption1">VAN DONGBEN</label><br>
-                                    
+
                                     <input type="radio" id="brandoption2" name="brandoption" value="VAN KENBO">
                                     <label for="brandoption2">VAN KENBO</label><br>
-                                    
+
                                     <input type="radio" id="brandoption3" name="brandoption" value="VAN FOTON">
                                     <label for="brandoption3">VAN FOTON</label><br>
-    
+
                                     <input type="radio" id="brandoption4" name="brandoption" value="VAN SUZUKI BLIND">
                                     <label for="brandoption4">VAN SUZUKI BLIND</label><br>
-    
+
                                 </label>
                             </div>
-    
+
                             <div class="form-group">
                                 <label class="w-100">Type of Fuel:
                                     <input class="form-control" type="text" id="FuelType" name="FuelType"
@@ -193,20 +193,20 @@
                             <div class="form-group">
                                 <label class="w-100">Capacity:
                                     <input class="form-control" type="number" placeholder="4" id="Capacity"
-                                    name="Capacity"></label>
+                                        name="Capacity"></label>
                             </div>
                             <div class="form-group">
                                 <label class="w-100">Size:
                                     <input class="form-control" type="number" placeholder="7" id="Size"
-                                    name="Size"></label>
+                                        name="Size"></label>
                             </div>
-    
+
                             <div class="form-group">
                                 <label class="w-100">License:
                                     <input class="form-control" type="text" id="Num" name="Num"
                                         placeholder="License Number"></label>
                             </div>
-    
+
                             <!-- <div class="form-group">
                                 <label class="w-100"> Vehicle Status:<br>
                                     <input type="radio" id="option1" name="option" value="Active">
@@ -219,21 +219,21 @@
                                     <label for="option3">Not  Active</label>
                                 </label>
                             </div> -->
-    
+
                             <!-- <div class="form-group">
                                 <label class="w-100">Warranty Time:
                                     <input class="form-control" type="text" id="Service" name="Service"
                                         placeholder="Warranty Time"></label>
                             </div> -->
-    
+
                             <br>
                             <button onclick="CarAdd(event)" type="submit" id="submitcar">Submit</button>
-                            
+
                         </form>
                     </div>
-    
+
                 </div>
-                </div>
+            </div>
         </section>
 
 
