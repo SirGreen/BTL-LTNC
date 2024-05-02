@@ -10,7 +10,12 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-
+    <style>
+        /* Style to remove border from iframe */
+        iframe {
+          border: none;
+        }
+      </style>
 </head>
 
 <body>
@@ -69,13 +74,13 @@
                             <%=Name%>
                         </div>
                         <div class="col-lg-6">
-                            Income:
+                            Income (vnđ):
                         </div>
                         <div class="col-lg-1">
                             <%=Income%>
                         </div>
                     </div>
-
+                    <iframe src="chart.html" width="100%" height="700px" style="overflow: hidden; border: none;"></iframe>
 
                 </div>
             </div>
