@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     }
 });
 async function fetchCar() {
-    const response = await fetch("http://localhost:3000/car");
+    const response = await fetch("/car");
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
