@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+function threeMonthFromNow() {
+  let d = new Date();
+  d.setMonth(d.getMonth() + 3);
+  return d;
+}
+
 const Car = new Schema({
   Brand: {
     type: String,
@@ -15,7 +21,8 @@ const Car = new Schema({
     enum: ["Active", "UnderMaintainance", "NotActive"],
     default: "NotActive",
   },
-  Warranty: { type: Schema.Types.ObjectId, ref: "WarrantyService" },
+  WarrantyTime : {type: Date, default: threeMonthFromNow},
+  WarrantyHis : [Date],
   Journey: { type: Schema.Types.ObjectId, ref: "Journey", default: null },
   License: { type: String, default: "113" },
 });

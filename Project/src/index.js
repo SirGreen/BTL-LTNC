@@ -291,9 +291,11 @@ app.all("/coach", checkAuthenticatedasAdmin, (req, res, next) => {
 });
 
 app.get("/curUser", checkAuthenticated, async (req, res) => {
-  const storedUserJSON = localStorage.getItem("user");
-  const storedUser = JSON.parse(storedUserJSON);
-  return res.send(storedUser);
+  if (req.isAuthenticated()) {
+    res.send(req.user)
+  } else {
+    return res.send("Not Found");
+  }
 });
 
 async function checkAuthenticated(req, res, next) {
@@ -306,7 +308,6 @@ async function checkAuthenticated(req, res, next) {
 async function checkAuthenticatedasAdmin(req, res, next) {
   let user = await req.user;
   if (user != null) {
-    user = user.at(0);
     if (user != null && req.isAuthenticated() && "Income" in user) {
       return next();
     }
@@ -318,7 +319,6 @@ async function checkAuthenticatedasAdmin(req, res, next) {
 async function checkAuthenticatedasDriver(req, res, next) {
   let user = await req.user;
   if (user != null) {
-    user = user.at(0);
     if (user != null && req.isAuthenticated() && !("Income" in user)) {
       return next();
     }

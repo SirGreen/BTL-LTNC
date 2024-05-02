@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", async function() {
       // Gọi hàm loadDriver để tự động tải danh sách tài xế khi trang được truy cập
       await loadDriver();
       await loadjourney();
-      await loadCompletedjourney();
+      await loadCompletedjourney(); 
       console.log(cjourney_list);
       console.log(journeyid);
   } catch (error) {

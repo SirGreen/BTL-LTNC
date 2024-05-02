@@ -64,12 +64,14 @@ async function initialize(
     )
   );
   passport.serializeUser((user, done) => done(null, user._id));
-  passport.deserializeUser((id, done) => {
+  passport.deserializeUser(async (id, done) => {
     // return done(null, getAdminById(id));
 
-    const user = getAdminById(id);
+    let user = await getAdminById(id);
+    user=user.at(0)
     if (user == null) {
-      user = getDriverById(id);
+      user = await getDriverById(id);
+      user=user.at(0)
     }
     return done(null, user);
   });
