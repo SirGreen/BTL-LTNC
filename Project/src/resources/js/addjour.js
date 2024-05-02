@@ -55,23 +55,30 @@ async function fetchJourneys() {
   return journeys;
 }
 async function showIncome(){
-
-  const response = await fetch("admin/checkIncome");
+  const response = await fetch("/curUser");
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-  const journeys = await response.json();
-  var p=document.createElement("p");
-  p.innerHTML=journeys.value;
+  const user = await response.json();
+
+  
+  var p=document.createElement("h1");
+  p.innerHTML=user.Income;
   document.getElementById("incomeShow").appendChild(p);
   showmodal();
-  return journeys;
+  
 
 }
 function showmodal() {
   overlay.style.display = "block";
   var modal = document.getElementById("IncomeBox");
   modal.style.display = "block";
+}
+function hidemodal(event) {
+  event.preventDefault(); // Prevent default behavior
+  var modal = document.getElementById("IncomeBox");
+  modal.style.display = "none";
+  overlay.style.display = "none";
 }
 
 function addEventListenerToButtons(journey_info, journeyInfo) {
