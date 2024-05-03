@@ -1,0 +1,46 @@
+<div>
+    <canvas id="myChart"></canvas>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <script>
+  (async function() {
+    
+    const response = await fetch('journey/all');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const month = ["January","February","March","April","May",
+                  "June","July","August","September","October","November","December"];
+    var PriceOfMonth = [0,0,0,0,0,0,0,0,0,0,0,0]
+    const journeys = await response.json();
+    journeys.map((x)=> {
+      y = new Date(x.DateTime);
+      PriceOfMonth[y.getMonth()]+=x.Price;
+    });
+    console.log(PriceOfMonth);
+    const ctx = document.getElementById('myChart');
+    ctx.style.width='50%'
+    ctx.style.height="300px"
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: month,
+        datasets: [{
+          backgroundcolor: "blue",
+          label: 'Price per Month',
+          data: PriceOfMonth,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  })();
+  </script>
