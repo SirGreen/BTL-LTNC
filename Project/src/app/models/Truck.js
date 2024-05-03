@@ -21,8 +21,8 @@ const Truck = new Schema({
     enum: ["Active", "UnderMaintainance", "NotActive"],
     default: "NotActive",
   },
-  WarrantyTime : {type: Date, default: threeMonthFromNow},
-  WarrantyHis : [Date],
+  WarrantyTime: { type: Date, default: threeMonthFromNow },
+  WarrantyHis: [Date],
   Journey: { type: Schema.Types.ObjectId, ref: "Journey", default: null },
   License: { type: String, default: "113" },
 });

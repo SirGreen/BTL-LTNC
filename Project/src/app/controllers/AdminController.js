@@ -91,6 +91,7 @@ class AdminController {
       switch (transportationType) {
         case "truck":
           // code block
+          console.log(data);
           const truck = new Truck(data);
           await admin.FindJourneyForTransportation(truck, "truck");
           await truck.save();
@@ -111,14 +112,21 @@ class AdminController {
       }
       res.redirect(redirTo);
     } catch (error) {
-      res.send("ERROR");
+      res.send(error);
     }
   }
 
   //[POST] /addDriver
   async AddNewDriver(req, res, next) {
     try {
-      const { Name, PhoneNumber, Account, Password, DrivingExperience, LiscenceNumber } = req.body;
+      const {
+        Name,
+        PhoneNumber,
+        Account,
+        Password,
+        DrivingExperience,
+        LiscenceNumber,
+      } = req.body;
       const hashedPassword = await bcrypt.hash(Password, 10);
       const driver = new Driver({
         Name: Name,
@@ -369,14 +377,15 @@ class AdminController {
     return await Admin.find({ _id: id }).then((admin) => admin);
   }
 
-  async AddAdmin(req, res) {
-    const { Account, Password } = req.body;
+  async AddAdmin(Account, Password) {
     try {
       const hashedPassword = await bcrypt.hash(Password, 10);
       const adm = new Admin({ Account: Account, Password: hashedPassword });
       adm.save();
-      res.send(`Added ${Account}`);
-    } catch {}
+      console.log(`Added ${Account}`);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   //[DELETE] /deleteDriver/:id
