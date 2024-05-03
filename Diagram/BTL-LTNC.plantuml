@@ -38,6 +38,7 @@ class Driver{
     + string: Address
     - string: Account
     - string: Password
+    + string: Licens
     + Quality: DrivingExperience
     + Journey: JourneyInCharge
     + Journey: JourneyList
@@ -52,6 +53,7 @@ class Journey{
     + double: Price
     + string: StartLocation
     + string: EndLocation
+    + string: License
     - int: Status
     + string: Time
     + DisplayInfo()
@@ -59,7 +61,9 @@ class Journey{
 
 note top of Journey
 Status:
-0: chưa đủ điều kiện khởi hành, 1 là đủ, 2 là đã hoàn thành
+0: chưa đủ điều kiện khởi hành, 
+1 là đủ điều kiện khởi hành và đang đi, 
+2 là đã hoàn thành chuyến đi
 end note
 
 class Admin <<Singleton>>{
@@ -90,10 +94,10 @@ Transportation <|-- Truck
 Transportation <|-- Car
 Transportation <|-- Coach
 Driver -right- Quality
-Driver "1"-down-* "0..*"Journey
+Driver "1"-down- "*"Journey
 VehicleStatus -up- Transportation
 Admin -down[dashed]-> Transportation: Adds & Updates & Assign for Journey
 Admin -left[dashed]-> Driver: Adds & Journey assignment & Observe
 Journey <-right[dashed]- Admin: Create & Observe
-Transportation -left-*Journey
+Transportation -left- Journey
 @enduml
