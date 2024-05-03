@@ -521,6 +521,7 @@ class AdminController {
           return;
         }
         transportation.Journey = null;
+        transportation.VehicleStatus = "NotActive";
         await admin.FindJourneyForTransportation(
           transportation,
           journey.TransportationType

@@ -112,11 +112,14 @@ function addEventListenerToCButtons(journey_info,journeyInfo){
        Button.addEventListener("click", function() {
         if(journeyInfo.TransportationType=='car'){
         url = 'car1_admin?productId=' + journeyInfo.Transportation;
+        window.location.href = url;
         
       } else if(journeyInfo.TransportationType=='coach'){
         url = 'coach1_admin?productId=' + journeyInfo.Transportation;
+        window.location.href = url;
       }else if(journeyInfo.TransportationType=='truck'){
          url = 'truck1_admin?productId=' + journeyInfo.Transportation;
+         window.location.href = url;
       }else{
         console.log("No transport");
         url="#";
@@ -126,7 +129,7 @@ function addEventListenerToCButtons(journey_info,journeyInfo){
 
 
         // Navigate to the URL
-       window.location.href = url;
+      //  window.location.href = url;
     });
 }
 
@@ -139,10 +142,10 @@ function addEventListenerToButtons(journey_info, journeyInfo) {
   // Thêm sự kiện vào nút closeButton
   closeButton.addEventListener("click", function(event) {
       event.preventDefault();
-      if(journeyInfo.Status=== 2){
-        journey_info.remove();
+      if(journeyInfo.Status!== 2){
+        
       deleteJourney(journeyInfo); 
-      
+      journey_info.remove();
       }else{
         alert("can't delete!");
       }
@@ -156,19 +159,23 @@ function addEventListenerToButtons(journey_info, journeyInfo) {
        Button.addEventListener("click", function() {
         if(journeyInfo.TransportationType=='car'){
         url = 'car1_admin?productId=' + journeyInfo.Transportation;
+        window.location.href = url;
         
       } else if(journeyInfo.TransportationType=='coach'){
         url = 'coach1_admin?productId=' + journeyInfo.Transportation;
+        window.location.href = url;
       }else if(journeyInfo.TransportationType=='truck'){
          url = 'truck1_admin?productId=' + journeyInfo.Transportation;
+         window.location.href = url;
       }else{
         console.log("No transport");
+        url="#";
       }
       console.log(123);
 
 
         // Navigate to the URL
-       window.location.href = url;
+      //  window.location.href = url;
     });
   journey_info.addEventListener("click", function(event) {
     // Kiểm tra xem sự kiện xảy ra trên phần tử span close-info hay không
@@ -225,7 +232,7 @@ function showForm() {
   });
   let isEdit= false, editID
   function deleteJourney(journeyInfo){
-    console.log(journeyInfo._id);
+    console.log(journeyInfo.Status);
     fetch('admin/deleteJourney/' + journeyInfo._id, {
       method: 'DELETE',
     })
