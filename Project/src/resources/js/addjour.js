@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", async function() {
   try {
       // Gọi hàm loadDriver để tự động tải danh sách tài xế khi trang được truy cập
       await loadjourney();
+      await showIncome();
       console.log(12300);
   } catch (error) {
       console.error('Error loading journeys:', error);
@@ -65,7 +66,6 @@ async function showIncome(){
   var p=document.createElement("h1");
   p.innerHTML=user.Income;
   document.getElementById("incomeShow").appendChild(p);
-  showmodal();
   
 
 }
@@ -74,11 +74,12 @@ function showmodal() {
   var modal = document.getElementById("IncomeBox");
   modal.style.display = "block";
 }
-function hidemodal(event) {
-  event.preventDefault(); // Prevent default behavior
+function hidemodal() {
+   // Prevent default behavior
   var modal = document.getElementById("IncomeBox");
   modal.style.display = "none";
   overlay.style.display = "none";
+  // window.location.reload();
 }
 
 function addEventListenerToButtons(journey_info, journeyInfo) {
