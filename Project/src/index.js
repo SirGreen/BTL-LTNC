@@ -277,32 +277,32 @@ app.all("/driver/*", checkAuthenticated, (req, res, next) => {
   next();
 });
 
-app.all("/car", checkAuthenticatedasAdmin, (req, res, next) => {
+app.all("/car", checkAuthenticated, (req, res, next) => {
   // If user is authenticated, proceed to the next middleware
   next();
 });
 
-app.all("/car/*", checkAuthenticatedasAdmin, (req, res, next) => {
+app.all("/car/*", checkAuthenticated, (req, res, next) => {
   // If user is authenticated, proceed to the next middleware
   next();
 });
 
-app.all("/truck", checkAuthenticatedasAdmin, (req, res, next) => {
+app.all("/truck", checkAuthenticated, (req, res, next) => {
   // If user is authenticated, proceed to the next middleware
   next();
 });
 
-app.all("/truck/*", checkAuthenticatedasAdmin, (req, res, next) => {
+app.all("/truck/*", checkAuthenticated, (req, res, next) => {
   // If user is authenticated, proceed to the next middleware
   next();
 });
 
-app.all("/coach/*", checkAuthenticatedasAdmin, (req, res, next) => {
+app.all("/coach/*", checkAuthenticated, (req, res, next) => {
   // If user is authenticated, proceed to the next middleware
   next();
 });
 
-app.all("/coach", checkAuthenticatedasAdmin, (req, res, next) => {
+app.all("/coach", checkAuthenticated, (req, res, next) => {
   // If user is authenticated, proceed to the next middleware
   next();
 });

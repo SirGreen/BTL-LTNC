@@ -119,8 +119,10 @@ function addEventListenerToCButtons(journey_info,journeyInfo){
          url = 'truck1_admin?productId=' + journeyInfo.Transportation;
       }else{
         console.log("No transport");
+        url="#";
       }
       console.log(123);
+
 
 
         // Navigate to the URL
