@@ -10,8 +10,8 @@ function threeMonthFromNow() {
 const Truck = new Schema({
   Brand: {
     type: String,
-    enum: ["SUZUKI XL7", "SUZUKI SWIFT", "SUZUKI CIAZ", "MERCEDES", "FERRARI"],
-    default: "SUZUKI XL7"
+    enum: ["VAN DONGBEN", "VAN KENBO", "VAN FOTON", "VAN SUZUKI BLIND"],
+    default: "VAN DONGBEN"
   },
   Capacity: { type: Number, default: 4 },
   Size: { type: Number, default: 7 },

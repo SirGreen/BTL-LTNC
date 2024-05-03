@@ -288,19 +288,23 @@ async function loadCompletedjourney() {
        closeButton.addEventListener("click", function() {
         if(cjourneyInfo.TransportationType=='car'){
         url = 'car1_driver?productId=' + cjourneyInfo.Transportation;
+        window.location.href = url;
         
       } else if(cjourneyInfo.TransportationType=='coach'){
         url = 'coach1_driver?productId=' + cjourneyInfo.Transportation;
+        window.location.href = url;
       }else if(cjourneyInfo.TransportationType=='truck'){
          url = 'truck1_driver?productId=' + cjourneyInfo.Transportation;
+         window.location.href = url;
       }else{
         console.log("No transport");
+        url="#";
       }
       console.log(123);
 
 
         // Navigate to the URL
-       window.location.href = url;
+      // window.location.href = url;
     
       });
 
@@ -316,11 +320,14 @@ async function loadCompletedjourney() {
        closeButton.addEventListener("click", function() {
         if(journeyInfo.TransportationType=='car'){
         url = 'car1_driver?productId=' + journeyInfo.Transportation;
+        window.location.href = url;
         
       } else if(journeyInfo.TransportationType=='coach'){
         url = 'coach1_driver?productId=' + journeyInfo.Transportation;
+        window.location.href = url;
       }else if(journeyInfo.TransportationType=='truck'){
          url = 'truck1_driver?productId=' + journeyInfo.Transportation;
+         window.location.href = url;
       }else{
         console.log("No transport");
         url="#";
@@ -329,12 +336,15 @@ async function loadCompletedjourney() {
 
 
         // Navigate to the URL
-        window.location.href = url;
+        // window.location.href = url;
     
       });
       journey_info.addEventListener("click", async function(event) {
         // Kiểm tra xem sự kiện xảy ra trên phần tử span close-info hay không
+        if (event.target !== closeButton  ) {
+          // Nếu không phải sự kiện xảy ra trên closeButton, thực hiện hành động check()
         
+       
           // Nếu không phải sự kiện xảy ra trên closeButton, thực hiện hành động check()
            if(journeyInfo.Status!== 0){
              journey_info.classList.toggle("checked");
@@ -396,17 +406,13 @@ async function loadCompletedjourney() {
                 console.error("There was a problem with the POST request: " + e);
               }
             
-              //window.location.reload();
+             
             }
             
-            //}
-          // } else {
-          //   alert("can't complete");
-            
-          //}
           }else{
             alert("can complete! *");
           }
+        }
         });
       
     }
