@@ -220,6 +220,19 @@ app.get("/coach1_admin", checkAuthenticatedasAdmin, (req, res) => {
   res.render("coach1_admin.ejs");
 });
 
+app.get("/car1_driver", checkAuthenticated, (req, res) => {
+  res.render("car1_driver.ejs");
+});
+
+app.get("/truck1_driver", checkAuthenticated, (req, res) => {
+  res.render("truck1_driver.ejs");
+});
+
+app.get("/coach1_driver", checkAuthenticated, (req, res) => {
+  res.render("coach1_driver.ejs");
+});
+
+
 app.get("/driverjourney", checkAuthenticated, (req, res) => {
   res.render("driverjourney.ejs");
 });
