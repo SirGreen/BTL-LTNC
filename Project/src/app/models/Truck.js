@@ -11,7 +11,7 @@ const Truck = new Schema({
   Brand: {
     type: String,
     enum: ["VAN DONGBEN", "VAN KENBO", "VAN FOTON", "VAN SUZUKI BLIND"],
-    default: "VAN DONGBEN",
+    default: "VAN DONGBEN"
   },
   Capacity: { type: Number, default: 4 },
   Size: { type: Number, default: 7 },

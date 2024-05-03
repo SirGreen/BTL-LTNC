@@ -11,7 +11,7 @@ const Coach = new Schema({
   Brand: {
     type: String,
     enum: ["HYUNDAI SOLATI", "FORD TRANSIT", "HYUNDAI COUNTY", "SAMCO"],
-    default: "SAMCO",
+    default: "HYUNDAI SOLATI"
   },
   Capacity: { type: Number, default: 4 },
   Size: { type: Number, default: 7 },
