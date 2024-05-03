@@ -22,15 +22,28 @@
         const drivers = await response.json();
         return drivers;
         }
-    
-
         async function fetchCarID() {
-        const response = await fetch('/truck/'+productId);
+    try {
+        const response = await fetch('/truck/' + productId);
+
+        // Check response status
         if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const driver = await response.json();
-        const vehicleInfo = {
+
+        // Log the response text
+        const responseText = await response.text();
+        console.log('Response text:', responseText);
+
+        // Verify the content type to check if the response is in JSON format
+        const contentType = response.headers.get('content-type');
+        console.log('Content type:', contentType);
+
+        // If the content type is JSON, parse the JSON data
+        if (contentType && contentType.includes('application/json')) {
+            const driver = JSON.parse(responseText);
+            console.log(driver);
+            const vehicleInfo = {
                 Brand: driver.Brand,
                 _id: driver._id,
                 Capacity: driver.Capacity,
@@ -102,8 +115,20 @@
 
 
             document.querySelector("#License_edit").value = vehicleInfo.License;
-            return driver;
+        } else {
+            throw new Error('Expected JSON response, but received something else.');
         }
+        
+
+    } catch (error) {
+        console.error('Error fetching car ID data:', error);
+    }
+
+}
+
+        window.onload = function(){
+            fetchCarID();
+        };
     </script>
 </head>
 

@@ -323,6 +323,7 @@ async function loadCompletedjourney() {
          url = 'truck1_driver?productId=' + journeyInfo.Transportation;
       }else{
         console.log("No transport");
+        url="#";
       }
       console.log(123);
 
