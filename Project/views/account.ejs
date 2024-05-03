@@ -13,74 +13,41 @@
     <style>
         /* Style to remove border from iframe */
         iframe {
-          border: none;
+            border: none;
         }
-      </style>
+    </style>
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
-            <a class="navbar-brand" href="#">
-                <img src="images/logoxe.png" alt="">
-            </a>
-            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
-                data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="collapsibleNavId">
-                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/admin">HOME</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="\signin_driver">SIGNIN AS DRIVER</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                            aria-haspopup="true" aria-expanded="false">VEHICLE</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="\car_admin">CAR</a>
-                            <a class="dropdown-item" href="\truck_admin">TRUCK</a>
-                            <a class="dropdown-item" href="\coach_admin">COACH</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                            aria-haspopup="true" aria-expanded="false">MENU</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="\driver_admin">Driver</a>
-                            <a class="dropdown-item" href="\adminjourney">Journey</a>
-                            <a class="dropdown-item" href="\account">Account</a>
-                        </div>
-                    </li>
-                </ul>
-
-            </div>
-        </nav>
-    </header>
+    <script src="js/header.js" defer></script>
+  <div id="header-placeholder"></div>
     <main>
         <!-- PORTFOLIO -->
         <section id="account">
             <div class="account container-fluid">
                 <div class="property_car container-fluid">
-                    <h1>Admin's information</h1>
+                    <h1>Admin's revenue</h1>
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-2">
                             NAME:
                         </div>
                         <div class="col-lg-1">
                             <%=Name%>
                         </div>
-                        <div class="col-lg-6">
+                        <br>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2">
                             Income (vnđ):
                         </div>
-                        <div class="col-lg-1">
+                        <div class="col-lg-3">
                             <%=Income%>
                         </div>
+                        <br>
                     </div>
-                    <iframe src="chart.html" width="100%" height="700px" style="overflow: hidden; border: none;"></iframe>
+                    <iframe src="chart.html" width="100%" height="700px"
+                        style="overflow: hidden; border: none;"></iframe>
 
                 </div>
             </div>

@@ -10,13 +10,11 @@ package TransportationFactory <<Folder>>{
         # VehicleStatus: Status
         + string: License
         + string: Brand
+        + DateTime: DateTime
         + DateTime: WarrantyTime
         + DateTime[]: WarrantyHis
         + Journey: JourneyInCharge
         + DisplayInfo()
-    }
-
-    class Container{  
     }
 
     class Car{
@@ -35,11 +33,12 @@ enum VehicleStatus{
     3: NotActive
 }
 class Driver{
-    - string: Name
-    - string: PhoneNumber
-    - string: Address
+    + string: Name
+    + string: PhoneNumber
+    + string: Address
     - string: Account
     - string: Password
+    + string: Licens
     + Quality: DrivingExperience
     + Journey: JourneyInCharge
     + Journey: JourneyList
@@ -48,20 +47,23 @@ class Driver{
 }
 
 class Journey{
-    - Transportation: Vehicle
-    - Driver: DriverInCharge
-    - double: Kilomet
-    - double: Price
-    - string: StartLocation
-    - string: EndLocation
+    + Transportation: Vehicle
+    + Driver: DriverInCharge
+    + double: Kilomet
+    + double: Price
+    + string: StartLocation
+    + string: EndLocation
+    + string: License
     - int: Status
-    - string: Time
+    + string: Time
     + DisplayInfo()
 }
 
 note top of Journey
 Status:
-0: chưa đủ điều kiện khởi hành, 1 là đủ, 2 là đã hoàn thành
+0: chưa đủ điều kiện khởi hành, 
+1 là đủ điều kiện khởi hành và đang đi, 
+2 là đã hoàn thành chuyến đi
 end note
 
 class Admin <<Singleton>>{
@@ -91,12 +93,11 @@ end note
 Transportation <|-- Truck
 Transportation <|-- Car
 Transportation <|-- Coach
-Transportation <|-- Container
 Driver -right- Quality
-Driver "1"-down-* "0..*"Journey
+Driver "1"-down- "*"Journey
 VehicleStatus -up- Transportation
 Admin -down[dashed]-> Transportation: Adds & Updates & Assign for Journey
 Admin -left[dashed]-> Driver: Adds & Journey assignment & Observe
 Journey <-right[dashed]- Admin: Create & Observe
-Transportation -left-*Journey
+Transportation -left- Journey
 @enduml

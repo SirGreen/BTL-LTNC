@@ -236,7 +236,7 @@ async function NewTrip(event) {
       console.error('There was a problem with the POST request: ' + e.message);
   };
    
-    window.location.reload();
+    // window.location.reload();
   
     document.getElementById("myForm").reset();
     hideForm(event);

@@ -1,4 +1,4 @@
-<div>
+<div style="position: relative; height:70vh; width:90vw">
     <canvas id="myChart"></canvas>
   </div>
   
@@ -16,8 +16,10 @@
     var PriceOfMonth = [0,0,0,0,0,0,0,0,0,0,0,0]
     const journeys = await response.json();
     journeys.map((x)=> {
-      y = new Date(x.DateTime);
-      PriceOfMonth[y.getMonth()]+=x.Price;
+      if(x.Status == 2){
+        y = new Date(x.DateTime);
+        PriceOfMonth[y.getMonth()]+=x.Price;
+      }
     });
     console.log(PriceOfMonth);
     const ctx = document.getElementById('myChart');
@@ -28,9 +30,21 @@
       data: {
         labels: month,
         datasets: [{
-          backgroundcolor: "blue",
-          label: 'Price per Month',
+          label: 'Revenue per Month',
           data: PriceOfMonth,
+          backgroundColor: ["rgb(196,224,237)",
+                            "rgb(95,191,226)",
+                            "rgb(1,165,217)",
+                            "rgb(123,109,171)",
+                            "rgb(164,153,199)",
+                            "rgb(212,209,228)",
+                            "rgb(241,214,226)",
+                            "rgb(238,181,206)",
+                            "rgb(234,148,184)",
+                            "rgb(1,175,166)",
+                            "rgb(100,192,188)",
+                            "rgb(143,206,202)"
+                            ],
           borderWidth: 1
         }]
       },
