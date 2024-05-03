@@ -69,8 +69,12 @@ app.get("/signin_admin", (req, res) => {
   res.render("signin_admin.ejs");
 });
 
-app.post("/register_admin", (req, res) => {
-  adminController.AddAdmin(req.body.Account, req.body.Password);
+app.post("/register_admin",checkAuthenticatedasAdmin, async (req, res) => {
+  const { Account, Password } = req.body;
+  let coChua = await adminController.GetAdmin(Account);
+  coChua = coChua.at(0);
+  if (coChua != null) return res.send("This admin account already existed!");
+  adminController.AddAdmin(Account, Password);
   res.send(`Added ${req.body.Account}`);
 });
 
@@ -305,14 +309,14 @@ app.all("/coach", checkAuthenticated, (req, res, next) => {
 
 app.get("/curUser", checkAuthenticated, async (req, res) => {
   if (req.isAuthenticated()) {
-    res.send(req.user)
+    res.send(req.user);
   } else {
     return res.send("Not Found");
   }
 });
 
 app.get("/chart", (req, res) => {
-  res.render("chart.ejs")
+  res.render("chart.ejs");
 });
 
 async function checkAuthenticated(req, res, next) {

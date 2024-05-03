@@ -10,8 +10,8 @@ function threeMonthFromNow() {
 const Coach = new Schema({
   Brand: {
     type: String,
-    enum: ["SUZUKI XL7", "SUZUKI SWIFT", "SUZUKI CIAZ", "MERCEDES", "FERRARI"],
-    default: "SUZUKI XL7"
+    enum: ["HYUNDAI SOLATI", "FORD TRANSIT", "HYUNDAI COUNTY", "SAMCO"],
+    default: "SAMCO",
   },
   Capacity: { type: Number, default: 4 },
   Size: { type: Number, default: 7 },
@@ -21,8 +21,8 @@ const Coach = new Schema({
     enum: ["Active", "UnderMaintainance", "NotActive"],
     default: "NotActive",
   },
-  WarrantyTime : {type: Date, default: threeMonthFromNow},
-  WarrantyHis : [Date],
+  WarrantyTime: { type: Date, default: threeMonthFromNow },
+  WarrantyHis: [Date],
   Journey: { type: Schema.Types.ObjectId, ref: "Journey", default: null },
   License: { type: String, default: "113" },
 });
