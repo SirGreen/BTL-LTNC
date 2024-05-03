@@ -71,9 +71,15 @@ class Admin <<Singleton>>{
     - string: Password
     --
     + AddNewVehicle()
-    + AddNewDriver()
+    + DeleteVehicle()
+    + UpdateVehicle()
     + DisplayVehicle()
+
+    + AddNewDriver()
+    + DeleteDriver()
+    + UpdateDriver()
     + DisplayDrive()
+    
     + AddJourney()
     - CalPrice()
     + CheckForWarranty()
@@ -97,7 +103,7 @@ Driver -right- Quality
 Driver "1"-down- "*"Journey
 VehicleStatus -up- Transportation
 Admin -down[dashed]-> Transportation: Adds & Updates & Assign for Journey
-Admin -left[dashed]-> Driver: Adds & Journey assignment & Observe
-Journey <-right[dashed]- Admin: Create & Observe
+Admin -left[dashed]-> Driver: Adds & Journey assignment
+Journey <-right[dashed]- Admin: Create
 Transportation -left- Journey
 @enduml
