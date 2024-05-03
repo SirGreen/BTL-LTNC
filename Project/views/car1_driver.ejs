@@ -10,13 +10,136 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/formatDateTime.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('productId');
+        async function fetchCar() {
+        const response = await fetch("/car");
+        if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const drivers = await response.json();
+        return drivers;
+        }
+        async function fetchCarID() {
+    try {
+        const response = await fetch('/car/' + productId);
+
+        // Check response status
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // Log the response text
+        const responseText = await response.text();
+        console.log('Response text:', responseText);
+
+        // Verify the content type to check if the response is in JSON format
+        const contentType = response.headers.get('content-type');
+        console.log('Content type:', contentType);
+
+        // If the content type is JSON, parse the JSON data
+        if (contentType && contentType.includes('application/json')) {
+            const driver = JSON.parse(responseText);
+            console.log(driver);
+            const vehicleInfo = {
+                Brand: driver.Brand,
+                _id: driver._id,
+                Capacity: driver.Capacity,
+                Size: driver.Size,
+                TypeOfFuel: driver.TypeOfFuel,
+                WarrantyHis: driver.WarrantyHis,
+                VehicleStatus: driver.VehicleStatus,
+                Warranty: formatDateTime(driver.WarrantyTime),
+                Journey: driver.Journey,
+                License: driver.License,
+            };
+            //   editID=vehicleInfo._id;
+            // <h3>Mercedes - Ready for a new journey</h3>
+            //                     <p>
+            //                         Do what you want in your own way. The Suzuki XL7, with its robust SUV design and outstanding
+            //                         safety features, offers comfort and convenience in all seats.
+            //                     </p>
+            var h3 = document.createElement("h3");
+            h3.innerHTML = vehicleInfo.Brand + "- Ready for a new journey";
+            var p = document.createElement("p");
+            p.innerHTML = "Do what you want in your own way. The " + vehicleInfo.Brand +
+                " , with its robust SUV design and outstanding safety features, offers comfort and convenience in all seats.";
+
+            var img = document.createElement("img");
+            if (vehicleInfo.Brand === 'SUZUKI XL7') {
+                img.setAttribute("src", "floai_ltnc/Screenshot 2024-03-31 215845.png");
+                img.setAttribute("alt", "Jump to portfolio");
+                // Thực hiện các thao tác tương ứng với thương hiệu SUZUKI XL7
+            } else if (vehicleInfo.Brand === 'SUZUKI SWIFT') {
+                img.setAttribute("src", "floai_ltnc/Screenshot 2024-03-31 220006.png");
+                img.setAttribute("alt", "Jump to portfolio");
+            } else if (vehicleInfo.Brand === 'SUZUKI CIAZ') {
+                img.setAttribute("src", "floai_ltnc/Screenshot 2024-03-31 220034.png");
+                img.setAttribute("alt", "Jump to portfolio");
+            } else if (vehicleInfo.Brand === 'MERCEDES') {
+                img.setAttribute("src", "floai_ltnc/car white background 1.png");
+                img.setAttribute("alt", "Jump to portfolio");
+            } else if (vehicleInfo.Brand === 'FERRARI') {
+                img.setAttribute("src", "floai_ltnc/kisspng-ferrari-458-car-ferrari-f12-2017-ferrari-488-gtb-5af68701a38a217967992315261058576699.png");
+                img.setAttribute("alt", "Jump to portfolio");
+            } else {
+                console.log('Unknown brand.');
+                // Thực hiện các thao tác cho trường hợp thương hiệu không xác định
+            }
+            document.getElementById("Carimg").appendChild(img);
+
+
+
+            document.getElementById("Car1Info").appendChild(h3);
+            document.getElementById("Car1Info").appendChild(p);
+            document.getElementById("Brand_edit").value = vehicleInfo.Brand,
+            document.querySelector("#Capacity_edit").value = vehicleInfo.Capacity,
+            document.querySelector("#Size_edit").value = vehicleInfo.Size,
+            document.querySelector("#Fuel_edit").value = vehicleInfo.TypeOfFuel;
+            document.getElementById("Warranty_edit").innerHTML = '';
+            document.getElementById("Status_edit").innerHTML = '';
+
+            var p1 = document.createElement("p");
+            p1.innerHTML = vehicleInfo.Warranty;
+            document.getElementById("Warranty_edit").appendChild(p1);
+
+            var p2 = document.createElement("p");
+            p2.innerHTML = vehicleInfo.VehicleStatus;
+            document.getElementById("Status_edit").appendChild(p2);
+
+            const history=vehicleInfo.WarrantyHis;
+            for(let his of history){
+                var p3 = document.createElement("li");
+                p3.innerHTML = formatDateTime(his);
+                document.getElementById("hislist").appendChild(p3);
+            }
+
+
+            document.querySelector("#License_edit").value = vehicleInfo.License;
+        } else {
+            throw new Error('Expected JSON response, but received something else.');
+        }
+        
+
+    } catch (error) {
+        console.error('Error fetching car ID data:', error);
+    }
+
+}
+
+        window.onload = function(){
+            fetchCarID();
+        };
+    </script>
 </head>
 
 <body>
     <header>
         <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
             <a class="navbar-brand" href="#">
-                <img src="images/logoxe.png" alt="">
+                <img src="images/logo.png" alt="">
             </a>
             <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
                 data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
@@ -26,7 +149,7 @@
             <div class="collapse navbar-collapse" id="collapsibleNavId">
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
-                        <a class="nav-link" href="driver.html">HOME</a>
+                        <a class="nav-link" href="\driver">HOME</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="index.html">SIGN OUT</a>
@@ -36,11 +159,8 @@
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                             aria-haspopup="true" aria-expanded="false">MENU</a>
                         <div class="dropdown-menu">
-
-
                             <a class="dropdown-item" href="\driverjourney">Journey</a>
                             <a class="dropdown-item" href="\account_driver">Account</a>
-
                         </div>
                     </li>
                 </ul>
@@ -54,27 +174,35 @@
             <div class="car container-fluid">
                 <div class="row">
                     <!-- Left column -->
-                    <div class="col-lg-6">
-                        <img src="floai_ltnc/car white background 1.png" alt="Jump to portfolio">
+                    <div class="col-lg-6" id="Carimg">
+
                     </div>
 
                     <!-- Right column -->
                     <div class="col-lg-6">
-                        <h3>Mercedes - Ready for a new journey</h3>
-                        <p>
-                            Do what you want in your own way. The Suzuki XL7, with its robust SUV design and outstanding
-                            safety features, offers comfort and convenience in all seats.
-                        </p>
+                        <div id="Car1Info">
+
+                        </div>
 
                     </div>
                 </div>
                 <div class="property_car container-fluid">
                     <div class="row">
                         <div class="col-lg-6">
+                            Brand:
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="text" id="Brand_edit" name="capacity" required placeholder="320 kg"
+                                class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
                             Capacity:
                         </div>
-                        <div class="col-lg-1">
-                            320kg
+                        <div class="col-lg-2">
+                            <input type="text" id="Capacity_edit" name="capacity" required placeholder="320 kg"
+                                class="form-control" disabled>
                         </div>
                     </div>
                     <br>
@@ -82,8 +210,10 @@
                         <div class="col-lg-6">
                             Size:
                         </div>
-                        <div class="col-lg-2">
-                            190x75x60 inches
+                        <div class="col-lg-3">
+
+                            <input type="text" id="Size_edit" name="size" required placeholder=" 190x75x60 inches"
+                                class="form-control" disabled>
                         </div>
                     </div>
                     <br>
@@ -91,8 +221,9 @@
                         <div class="col-lg-6">
                             Type Of Fuel:
                         </div>
-                        <div class="col-lg-1">
-                            Diesel
+                        <div class="col-lg-2">
+                            <input type="text" id="Fuel_edit" name="type_of_fuel" required placeholder=" Diesel"
+                                class="form-control" disabled>
                         </div>
                     </div>
                     <br>
@@ -100,8 +231,20 @@
                         <div class="col-lg-6">
                             Warranty Time:
                         </div>
-                        <div class="col-lg-1">
-                            04/05/2024
+                        <div class="col-lg-2" id="Warranty_edit">
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            Warranty History:
+                        </div>
+                        <div class="col-lg-2" id="WarrantyHis_edit">
+                            <ul id="hislist">
+
+                            </ul>
+
                         </div>
                     </div>
                     <br>
@@ -109,10 +252,25 @@
                         <div class="col-lg-6">
                             Status:
                         </div>
-                        <div class="col-lg-1">
-                            Warranty
+                        <div class="col-lg-2" id="Status_edit">
+
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            Liscense:
+                        </div>
+                        <div class="col-lg-2">
+                            <input class="form-control" type="text" id="License_edit" name="Num"
+                                placeholder="License Number" disabled></label>
+                        </div>
+                    </div>
+                    <br>
+                    <!-- <div class="row">
+                        <div class="col-lg-7 text-right">
+                            <button onclick="submitedit(event)" type="SAVE">SAVE</button>
+                        </div>
+                    </div> -->
                 </div>
             </div>
         </section>

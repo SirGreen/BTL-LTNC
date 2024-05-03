@@ -1,6 +1,26 @@
 var journeyInfo;
 var journey_list=[];
-
+function formatDateTime(isoString) {
+  const date = new Date(isoString);
+  
+  // Extract date components
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const year = date.getFullYear();
+  
+  // Extract time components
+  // console.log("Hours "+date.getHours()+isoString)
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  
+  // Construct formatted date/time string
+  const formattedDate = `${day}/${month}/${year}`;
+  const formattedTime = `${hours}:${minutes}:${seconds}`;
+  
+  // Return formatted date/time string
+  return `${formattedDate} - ${formattedTime}`;
+}
 async function loadjourney(){
   await  fetchJourneys()
       .then(journeys => {
@@ -13,7 +33,7 @@ async function loadjourney(){
               Driver: journey.Driver,
               Kilomet: journey.Kilomet,
               Price: journey.Price,
-              DateTime: journey.DateTime,
+              DateTime: formatDateTime(journey.DateTime),
               StartLocation: journey.StartLocation,
               EndLocation: journey.EndLocation,
               Status: journey.Status,
@@ -26,6 +46,8 @@ async function loadjourney(){
           var closeButton = journey_info.querySelector(".close-info");
           journey_info.removeChild(closeButton);
           document.getElementById("CList-container").appendChild(journey_info);
+          addEventListenerToCButtons(journey_info,journeyInfo);
+
          }else{
          document.getElementById("List-container").appendChild(journey_info);
             addEventListenerToButtons(journey_info,journeyInfo);}
@@ -81,6 +103,32 @@ function hidemodal() {
   overlay.style.display = "none";
   // window.location.reload();
 }
+function addEventListenerToCButtons(journey_info,journeyInfo){
+  var Button = journey_info.querySelector(".view-carinfo");
+       var url;
+      
+      
+      // // Thêm sự kiện vào nút closeButton
+       Button.addEventListener("click", function() {
+        if(journeyInfo.TransportationType=='car'){
+        url = 'car1_admin?productId=' + journeyInfo.Transportation;
+        
+      } else if(journeyInfo.TransportationType=='coach'){
+        url = 'coach1_admin?productId=' + journeyInfo.Transportation;
+      }else if(journeyInfo.TransportationType=='truck'){
+         url = 'truck1_admin?productId=' + journeyInfo.Transportation;
+      }else{
+        console.log("No transport");
+        url="#";
+      }
+      console.log(123);
+
+
+
+        // Navigate to the URL
+       window.location.href = url;
+    });
+}
 
 function addEventListenerToButtons(journey_info, journeyInfo) {
   // Lấy các nút từ newDiv
@@ -100,9 +148,31 @@ function addEventListenerToButtons(journey_info, journeyInfo) {
       }
 
   });
+  var Button = journey_info.querySelector(".view-carinfo");
+       var url;
+      
+      
+      // // Thêm sự kiện vào nút closeButton
+       Button.addEventListener("click", function() {
+        if(journeyInfo.TransportationType=='car'){
+        url = 'car1_admin?productId=' + journeyInfo.Transportation;
+        
+      } else if(journeyInfo.TransportationType=='coach'){
+        url = 'coach1_admin?productId=' + journeyInfo.Transportation;
+      }else if(journeyInfo.TransportationType=='truck'){
+         url = 'truck1_admin?productId=' + journeyInfo.Transportation;
+      }else{
+        console.log("No transport");
+      }
+      console.log(123);
+
+
+        // Navigate to the URL
+       window.location.href = url;
+    });
   journey_info.addEventListener("click", function(event) {
     // Kiểm tra xem sự kiện xảy ra trên phần tử span close-info hay không
-    if (event.target !== closeButton) {
+    if (event.target !== closeButton && event.target !== Button ) {
       // Nếu không phải sự kiện xảy ra trên closeButton, thực hiện hành động check()
       if(journeyInfo.Status=== 2){
         journey_info.classList.toggle("checked");
@@ -171,6 +241,8 @@ function createJourneyElement(journeyInfo){
     "<br>" +
     " <strong>Destinations:</strong> " +
     journeyInfo.EndLocation + "<br>" +
+    " <strong>Date & Time:</strong> " +
+    journeyInfo.DateTime + "<br>" +
   " <strong>Distance (km):</strong> " +
     journeyInfo.Kilomet +
     "<br>" +
@@ -189,11 +261,18 @@ function createJourneyElement(journeyInfo){
 
   // Append the list item to the list container
   // li.classList.add("infoBox");
-  document.getElementById("List-container").appendChild(li);
+  //document.getElementById("List-container").appendChild(li);
   let closespan = document.createElement("span");
   closespan.classList.add("close-info");
   closespan.innerHTML = "x";
   li.appendChild(closespan);
+
+  //show xe ddang chay
+  let closespan1 = document.createElement("span");
+  closespan1.classList.add("view-carinfo");
+ 
+  li.appendChild(closespan1);
+
   return li;
 }
 function NewTrip(event) {
