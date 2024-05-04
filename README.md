@@ -1,3 +1,5 @@
+Link trang web: https://btl-ltnc-production.up.railway.app/
+
 Nhớ để đúng thư mục các file
 
 Lưu ý trình tự trước khi làm: Tạo branch theo tên issue -> fetch về -> làm -> push tên theo tên issue -> tạo merge request theo tên issue -> assign Trân (hoặc ai khác không phải chính bản thân) check code
