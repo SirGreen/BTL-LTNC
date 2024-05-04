@@ -1,3 +1,10 @@
+# ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH TRƯỜNG ĐẠI HỌC BÁCH KHOA KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH 
+
+# LẬP TRÌNH NÂNG CAO (CO2039)
+
+### BÀI TẬP LỚN Quản Lý Xe - Nhóm Siêu Nhân Code
+
+
 Link trang web: https://btl-ltnc-production.up.railway.app/
 
 Nhớ để đúng thư mục các file
