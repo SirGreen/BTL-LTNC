@@ -2,7 +2,7 @@
 
 # LẬP TRÌNH NÂNG CAO (CO2039)
 
-### BÀI TẬP LỚN Quản Lý Xe - Nhóm 5 anh em siêu nhân
+### BÀI TẬP LỚN Quản Lý Xe - Nhóm Siêu nhân code
 
 
 Link trang web: https://btl-ltnc-production.up.railway.app/
